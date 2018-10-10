@@ -11,6 +11,19 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/{query}', function () {
     return view('welcome');
+})->where('query', '^((?!auth|api|web).)*$');
+
+
+/**
+ * Web端路由组
+ */
+Route::group(['middleware' => 'web', 'prefix' => 'web', 'namespace' => 'Web'], function (){
+    /**
+     * Web 后端路由组
+     */
+    Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function (){
+
+    });
 });
