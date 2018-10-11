@@ -13,17 +13,24 @@
 
 Route::get('/{query}', function () {
     return view('welcome');
-})->where('query', '^((?!auth|api|web).)*$');
+})->where('query', '^((?!auth|api|web|backend).)*$');
 
 
 /**
  * Web端路由组
  */
 Route::group(['middleware' => 'web', 'prefix' => 'web', 'namespace' => 'Web'], function (){
-    /**
-     * Web 后端路由组
-     */
-    Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function (){
+
+});
+
+
+/**
+ * Web端 后台路由组
+ */
+Route::group(['middleware' => 'web', 'prefix' => 'backend', 'namespace' => 'Admin'], function (){
+    Route::get('/login', 'LoginController@token');
+
+    Route::group(['middleware' => 'auth:admin'], function (){
 
     });
 });
