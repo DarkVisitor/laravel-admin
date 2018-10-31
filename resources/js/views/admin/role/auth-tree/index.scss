@@ -1,0 +1,22 @@
+.role-author-tree ul {
+    list-style-type: none;
+}
+.role-author-tree .auth-tree > li {
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    margin-bottom: 14px;
+    box-shadow: 0 2px 2px 0 #ddd;
+}
+.role-author-tree .auth-tree .auth-tree-node {
+    display: inline-block;
+    vertical-align: middle;
+}
+.role-author-tree .auth-tree .auth-tree-node .active-children {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 4px;
+}
+.role-author-tree .auth-tree li .ivu-checkbox-wrapper {
+    width: 100px;
+}

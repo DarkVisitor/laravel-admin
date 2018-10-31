@@ -1,0 +1,227 @@
+html, body, #app {
+    width: 100%;
+    height: 100%;
+}
+
+/* Scrollbar Css Style */
+/* Chrome */
+::-webkit-scrollbar {
+    width: 4px; /* 滚动条宽度 */
+    height: 4px; /* 滚动条高度 */
+}
+::-webkit-scrollbar-track  
+{  
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);  
+    border-radius: 10px;  /*滚动条的背景区域的圆角*/
+    background-color: #eee;/*滚动条的背景颜色*/  
+}
+::-webkit-scrollbar-thumb  
+{  
+    border-radius: 10px;  /*滚动条的圆角*/
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);  
+    background-color: #cdcdcd;  /*滚动条的背景颜色*/
+}
+
+/* 左侧菜单IE浏览器上滚动条样式修改 */
+.ivu-layout-sider-children {
+    scrollbar-track-color: #eee;
+    scrollbar-base-color: #eee;
+    scrollbar-dark-shadow-color: #cdcdcd;
+}
+
+.layout{
+    width: 100%;
+    height: 100%;
+    background: #f5f7f9;
+    position: relative;
+    overflow: hidden;
+}
+
+// Website Logo Style
+.layout-logo{
+    width: 72px;
+    height: 64px;
+    border-radius: 3px;
+    float: left;
+    position: relative;
+    left: 20px;
+}
+.layout-logo img {
+    position: absolute;
+    width: 42px;
+    height: 42px;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+}
+.layout-logo span {
+    position: absolute;
+    height: 24px;
+    bottom: 24px;
+    font-size: 24px;
+    font-family: STCaiyun,华文彩云;
+}
+.layout-logo span.admin-website-name {
+    color: #fff;
+}
+
+.layout-nav{
+    margin: 0 auto;
+    margin-right: 20px;
+}
+.header-nav .ivu-menu-horizontal {
+    height: 42px;
+    line-height: 42px;
+}
+.ivu-layout {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+}
+.ivu-layout-header {
+    padding: 0;
+}
+.ivu-menu-horizontal {
+    height: 64px;
+    line-height: 64px;
+}
+.ivu-menu-primary {
+    background: #2d8cf0;
+    background-image: linear-gradient(143deg,#2945cb 20%,#2b83f9 81%,#3a9dff);
+}
+.layout-nav[data-v-7278e4d2] {
+    width: auto;
+    margin-left: 200px;
+}
+.ivu-menu-horizontal.ivu-admin .ivu-menu-item-active::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 4px;
+    background-color: #4fe3c1;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+// Top Right Work Bench Style
+.layout-work-bench {
+    float: right;
+    height: auto;
+    padding-right: 24px;
+    line-height: 64px;
+}
+.layout-work-bench > * {
+    float: right;
+}
+.layout-work-bench .personal-center {
+    margin-left: 10px;
+}
+.layout-work-bench .personal-center .ivu-dropdown a {
+    color: #fff;
+}
+.layout-work-bench .personal-center .ivu-dropdown a .ivu-avatar {
+    margin-right: 6px;
+}
+.layout-work-bench .personal-center .ivu-dropdown .ivu-select-dropdown .ivu-dropdown-menu {
+    margin-bottom: 0;
+}
+.layout-work-bench .message-notify {
+    padding: 0 10px;
+    cursor: pointer;
+    color: #fff;
+}
+.layout-work-bench .message-notify .msg {
+    position: relative;
+}
+
+
+/* 页面内容 */
+.ivu-layout-pages {
+    display: flex;
+    flex: auto;
+    background: #f5f7f9;
+    width: 100%;
+    height: 100%;
+}
+
+/* Sider Style (左侧菜单样式) */
+.ivu-layout-sider-children {
+    overflow-y: auto;
+    background: #fff;
+}
+
+/* 右部 layout 样式 */
+.ivu-layout.layout-page-content {
+    padding: 0px 24px 24px;
+}
+
+/* Content Style (右侧内容样式) */
+.ivu-layout-content {
+    padding: 24px;
+    background: #fff;
+}
+
+
+//header search style
+.content-header {
+    margin-bottom: 20px;
+}
+.content-header .ivu-form-item {
+    margin-bottom: 12px;
+}
+.content-header .header-action {
+    padding: 4px 0;
+}
+.header-form-search {
+    width: 200px;
+}
+
+
+// Global Button Style
+html [type=button], html .ivu-btn {
+    margin: 0 4px;
+}
+
+
+// Global Table Style
+.ivu-table .ivu-table-body .ivu-poptip-confirm .ivu-poptip-body .ivu-icon {
+    left: 18px;
+}
+
+
+// Global Footer Style
+.ivu-layout-footer {
+    background: #fff;
+    border-top: 1px solid #cbcbcb;
+}
+
+
+.layout-nav.admin-top-nav {
+    width: auto;
+    margin-left: 200px;
+}
+
+.essay-header-title {
+    position: relative;
+  }
+  .essay-header-title .ivu-input-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: auto;
+    width: auto;
+    margin-right: 72px;
+  }
+  .essay-header-title .ivu-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+  .essay-content {
+    margin-top: 20px;
+  }
+  .essay-content .v-note-wrapper {
+    height: 680px;
+    z-index: 1000;
+  }

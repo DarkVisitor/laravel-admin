@@ -11,5 +11,14 @@ let mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-   .sass('resources/sass/app.scss', 'public/css');
+mix.webpackConfig({
+        resolve: {
+            /* 配置路径别名 */
+            alias: {
+                '@js': path.resolve('resources/js'),
+                '@sass': path.resolve('resources/sass')
+            }
+        }
+    })
+    .js('resources/js/app.js', 'public/js')
+    .sass('resources/sass/app.scss', 'public/css');

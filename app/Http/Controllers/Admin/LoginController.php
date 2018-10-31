@@ -20,7 +20,7 @@ class LoginController extends Controller
     }
 
 
-    public function token(Request $request)
+    /*public function token(Request $request)
     {
         $http = new \GuzzleHttp\Client([
             "debug" => false
@@ -41,5 +41,12 @@ class LoginController extends Controller
         //$response["users"] = $users->toArray();
         return response()->json(["code" => 0, "msg" => "success", "data" => $response]);
         //return response()->json(['code' => 0, 'msg' => 'success']);
+    }*/
+
+
+    public function token(Request $request)
+    {
+
+        return response()->json(['code' => 0, 'msg' => 'success', 'data' => ['users' => ['id' => 1]]]);
     }
 }

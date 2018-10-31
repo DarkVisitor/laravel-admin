@@ -28,9 +28,13 @@ Route::group(['middleware' => 'web', 'prefix' => 'web', 'namespace' => 'Web'], f
  * Web端 后台路由组
  */
 Route::group(['middleware' => 'web', 'prefix' => 'backend', 'namespace' => 'Admin'], function (){
-    Route::get('/login', 'LoginController@token');
+    /**
+     * 后台登录
+     */
+    Route::post('/login', 'LoginController@token');
 
-    Route::group(['middleware' => 'auth:admin'], function (){
+
+    Route::middleware(['auth:admin'])->group(function (){
 
     });
 });
