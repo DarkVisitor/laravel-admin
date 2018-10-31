@@ -42,6 +42,10 @@ class Kernel extends HttpKernel
             'throttle:60,1',
             'bindings',
         ],
+
+        'passport_validate' => [
+            \App\Http\Middleware\PassportMiddleware::class,
+        ],
     ];
 
     /**

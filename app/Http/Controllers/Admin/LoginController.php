@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Config;
 
 class LoginController extends Controller
 {
@@ -20,8 +21,11 @@ class LoginController extends Controller
     }
 
 
-    /*public function token(Request $request)
+    public function token(Request $request)
     {
+
+        Config::set('dd', 'dd');
+
         $http = new \GuzzleHttp\Client([
             "debug" => false
         ]);
@@ -41,12 +45,12 @@ class LoginController extends Controller
         //$response["users"] = $users->toArray();
         return response()->json(["code" => 0, "msg" => "success", "data" => $response]);
         //return response()->json(['code' => 0, 'msg' => 'success']);
-    }*/
+    }
 
 
-    public function token(Request $request)
+    /* public function token(Request $request)
     {
 
         return response()->json(['code' => 0, 'msg' => 'success', 'data' => ['users' => ['id' => 1]]]);
-    }
+    } */
 }
