@@ -1,15 +1,15 @@
 <?php
 /**
- * 模块权限 Trait
+ * Module permissions Trait.
  * User: DarkVisitor
  * Date: 2018/9/5
  * Time: 14:04
  */
 
-namespace App\Models\Traits;
+namespace App\Traits;
 
 
-trait ModuleTreeTrait
+trait ModuleTrait
 {
     /**
      * 获取用户权限节点树

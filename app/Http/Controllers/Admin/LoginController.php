@@ -10,40 +10,23 @@ namespace App\Http\Controllers\Admin;
 
 
 use App\Http\Requests\AdminLoginPost;
-use Illuminate\Http\Request;
+use App\Services\AdminService;
 use Illuminate\Routing\Controller;
 
 class LoginController extends Controller
 {
-    public function __construct()
-    {
+    protected $adminService;
 
+    public function __construct(AdminService $adminService)
+    {
+        $this->adminService = $adminService;
     }
 
 
     public function token(AdminLoginPost $request)
     {
-        $validated = $request->validated();
-        info($validated);
-        $http = new \GuzzleHttp\Client([
-            "debug" => false
-        ]);
-        $response = $http->request('POST', env('APP_URL').'/oauth/token', [
-            'form_params' => [
-                'grant_type' => 'password',
-                'client_id' => '2',
-                'client_secret' => 'qG4cLvhTkSJ1W0gJWLtpEwNeMrlQ1hU0XmZcG1Oi',
-                'username' => 'admin',
-                'password' => '123456',
-                'scope' => '*',
-                'provider' => 'admins'
-            ],
-        ]);
+        return $this->adminService->loginBackendSystem($request);
 
-        $response = json_decode((string) $response->getBody(), true);
-        //$response["users"] = $users->toArray();
-        return response()->json(["code" => 0, "msg" => "success", "data" => $response]);
-        //return response()->json(['code' => 0, 'msg' => 'success']);
     }
 
 

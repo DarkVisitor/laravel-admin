@@ -26,8 +26,13 @@ class AdminRepository extends Repository
     }
 
 
-    public function getform()
+    /**
+     * Finding administrator login data.
+     * @param $username
+     * @return mixed
+     */
+    public function findByAdminLogin($username)
     {
-        $this->model->get();
+        return $this->model->orWhere('name', trim($username))->orWhere('email', trim($username))->first();
     }
 }

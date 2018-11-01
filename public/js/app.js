@@ -89453,7 +89453,7 @@ router.beforeEach(function (to, from, next) {
     });
     __WEBPACK_IMPORTED_MODULE_4_iview___default.a.LoadingBar.start();
     var token = Object(__WEBPACK_IMPORTED_MODULE_5__js_libs_util_js__["b" /* getToken */])();
-
+    console.log(token);
     if (to.matched.some(function (record) {
         return record.meta.requiresLogin;
     })) {
