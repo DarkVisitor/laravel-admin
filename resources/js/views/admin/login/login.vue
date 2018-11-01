@@ -4,7 +4,7 @@
             <Card :bordered="false">
                 <p slot="title">
                     <Icon type="log-in"></Icon>
-                    欢迎登录
+                    欢迎登录LaravelAdmin
                 </p>
                 <div class="form-con">
                     <Form ref="loginForm" :model="form" :rules="rules">
@@ -52,10 +52,10 @@ export default {
             },
             rules: {
                 userName: [
-                    { required: true, message: '账号不能为空', trigger: 'blur' }
+                    { required: true, whitespace: true, message: '用户名不能为空', trigger: 'blur' }
                 ],
                 password: [
-                    { required: true, message: '密码不能为空', trigger: 'blur' }
+                    { required: true, whitespace: true, message: '密码不能为空', trigger: 'blur' }
                 ]
             }
         };
@@ -83,10 +83,10 @@ export default {
                                     desc: res.msg,
                                     duration: 3
                                 });
-                                /* setToken(res.data.access_token);  
+                                setToken(res.data.access_token);  
                                 that.$store.dispatch('initMenuTree', {id:res.data.users.id});  
                                 //存储用户登录数据
-                                localStorage.setItem('users', JSON.stringify(res.data.users)); */
+                                /* localStorage.setItem('users', JSON.stringify(res.data.users)); */
                                 //跳转到后台首页
                                 that.$router.push({
                                     name: 'admin'

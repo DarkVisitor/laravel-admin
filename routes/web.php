@@ -33,8 +33,10 @@ Route::group(['middleware' => 'web', 'prefix' => 'backend', 'namespace' => 'Admi
      */
     Route::post('/login', 'LoginController@token');
 
+    Route::get('/signin', 'LoginController@userToken');
 
-    Route::middleware(['auth:admin'])->group(function (){
 
+    Route::group(['middleware' => 'auth:admin'], function (){
+        Route::get('/test', 'IndexController@test');
     });
 });

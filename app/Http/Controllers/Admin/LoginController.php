@@ -1,6 +1,6 @@
 <?php
 /**
- * Background login controller
+ * Backend login controller
  * User: YingQuan-han
  * Date: 2018/10/11
  * Time: 15:07
@@ -9,9 +9,9 @@
 namespace App\Http\Controllers\Admin;
 
 
+use App\Http\Requests\AdminLoginPost;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Config;
 
 class LoginController extends Controller
 {
@@ -21,11 +21,10 @@ class LoginController extends Controller
     }
 
 
-    public function token(Request $request)
+    public function token(AdminLoginPost $request)
     {
-
-        Config::set('dd', 'dd');
-
+        $validated = $request->validated();
+        info($validated);
         $http = new \GuzzleHttp\Client([
             "debug" => false
         ]);
@@ -48,9 +47,25 @@ class LoginController extends Controller
     }
 
 
-    /* public function token(Request $request)
+    public function userToken()
     {
+        $http = new \GuzzleHttp\Client([
+            "debug" => false
+        ]);
+        $response = $http->request('POST', env('APP_URL').'/oauth/token', [
+            'form_params' => [
+                'grant_type' => 'password',
+                'client_id' => '2',
+                'client_secret' => 'qG4cLvhTkSJ1W0gJWLtpEwNeMrlQ1hU0XmZcG1Oi',
+                'username' => 'root',
+                'password' => '123456',
+                'scope' => '*',
+                'provider' => 'users'
+            ],
+        ]);
 
-        return response()->json(['code' => 0, 'msg' => 'success', 'data' => ['users' => ['id' => 1]]]);
-    } */
+        $response = json_decode((string) $response->getBody(), true);
+        return response()->json(["code" => 0, "msg" => "success", "data" => $response]);
+    }
+
 }

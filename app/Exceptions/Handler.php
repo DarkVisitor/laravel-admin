@@ -3,7 +3,9 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
 
 class Handler extends ExceptionHandler
 {
@@ -47,5 +49,37 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         return parent::render($request, $exception);
+    }
+
+
+    /**
+     * Convert an authentication exception into a response.
+     * 将身份验证异常转换为响应(重写unauthenticated方法，自定义响应)
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param AuthenticationException $exception
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function unauthenticated($request, AuthenticationException $exception)
+    {
+        return response()->json([
+            'code' => 401,
+            'msg' => $exception->getMessage()
+        ], 401);
+    }
+
+    /**
+     * Convert a validation exception into a JSON response.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Validation\ValidationException  $exception
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function invalidJson($request, ValidationException $exception)
+    {
+        return response()->json([
+            'code' => 10004,
+            'msg' => powerful_array_shift($exception->errors()),
+        ], 200);
     }
 }

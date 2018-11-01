@@ -12,4 +12,8 @@ namespace App\Http\Controllers\Admin;
 class IndexController
 {
 
+    public function test()
+    {
+        echo 'debug';
+    }
 }
