@@ -28,6 +28,7 @@ class AdminRepository extends Repository
 
     /**
      * Finding administrator login data.
+     *
      * @param $username
      * @return mixed
      */

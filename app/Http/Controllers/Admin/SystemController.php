@@ -1,35 +1,36 @@
 <?php
 /**
- * System Controller
- * 系统控制器模块
- * User: Loner
+ * System Controller.
+ *
+ * User: YingQuan-han
  * Date: 2018/10/8
  * Time: 14:31
  */
 
 namespace App\Http\Controllers\Admin;
 
-
-use App\Services\SystemService;
+use App\Services\ModuleService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
 class SystemController extends Controller
 {
-    protected $systemService;
+    protected $moduleService;
 
-    public function __construct(SystemService $systemService)
+    public function __construct(ModuleService $moduleService)
     {
-        $this->systemService = $systemService;
+        $this->moduleService = $moduleService;
     }
 
 
     /**
-     * 初始化应用后台菜单
+     * Get the administrator access to the application menu.
+     *
      * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function initAdminMenu(Request $request)
+    public function canAccessMenu(Request $request)
     {
-        return $this->systemService->initAppAdminMenu($request);
+        return $this->moduleService->initializeBackendAppMenu($request);
     }
 }

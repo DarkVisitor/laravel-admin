@@ -37,6 +37,6 @@ Route::group(['middleware' => 'web', 'prefix' => 'backend', 'namespace' => 'Admi
 
 
     Route::group(['middleware' => 'auth:admin'], function (){
-        Route::get('/test', 'IndexController@test');
+        Route::get('/initMenu', 'SystemController@canAccessMenu');
     });
 });

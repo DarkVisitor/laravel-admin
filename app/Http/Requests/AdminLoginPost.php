@@ -33,6 +33,7 @@ class AdminLoginPost extends FormRequest
 
     /**
      * Custom validation rule error message.
+     *
      * @return array
      */
     public function messages()

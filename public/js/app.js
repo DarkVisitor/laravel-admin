@@ -11870,7 +11870,7 @@ var api_url = '';
 switch ("development") {
     case 'development':
         app_url = 'http://laravel-admin.test';
-        api_url = 'http://laravel-admin.test/api/v1';
+        api_url = 'http://laravel-admin.test/backend';
         break;
     case 'production':
         app_url = 'https://www.hanyingquan.com';
@@ -94032,9 +94032,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                                 duration: 3
                             });
                             Object(__WEBPACK_IMPORTED_MODULE_1__js_libs_util_js__["f" /* setToken */])(res.data.access_token);
-                            that.$store.dispatch('initMenuTree', { id: res.data.users.id });
+                            that.$store.dispatch('initMenuTree', { id: res.data.admins.id });
                             //存储用户登录数据
-                            /* localStorage.setItem('users', JSON.stringify(res.data.users)); */
+                            localStorage.setItem('admins', JSON.stringify(res.data.admins));
                             //跳转到后台首页
                             that.$router.push({
                                 name: 'admin'

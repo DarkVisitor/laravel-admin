@@ -8,7 +8,7 @@ var api_url = '';
 switch( process.env.NODE_ENV ){
     case 'development':
         app_url = 'http://laravel-admin.test';
-        api_url = 'http://laravel-admin.test/api/v1';
+        api_url = 'http://laravel-admin.test/backend';
         break;
     case 'production':
         app_url = 'https://www.hanyingquan.com';

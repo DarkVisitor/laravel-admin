@@ -23,10 +23,15 @@ class LoginController extends Controller
     }
 
 
+    /**
+     * Login back end application and get token.
+     *
+     * @param AdminLoginPost $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function token(AdminLoginPost $request)
     {
         return $this->adminService->loginBackendSystem($request);
-
     }
 
 
