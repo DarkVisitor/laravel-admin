@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import EssayAPI from '@/api/essay.js';
+import EssayAPI from '@js/api/essay.js';
 export default {
     data () {
         return {

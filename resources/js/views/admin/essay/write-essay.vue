@@ -38,9 +38,9 @@
 </template>
 
 <script>
-import EssayAPI from '@/api/essay.js';
-import UploadPicture from '@/components/upload-picture';
-import {APP_CONFIG} from '@/config.js';
+import EssayAPI from '@js/api/essay.js';
+import UploadPicture from '@js/components/upload-picture';
+import {APP_CONFIG} from '@js/config.js';
 export default {
     components: {
         UploadPicture

@@ -24,7 +24,7 @@
     </div>
 </template>
 <script>
-import TagsNav from '@/components/tags-nav';
+import TagsNav from '@js/components/tags-nav';
 export default {
     components: {
         TagsNav

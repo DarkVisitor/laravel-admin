@@ -53,7 +53,7 @@
 </template>
 
 <script>
-    import ModuleAPI from '@/api/module.js';
+    import ModuleAPI from '@js/api/module.js';
     export default {
         data () {
             return {

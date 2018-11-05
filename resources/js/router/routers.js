@@ -33,7 +33,7 @@ export default [
                 },
                 component: ParentView,
                 children: [
-                    /* {
+                    {
                         path: 'essays',
                         name: 'essays',
                         meta: {
@@ -64,7 +64,7 @@ export default [
                                 component: Vue.component('Essay', require('@js/views/admin/essay/essay.vue'))
                             }
                         ]
-                    } */
+                    }
                 ]
             },
             {
@@ -77,7 +77,7 @@ export default [
                 },
                 component: ParentView,
                 children: [
-                    /* {
+                    {
                         path: 'users',
                         name: 'users',
                         meta: {
@@ -140,7 +140,7 @@ export default [
                                 component: Vue.component('ModuleConfig', require('@js/views/admin/module/module.vue'))
                             }
                         ]
-                    } */
+                    }
                 ]
             }
         ]

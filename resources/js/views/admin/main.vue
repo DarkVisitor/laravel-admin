@@ -5,7 +5,10 @@
                 <Menu class="ivu-admin" ref="topMenu" mode="horizontal" theme="primary" :active-name="topActiveName" @on-select="handleChangeTopMenu">
                     <div class="layout-logo">
                         <img src="/img/logo.png">
-                        <span class="admin-website-name">积跬步</span>
+                        <span class="admin-website-name">
+                            Laravel<br>
+                            Admin
+                        </span>
                     </div>
                     <div class="layout-nav admin-top-nav">
                         <MenuItem v-for="(item, index) in topMenuList" :key="index" :name="item.vue_name">
@@ -76,7 +79,7 @@ export default {
     data () {
         return {
             userAvatar: '',
-            userName: '',
+            userName: 'admin',
             users: [],
             topMenuList: [],
             siderMenuList: [],

@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import RoleAPI from '@/api/role.js';
+import RoleAPI from '@js/api/role.js';
 export default {
     data () {
         return {
