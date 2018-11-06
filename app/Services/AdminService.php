@@ -38,16 +38,33 @@ class AdminService
 
         if ($admins){
             if (Hash::check($validated['password'], $admins['password'])){
+                //存储登录用户信息
+                $request->session()->put('admins', $admins);
+                $request->session()->save();
+
                 //颁发令牌
                 $response = $this->requestingToken('admins');
                 if (!$response){
                     return response()->json(['code' => 50001, 'msg' => '登录失败']);
                 }
-                $response["admins"] = $admins;
+
                 return response()->json(["code" => 0, "msg" => "success", "data" => $response]);
             }
         }
 
         return response()->json(['code' => 40001, 'msg' => '用户名或密码不正确!']);
+    }
+
+
+    /**
+     * Get current administrator information.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getAdminInfo()
+    {
+        $admins = auth('admin')->user()->toArray();
+
+        return response()->json(['code' => 0, 'msg' => 'success', 'data' => $admins]);
     }
 }

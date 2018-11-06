@@ -17,22 +17,24 @@ class ModuleController extends Controller
 
 
     /**
-     * 获取module列表数据
+     * Get module list.
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        return $this->moduleService->getList();
+        return $this->moduleService->indexModules();
     }
 
 
     /**
-     * 获取menu module 数据
+     * Get navigation menu.
+     *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function isMenuModule()
+    public function navMenuModule()
     {
-        return $this->moduleService->getIsMenuModule();
+        return $this->moduleService->navMenuModules();
     }
 
 

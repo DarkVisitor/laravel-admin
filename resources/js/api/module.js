@@ -21,10 +21,10 @@ export default {
     /**
      * 获取菜单类型的module数据
      */
-    getIsMenuModule () {
+    getNavMenuModule () {
         const token = getToken();
 
-        return axios.get(APP_CONFIG.API_URL + '/isMenuModule', {
+        return axios.get(APP_CONFIG.API_URL + '/navMenu', {
             headers: {
                 'Authorization': 'Bearer ' + token
             }

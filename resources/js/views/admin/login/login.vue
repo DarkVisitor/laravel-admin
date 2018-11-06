@@ -94,7 +94,6 @@ export default {
                             }                            
                         })
                         .catch(function(e){
-                            console.log(e);
                             that.$Message.info('系统繁忙，请稍后再试!');
                             that.loading = false;   //修改为可提交状态
                         });

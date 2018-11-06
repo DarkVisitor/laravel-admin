@@ -71,7 +71,7 @@ export default [
                 path: 'system',
                 name: 'system',
                 meta: {
-                    title: '系统设置',
+                    title: '综合设置',
                     hideInMenu: false,
                     requiresLogin: true
                 },
@@ -103,7 +103,7 @@ export default [
                         path: 'basic',
                         name: 'basic',
                         meta: {
-                            title: '基础设置',
+                            title: '系统设置',
                             hideInMenu: false,
                             requiresLogin: true
                         },

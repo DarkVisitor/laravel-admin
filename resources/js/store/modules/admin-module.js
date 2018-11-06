@@ -31,7 +31,7 @@ import ModuleAPI from '@js/api/module.js';
                 });
         },
         loadIsMenuModule ({commit}) {
-            ModuleAPI.getIsMenuModule()
+            ModuleAPI.getNavMenuModule()
                 .then(function(response){
                     commit('setMenuModule', response.data)
                 })

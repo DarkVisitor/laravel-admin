@@ -58,4 +58,68 @@ class ModuleService
 
         return response()->json(['code' => 0, 'msg' => 'success', 'data' => $menuTree]);
     }
+
+
+    /**
+     * Get module list.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function indexModules()
+    {
+        $modules = $this->moduleRepository->getAllByModule();
+
+        if ($modules){
+            $modules = $this->sortParentChild($modules);
+        }
+
+        return response()->json(['code' => 0, 'msg' => 'success', 'data' => $modules]);
+    }
+
+
+    /**
+     * Save the data.
+     *
+     * @param $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function save($request)
+    {
+        if ($request->filled('id')){
+            $modules = $this->moduleRepository->findBy($request->id);
+        }else{
+            $modules = $this->moduleRepository->model();
+        }
+        $modules->parent_id = $request->parent_id;
+        $modules->title = $request->title;
+        $modules->vue_router = $request->vue_router;
+        $modules->vue_name = $request->vue_name;
+        $modules->laravel_router = $request->laravel_router;
+        $modules->icon = $request->icon;
+        $modules->is_menu = $request->is_menu;
+        $modules->status = $request->status;
+        $modules->sort = $request->sort;
+        $boole = $modules->save();
+        if ($boole){
+            return response()->json(['code' => 0, 'msg' => '已保存']);
+        }else{
+            return response()->json(['code' => 10001, 'msg' => '操作失败']);
+        }
+    }
+
+
+    /**
+     * Get navigation menu.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function navMenuModules()
+    {
+        $modules = $this->moduleRepository->getNavMenuModule();
+        if ($modules){
+            $modules = $this->sortParentChild($modules);
+        }
+
+        return response()->json(['code' => 0, 'msg' => 'success', 'data' => $modules]);
+    }
 }

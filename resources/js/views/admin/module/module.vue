@@ -46,7 +46,7 @@
             </Form>
             <div slot="footer">
                 <Button type="text" size="large" @click="moduleModalCancel">取消</Button>
-                <Button type="primary" size="large" @click="moduleModalOk">确定</Button>
+                <Button type="primary" size="large" @click="moduleModalOk">保存</Button>
             </div>
         </Modal>
     </div>
@@ -84,7 +84,7 @@
                     {
                         title: '菜单名称',
                         align: 'left',
-                        minWidth: 120,
+                        minWidth: 180,
                         render: (h, params) => {
                             return h("div", {
                                 style: {

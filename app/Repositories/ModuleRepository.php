@@ -34,4 +34,34 @@ class ModuleRepository extends Repository
             ->get()
             ->toArray();
     }
+
+
+    /**
+     * Get all modules
+     *
+     * @return mixed
+     */
+    public function getAllByModule()
+    {
+        return $this->model
+            ->orderBy('sort', 'desc')
+            ->get()
+            ->toArray();
+    }
+
+
+    /**
+     * Get navigation menu.
+     *
+     * @return mixed
+     */
+    public function getNavMenuModule()
+    {
+        return $this->model
+            ->where('is_menu', 1)
+            ->orderBy('sort', 'desc')
+            ->get()
+            ->toArray();
+    }
+
 }

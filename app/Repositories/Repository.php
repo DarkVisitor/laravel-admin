@@ -33,6 +33,7 @@ abstract class Repository implements RepositoryInterface
 
     /**
      * Make model
+     *
      * @throws \Exception
      */
     public function makeModel()
@@ -46,6 +47,12 @@ abstract class Repository implements RepositoryInterface
     }
 
 
+    /**
+     * Get single data.
+     *
+     * @param $id
+     * @return mixed
+     */
     public function findBy($id)
     {
         // TODO: Implement findBy() method.

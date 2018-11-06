@@ -37,6 +37,25 @@ Route::group(['middleware' => 'web', 'prefix' => 'backend', 'namespace' => 'Admi
 
 
     Route::group(['middleware' => 'auth:admin'], function (){
+        /**
+         * Initialization application.
+         */
         Route::get('/initMenu', 'SystemController@canAccessMenu');
+        Route::get('/getAdminInfo', 'IndexController@test');
+
+
+        /**
+         * Composite - system - administrator
+         */
+        Route::get('/getAdminInfo', 'AdminController@getAdminInfo');
+
+
+        /**
+         * Composite - system - modules
+         */
+        Route::get('/modules', 'ModuleController@index');
+        Route::get('/navMenu', 'ModuleController@navMenuModule');
+        Route::post('/saveModule', 'ModuleController@save');
+
     });
 });

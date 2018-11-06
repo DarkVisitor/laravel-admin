@@ -89,9 +89,6 @@ export default {
         }
     },
     computed: {
-        userAvator () {
-            return this.$store.getters.getNameAvator;
-        },
         menuTree () {
             return this.$store.getters.getMenuTree;
         }
@@ -215,10 +212,6 @@ export default {
        },
        menuTree () {
            this.setTopMenuList();
-       },
-       users (curVal) {
-           this.userAvatar = curVal.avatar;
-           this.userName = curVal.name;
        }
     },
     created () {
