@@ -83,10 +83,10 @@ export default {
                                     desc: res.msg,
                                     duration: 3
                                 });
-                                setToken(res.data.access_token);  
-                                that.$store.dispatch('initMenuTree', {id:res.data.admins.id});  
+                                setToken(res.data);
+                                //that.$store.dispatch('initMenuTree', {id:res.data.admins.id});  
                                 //存储用户登录数据
-                                localStorage.setItem('admins', JSON.stringify(res.data.admins));
+                                //localStorage.setItem('admins', JSON.stringify(res.data.admins));
                                 //跳转到后台首页
                                 that.$router.push({
                                     name: 'admin'

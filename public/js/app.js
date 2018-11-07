@@ -94428,10 +94428,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                                 desc: res.msg,
                                 duration: 3
                             });
-                            Object(__WEBPACK_IMPORTED_MODULE_1__js_libs_util_js__["f" /* setToken */])(res.data.access_token);
-                            that.$store.dispatch('initMenuTree', { id: res.data.admins.id });
+                            Object(__WEBPACK_IMPORTED_MODULE_1__js_libs_util_js__["f" /* setToken */])(res.data);
+                            //that.$store.dispatch('initMenuTree', {id:res.data.admins.id});  
                             //存储用户登录数据
-                            localStorage.setItem('admins', JSON.stringify(res.data.admins));
+                            //localStorage.setItem('admins', JSON.stringify(res.data.admins));
                             //跳转到后台首页
                             that.$router.push({
                                 name: 'admin'
