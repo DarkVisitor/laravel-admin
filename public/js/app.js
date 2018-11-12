@@ -94413,7 +94413,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     var that = _this;
                     that.loading = true; //设置登录按钮提交状态
                     __WEBPACK_IMPORTED_MODULE_0__js_api_login_js__["a" /* default */].postAccessToken({ username: _this.form.userName, password: _this.form.password }).then(function (response) {
-                        console.log(response.data);
+                        //console.log(response.data);
                         var res = response.data;
                         if (res.code) {
                             that.$Notice.error({
@@ -94429,7 +94429,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                                 duration: 3
                             });
                             Object(__WEBPACK_IMPORTED_MODULE_1__js_libs_util_js__["f" /* setToken */])(res.data);
-                            //that.$store.dispatch('initMenuTree', {id:res.data.admins.id});  
+                            that.$store.dispatch('initMenuTree', { id: res.data.admins.id });
                             //存储用户登录数据
                             //localStorage.setItem('admins', JSON.stringify(res.data.admins));
                             //跳转到后台首页
@@ -94438,6 +94438,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                             });
                         }
                     }).catch(function (e) {
+                        console.log(e);
                         that.$Message.info('系统繁忙，请稍后再试!');
                         that.loading = false; //修改为可提交状态
                     });
@@ -94452,7 +94453,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_config__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_libs_axios_js__ = __webpack_require__(135);
 /**
  * Imports the APP API URL from the config.
  */
@@ -94461,7 +94462,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["a"] = ({
 
     postAccessToken: function postAccessToken(data) {
-        return axios.post(__WEBPACK_IMPORTED_MODULE_0__js_config__["a" /* APP_CONFIG */].APP_URL + '/backend/login', data);
+        return __WEBPACK_IMPORTED_MODULE_0__js_libs_axios_js__["a" /* default */].post('/login', data);
     }
 });
 
@@ -95224,25 +95225,7 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "essay-content" },
-        [
-          _c("mavon-editor", {
-            ref: "md",
-            attrs: { boxShadow: false },
-            on: { change: _vm.editChange, imgAdd: _vm.$imgAdd },
-            model: {
-              value: _vm.essayData.content,
-              callback: function($$v) {
-                _vm.$set(_vm.essayData, "content", $$v)
-              },
-              expression: "essayData.content"
-            }
-          })
-        ],
-        1
-      ),
+      _c("div", { staticClass: "essay-content" }),
       _vm._v(" "),
       _c(
         "Modal",
@@ -101364,7 +101347,7 @@ var system = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_config_js__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_libs_axios__ = __webpack_require__(135);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__js_libs_util_js__ = __webpack_require__(2);
 
 
@@ -101379,8 +101362,8 @@ var system = {
     initAppAdminMenu: function initAppAdminMenu(params) {
         var token = Object(__WEBPACK_IMPORTED_MODULE_1__js_libs_util_js__["b" /* getToken */])();
 
-        return axios({
-            url: __WEBPACK_IMPORTED_MODULE_0__js_config_js__["a" /* APP_CONFIG */].API_URL + '/initMenu',
+        return Object(__WEBPACK_IMPORTED_MODULE_0__js_libs_axios__["a" /* default */])({
+            url: '/initMenu',
             method: 'get',
             headers: {
                 'Authorization': 'Bearer ' + token
@@ -101395,6 +101378,58 @@ var system = {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 129 */,
+/* 130 */,
+/* 131 */,
+/* 132 */,
+/* 133 */,
+/* 134 */,
+/* 135 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__js_config__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__js_router__ = __webpack_require__(54);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_js__ = __webpack_require__(2);
+
+
+
+
+
+
+/** Setup request baseURL */
+__WEBPACK_IMPORTED_MODULE_0_axios___default.a.defaults.baseURL = __WEBPACK_IMPORTED_MODULE_1__js_config__["a" /* APP_CONFIG */].API_URL;
+
+/** Setup request timeout */
+__WEBPACK_IMPORTED_MODULE_0_axios___default.a.defaults.timeout = 5000;
+
+/** Http request interceptor (http请求拦截器) */
+__WEBPACK_IMPORTED_MODULE_0_axios___default.a.interceptors.request.use(function (config) {
+    config.headers.Authorization = 'Bearer ' + Object(__WEBPACK_IMPORTED_MODULE_3__util_js__["b" /* getToken */])();
+    return config;
+}, function (err) {
+    return Promise.reject(err);
+});
+
+__WEBPACK_IMPORTED_MODULE_0_axios___default.a.interceptors.response.use(function (response) {
+    return response;
+}, function (error) {
+    console.log(error.response.status);
+    // 401 清除token信息并跳转到登录页面
+    if (error.response.status == 401) {
+        alert('登录信息已失效，请重新登录');
+        __WEBPACK_IMPORTED_MODULE_2__js_router__["a" /* default */].replace({ //如果失败，跳转到登录页面
+            name: 'login'
+        });
+    }
+    return Promise.reject(error.response.data);
+});
+
+/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0_axios___default.a);
 
 /***/ })
 /******/ ]);

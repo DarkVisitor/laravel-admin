@@ -1,6 +1,6 @@
 
 
-import {APP_CONFIG} from '@js/config.js';
+import axios from '@js/libs/axios';
 import {getToken} from '@js/libs/util.js';
 
 export default {
@@ -12,7 +12,7 @@ export default {
         const token = getToken();
 
         return axios({
-            url: APP_CONFIG.API_URL + '/initMenu',
+            url: '/initMenu',
             method: 'get',
             headers: {
                 'Authorization': 'Bearer ' + token

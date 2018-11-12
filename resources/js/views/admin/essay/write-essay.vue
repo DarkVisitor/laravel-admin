@@ -5,7 +5,7 @@
             <Button type="primary" size="large" @click="releaseEssay">发布</Button>
         </div>
         <div class="essay-content">
-            <mavon-editor ref="md" v-model="essayData.content" :boxShadow="false" @change="editChange" @imgAdd="$imgAdd"/>
+            <!-- <mavon-editor ref="md" v-model="essayData.content" :boxShadow="false" @change="editChange" @imgAdd="$imgAdd"/> -->
         </div>
         <Modal v-model="isModal" :title="title">
             <div>
