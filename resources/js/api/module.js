@@ -2,33 +2,21 @@
  * 
  */
 
-import {APP_CONFIG} from '@js/config.js' ;
-import {getToken} from '@js/libs/util.js';
+import axios from '@js/libs/axios.js';
 
 export default {
     /**
      * 获取列表数据
      */
     getModuleList () {
-        const token = getToken();
-        return axios.get(APP_CONFIG.API_URL + '/modules', {
-            headers: {
-                'Authorization': 'Bearer ' + token
-            }
-        });
+        return axios.get('/modules');
     },
 
     /**
      * 获取菜单类型的module数据
      */
     getNavMenuModule () {
-        const token = getToken();
-
-        return axios.get(APP_CONFIG.API_URL + '/navMenu', {
-            headers: {
-                'Authorization': 'Bearer ' + token
-            }
-        });
+        return axios.get('/navMenu');
     },
 
     /**
@@ -36,14 +24,9 @@ export default {
      * @param {*表单数据对象} fromData 
      */
     saveFromModule (fromData) {
-        const token = getToken();
-
         return axios({
-            url: APP_CONFIG.API_URL + '/saveModule',
+            url: '/saveModule',
             method: 'post',
-            headers: {
-                'Authorization': 'Bearer ' + token
-            },
             data: fromData
         });
     },
@@ -53,14 +36,9 @@ export default {
      * @param  id 
      */
     getModuleInfo (id) {
-        const token = getToken();
-
         return axios({
-            url: APP_CONFIG.API_URL + '/editModule',
+            url: '/editModule',
             method: 'get',
-            headers: {
-                'Authorization': 'Bearer ' + token
-            },
             params: {
                 id: id
             }
@@ -72,14 +50,9 @@ export default {
      * @param {id:id,status:status} data 
      */
     updateModuleStatus (data) {
-        const token = getToken();
-
         return axios({
-            url: APP_CONFIG.API_URL + '/updateModuleStatus',
+            url: '/updateModuleStatus',
             method: 'post',
-            headers: {
-                'Authorization': 'Bearer ' + token
-            },
             data: data
         });
     },
@@ -89,14 +62,9 @@ export default {
      * @param {id:id} data 
      */
     deleteModule (data) {
-        const token = getToken();
-        
         return axios({
-            url: APP_CONFIG.API_URL + '/deleteModule',
+            url: '/deleteModule',
             method: 'post',
-            headers: {
-                'Authorization': 'Bearer ' + token
-            },
             data: data
         });
     }

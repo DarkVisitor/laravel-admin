@@ -304,7 +304,6 @@ export default {
     const tagsNav = localStorage.getItem('tags_nav');
     if(tagsNav) this.list = JSON.parse(tagsNav);
 
-    console.log(this.list);
     
     setTimeout(() => {
       this.routeHasExist();

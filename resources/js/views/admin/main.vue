@@ -80,7 +80,6 @@ export default {
         return {
             userAvatar: '',
             userName: 'admin',
-            users: [],
             topMenuList: [],
             siderMenuList: [],
             siderOpenNames: '',
@@ -89,8 +88,8 @@ export default {
         }
     },
     computed: {
-        menuTree () {
-            return this.$store.getters.getMenuTree;
+        admins () {
+            return this.$store.getters.getAdminInfo;
         }
     },
     methods: {
@@ -149,10 +148,9 @@ export default {
             });
 
             this.topMenuList = topMenu;
-            console.log(menuTree.length);
 
             //首次加载Sider菜单显示顶部第一个菜单的子项
-            if (menuTree.length){
+            if (menuTree.length && this.siderMenuList.length <= 0){
                 if (menuTree[0].children.length){
                     this.siderMenuList = menuTree[0].children;
                 }            
@@ -210,15 +208,21 @@ export default {
                 this.$refs.siderMenu.updateActiveName();
             });
        },
-       menuTree () {
-           this.setTopMenuList();
+       admins (curVal) {
+            this.userName = curVal.name;
+            this.userAvatar = curVal.avatar;
+            
+            //set top menu
+            this.setTopMenuList();
        }
     },
     created () {
+        this.$store.dispatch('loadAdminInfo');
+        
+        //set top menu
         this.setTopMenuList();
-        this.users = JSON.parse(localStorage.getItem('users'));
     
-        //根据当前路由
+        //Switch the top and side menu selections according to the current route.
         this.toggleTopActiveName(this.$route);
         this.toggleSiderOpenNames(this.$route);
     }

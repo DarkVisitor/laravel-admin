@@ -84,7 +84,7 @@ export default {
                                     duration: 3
                                 });
                                 setToken(res.data);
-                                that.$store.dispatch('initMenuTree', {id:res.data.admins.id});  
+                                //that.$store.dispatch('initMenuTree', {id:res.data.admins.id});  
                                 //存储用户登录数据
                                 //localStorage.setItem('admins', JSON.stringify(res.data.admins));
                                 //跳转到后台首页
@@ -94,13 +94,15 @@ export default {
                             }                            
                         })
                         .catch(function(e){
-                            console.log(e);
                             that.$Message.info('系统繁忙，请稍后再试!');
                             that.loading = false;   //修改为可提交状态
                         });
                 }
             });
         }
+    },
+    created() {
+        
     }
 };
 </script>

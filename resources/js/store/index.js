@@ -33,6 +33,7 @@
  import { role } from './modules/role.js';
  import { essay } from './modules/essay.js';
  import { system } from './modules/system.js';
+ import {admin} from './modules/admin.js';
 
 
  /**
@@ -46,5 +47,6 @@
         role,
         essay,
         system,
+        admin,
      }
  });

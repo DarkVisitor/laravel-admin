@@ -10,18 +10,25 @@ namespace App\Services;
 
 
 use App\Repositories\AdminRepository;
+use App\Repositories\ModuleRepository;
+use App\Repositories\RoleRepository;
+use App\Traits\ModuleTrait;
 use App\Traits\PassportTrait;
 use Illuminate\Support\Facades\Hash;
 
 class AdminService
 {
-    use PassportTrait;
+    use PassportTrait, ModuleTrait;
 
     protected $adminRepository;
+    protected $roleRepository;
+    protected $moduleRepository;
 
-    public function __construct(AdminRepository $adminRepository)
+    public function __construct(AdminRepository $adminRepository, RoleRepository $roleRepository, ModuleRepository $moduleRepository)
     {
         $this->adminRepository = $adminRepository;
+        $this->roleRepository = $roleRepository;
+        $this->moduleRepository = $moduleRepository;
     }
 
     /**
@@ -64,7 +71,22 @@ class AdminService
     public function getAdminInfo()
     {
         $admins = auth('admin')->user()->toArray();
+        $roles = $this->roleRepository->findAdminByRole($admins['id']);
+        $authority = array();
+        if ($roles->isNotEmpty()){
+            foreach ($roles as $role){
+                $authority = array_merge($authority, explode(",", $role["authority"]));
+            }
+        }
+        $menuTree = array();
+        if ($authority){
+            $modules = $this->moduleRepository->getRoleByModule($authority);
 
-        return response()->json(['code' => 0, 'msg' => 'success', 'data' => $admins]);
+            if ($modules){
+                $menuTree = $this->authorityTree($modules);
+            }
+        }
+
+        return response()->json(['code' => 0, 'msg' => 'success', 'admins' => $admins, 'menuTree' => $menuTree]);
     }
 }

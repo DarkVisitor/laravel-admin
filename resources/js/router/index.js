@@ -22,7 +22,7 @@ router.beforeEach((to, from, next) => {
     });
     iView.LoadingBar.start();
     const token = getToken();
-//console.log(token);
+
     if (to.matched.some(record => record.meta.requiresLogin)){
         // this route requires auth, check if logged in
         // if not, redirect to login page.
