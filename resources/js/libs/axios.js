@@ -11,7 +11,7 @@ const token = JSON.parse(getToken());
 axios.defaults.baseURL = APP_CONFIG.API_URL;
 
 /** Setup request timeout */
-axios.defaults.timeout = 5000;
+axios.defaults.timeout = 30000;
 
 /** Http request interceptor (http请求拦截器) */
 axios.interceptors.request.use(
