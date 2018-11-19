@@ -10,7 +10,7 @@
         </div>
         <Modal v-model="isModal" :title="modalTitle" @on-visible-change="listenVisibleChange">
             <Form ref="moduleData" :model="moduleData" :rules="ruleValidate" :label-width="100"> 
-                <FormItem label="顶级菜单" prop="parent_id">
+                <FormItem label="上级菜单" prop="parent_id">
                     <Select class="modal-form-item" v-model="moduleData.parent_id">
                         <Option :value="0">顶级菜单</Option>
                         <Option v-for="item in menuModules" :value="item.id" :key="item.id" :style="{paddingLeft: selectPaddingLeft(item.index) + 'px'}">{{ item.title }}</Option>
@@ -74,7 +74,7 @@
                 },
                 ruleValidate: {
                     parent_id: [
-                        {required: true, type: 'number', min: 0, message: '请选择顶级菜单', trigger: 'change'}
+                        {required: true, type: 'number', min: 0, message: '请选择上级菜单', trigger: 'change'}
                     ],
                     title: [
                         {required: true, message: '请输入菜单名称', trigger: 'blur'}

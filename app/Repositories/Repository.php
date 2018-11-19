@@ -58,4 +58,15 @@ abstract class Repository implements RepositoryInterface
         // TODO: Implement findBy() method.
         return $this->model->where('id', $id)->first()->toArray();
     }
+
+    /**
+     * Get single data object.
+     *
+     * @param $id
+     * @return mixed
+     */
+    public function find($id)
+    {
+        return $this->model->find($id);
+    }
 }

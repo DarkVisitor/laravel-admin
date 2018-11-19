@@ -90,6 +90,7 @@ if (!function_exists('powerful_array_shift'))
 {
     /**
      * Array_shift function multidimensional array version.
+     *
      * array_shift() 多维数组加强版
      * @param $array
      * @return array
@@ -101,5 +102,43 @@ if (!function_exists('powerful_array_shift'))
         }
 
         return powerful_array_shift(array_shift($array));
+    }
+}
+
+
+if (!function_exists('rand_numeric'))
+{
+    /**
+     * Generate a random number string.
+     * Default 6-digit string returned.
+     *
+     * @param int $length
+     * @return string
+     * @throws Exception
+     */
+    function rand_numeric($length = 6)
+    {
+        if (!is_integer($length) || $length < 1){
+            throw new Exception('rand_numeric() expect len parameter to be a positive integer');
+        }
+        $loop = (int)($length / 10);
+        $randArr = range(0, 9);
+        $output = [];
+        if ($loop > 0){
+            for ($i = 0;$i < $loop;$i++){
+                shuffle($randArr);
+                $output = array_merge($output, $randArr);
+            }
+            $surplus = $length - $loop * 10;
+            if ($surplus){
+                shuffle($randArr);
+                $output = array_merge($output, array_slice($randArr, 0, $surplus));
+            }
+        }else{
+            shuffle($randArr);
+            $output = array_merge($output, array_slice($randArr, 0, $length));
+        }
+
+        return implode($output);
     }
 }

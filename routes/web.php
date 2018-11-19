@@ -55,7 +55,17 @@ Route::group(['middleware' => 'web', 'prefix' => 'backend', 'namespace' => 'Admi
          */
         Route::get('/modules', 'ModuleController@index');
         Route::get('/navMenu', 'ModuleController@navMenuModule');
+        Route::get('/editModule', 'ModuleController@edit');
         Route::post('/saveModule', 'ModuleController@save');
+
+
+        /**
+         * Composite - system - roles
+         */
+        Route::get('/roles', 'RoleController@index');
+        Route::get('/editRole', 'RoleController@edit');
+        Route::post('/saveRole', 'RoleController@save');
+        Route::post('/delRole', 'RoleController@delete');
 
     });
 });

@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Admin;
 
 
+use App\Http\Requests\ModulePost;
 use App\Services\ModuleService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -56,7 +57,7 @@ class ModuleController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function save(Request $request)
+    public function save(ModulePost $request)
     {
         return $this->moduleService->save($request);
     }

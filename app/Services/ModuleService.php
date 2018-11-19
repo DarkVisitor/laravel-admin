@@ -86,9 +86,9 @@ class ModuleService
     public function save($request)
     {
         if ($request->filled('id')){
-            $modules = $this->moduleRepository->findBy($request->id);
+            $modules = $this->moduleRepository->find($request->id);
         }else{
-            $modules = $this->moduleRepository->model();
+            $modules = app($this->moduleRepository->model());
         }
         $modules->parent_id = $request->parent_id;
         $modules->title = $request->title;
@@ -121,5 +121,17 @@ class ModuleService
         }
 
         return response()->json(['code' => 0, 'msg' => 'success', 'data' => $modules]);
+    }
+
+
+    /**
+     * Get module information.
+     *
+     * @param $request
+     * @return mixed
+     */
+    public function getInfo($request)
+    {
+        return $this->moduleRepository->findBy($request->id);
     }
 }

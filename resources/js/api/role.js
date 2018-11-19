@@ -1,6 +1,7 @@
+/**
+ * System role configuration API file.
+ */
 
-
-import {APP_CONFIG} from '@js/config.js';
 import {getToken} from '@js/libs/util.js';
 
 export default {
@@ -8,15 +9,8 @@ export default {
      *获取角色组数据
      */
     getRoleList () {
-        const token = getToken();
-
-        return axios({
-            url: APP_CONFIG.API_URL + '/roles',
-            method: 'get',
-            headers: {
-                'Authorization': 'Bearer ' + token
-            }
-        });
+        
+        return axios.get('/roles');
     },
 
     /**
@@ -24,16 +18,7 @@ export default {
      * @param {id:id,title:title,remarks:remarks} data 
      */
     postRoleInfo (data) {
-        const token = getToken();
-
-        return axios({
-            url: APP_CONFIG.API_URL + '/saveRole',
-            method: 'post',
-            headers: {
-                'Authorization': 'Bearer ' + token
-            },
-            data: data
-        });
+        return axios.post('/saveRole', data);
     },
 
 
@@ -42,16 +27,16 @@ export default {
      * @param {id:id} params 
      */
     getRoleInfo (params) {
-        const token = getToken();
+        return axios.get('/editRole', {params: params});
+    },
 
-        return axios({
-            url: APP_CONFIG.API_URL + '/roleInfo',
-            method: 'get',
-            headers: {
-                'Authorization': 'Bearer ' + token
-            },
-            params: params
-        });
+
+    /**
+     * 删除用户组信息
+     * @param {id:id} data 
+     */
+    delRoleInfo (data) {
+        return axios.post('/delRole', data);
     },
 
     /**

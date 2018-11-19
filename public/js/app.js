@@ -53769,10 +53769,10 @@ exports.staticRenderFns = staticRenderFns;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_config_js__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__js_libs_util_js__ = __webpack_require__(2);
-
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_libs_util_js__ = __webpack_require__(2);
+/**
+ * System role configuration API file.
+ */
 
 
 
@@ -53781,15 +53781,8 @@ exports.staticRenderFns = staticRenderFns;
      *获取角色组数据
      */
     getRoleList: function getRoleList() {
-        var token = Object(__WEBPACK_IMPORTED_MODULE_1__js_libs_util_js__["b" /* getToken */])();
 
-        return axios({
-            url: __WEBPACK_IMPORTED_MODULE_0__js_config_js__["a" /* APP_CONFIG */].API_URL + '/roles',
-            method: 'get',
-            headers: {
-                'Authorization': 'Bearer ' + token
-            }
-        });
+        return axios.get('/roles');
     },
 
 
@@ -53798,16 +53791,7 @@ exports.staticRenderFns = staticRenderFns;
      * @param {id:id,title:title,remarks:remarks} data 
      */
     postRoleInfo: function postRoleInfo(data) {
-        var token = Object(__WEBPACK_IMPORTED_MODULE_1__js_libs_util_js__["b" /* getToken */])();
-
-        return axios({
-            url: __WEBPACK_IMPORTED_MODULE_0__js_config_js__["a" /* APP_CONFIG */].API_URL + '/saveRole',
-            method: 'post',
-            headers: {
-                'Authorization': 'Bearer ' + token
-            },
-            data: data
-        });
+        return axios.post('/saveRole', data);
     },
 
 
@@ -53816,16 +53800,16 @@ exports.staticRenderFns = staticRenderFns;
      * @param {id:id} params 
      */
     getRoleInfo: function getRoleInfo(params) {
-        var token = Object(__WEBPACK_IMPORTED_MODULE_1__js_libs_util_js__["b" /* getToken */])();
+        return axios.get('/editRole', { params: params });
+    },
 
-        return axios({
-            url: __WEBPACK_IMPORTED_MODULE_0__js_config_js__["a" /* APP_CONFIG */].API_URL + '/roleInfo',
-            method: 'get',
-            headers: {
-                'Authorization': 'Bearer ' + token
-            },
-            params: params
-        });
+
+    /**
+     * 删除用户组信息
+     * @param {id:id} data 
+     */
+    delRoleInfo: function delRoleInfo(data) {
+        return axios.post('/delRole', data);
     },
 
 
@@ -53834,10 +53818,10 @@ exports.staticRenderFns = staticRenderFns;
      * @param {id:id} params 
      */
     getRoleAuth: function getRoleAuth(params) {
-        var token = Object(__WEBPACK_IMPORTED_MODULE_1__js_libs_util_js__["b" /* getToken */])();
+        var token = Object(__WEBPACK_IMPORTED_MODULE_0__js_libs_util_js__["b" /* getToken */])();
 
         return axios({
-            url: __WEBPACK_IMPORTED_MODULE_0__js_config_js__["a" /* APP_CONFIG */].API_URL + '/roleAuth',
+            url: APP_CONFIG.API_URL + '/roleAuth',
             method: 'get',
             headers: {
                 'Authorization': 'Bearer ' + token
@@ -53852,10 +53836,10 @@ exports.staticRenderFns = staticRenderFns;
      * @param {id:id,authority:authority} data 
      */
     postRoleAuth: function postRoleAuth(data) {
-        var token = Object(__WEBPACK_IMPORTED_MODULE_1__js_libs_util_js__["b" /* getToken */])();
+        var token = Object(__WEBPACK_IMPORTED_MODULE_0__js_libs_util_js__["b" /* getToken */])();
 
         return axios({
-            url: __WEBPACK_IMPORTED_MODULE_0__js_config_js__["a" /* APP_CONFIG */].API_URL + '/saveRoleAuth',
+            url: APP_CONFIG.API_URL + '/saveRoleAuth',
             method: 'post',
             headers: {
                 'Authorization': 'Bearer ' + token
@@ -96520,9 +96504,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 minWidth: 320,
                 render: function render(h, params) {
                     var rows = [];
-                    var users = params.row.belongs_to_many_user;
-                    if (users.length) {
-                        $.each(users, function (key, val) {
+                    var admins = params.row.belongs_to_many_admin;
+                    if (admins.length) {
+                        $.each(admins, function (key, val) {
                             rows.push(h('Tag', {
                                 props: {
                                     color: 'orange'
@@ -96685,7 +96669,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (!visible) this.$refs.roleData.resetFields();
         },
         /** 删除角色数据 */
-        deleteRole: function deleteRole(id) {}
+        deleteRole: function deleteRole(id) {
+            console.log(this.roleList);
+        }
     },
     created: function created() {
         this.$store.dispatch('loadRoleList');
@@ -98182,7 +98168,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 status: 1
             },
             ruleValidate: {
-                parent_id: [{ required: true, type: 'number', min: 0, message: '请选择顶级菜单', trigger: 'change' }],
+                parent_id: [{ required: true, type: 'number', min: 0, message: '请选择上级菜单', trigger: 'change' }],
                 title: [{ required: true, message: '请输入菜单名称', trigger: 'blur' }]
             },
             columns4: [{
@@ -98488,7 +98474,7 @@ var render = function() {
             [
               _c(
                 "FormItem",
-                { attrs: { label: "顶级菜单", prop: "parent_id" } },
+                { attrs: { label: "上级菜单", prop: "parent_id" } },
                 [
                   _c(
                     "Select",

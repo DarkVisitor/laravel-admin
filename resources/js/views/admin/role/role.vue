@@ -67,9 +67,9 @@ export default {
                     minWidth: 320,
                     render: (h, params) => {
                         let rows = [];
-                        let users = params.row.belongs_to_many_user;
-                        if(users.length){
-                            $.each(users, function(key, val){
+                        let admins = params.row.belongs_to_many_admin;
+                        if(admins.length){
+                            $.each(admins, function(key, val){
                                 rows.push(h('Tag', {
                                     props: {
                                         color: 'orange'
@@ -246,7 +246,7 @@ export default {
         },
         /** 删除角色数据 */
         deleteRole: function(id){
-            
+            console.log(this.roleList);
         }
     },
     created () {
