@@ -44,14 +44,10 @@ export default {
      * @param {id:id} params 
      */
     getRoleAuth (params) {
-        const token = getToken();
 
         return axios({
-            url: APP_CONFIG.API_URL + '/roleAuth',
+            url: '/roleAuth',
             method: 'get',
-            headers: {
-                'Authorization': 'Bearer ' + token
-            },
             params: params
         });
     },
@@ -62,14 +58,10 @@ export default {
      * @param {id:id,authority:authority} data 
      */
     postRoleAuth (data) {
-        const token = getToken();
         
         return axios({
-            url: APP_CONFIG.API_URL + '/saveRoleAuth',
+            url: '/saveRoleAuth',
             method: 'post',
-            headers: {
-                'Authorization': 'Bearer ' + token
-            },
             data: data
         });
     }

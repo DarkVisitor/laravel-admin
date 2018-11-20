@@ -71,7 +71,7 @@ class RoleRepository extends Repository
             $roles = $this->find($id);
 
             //Remove all users from user group
-            $roles->belongsToMany()->detach();
+            $roles->belongsToManyAdmin()->detach();
 
             //Delete user group information
             $roles->delete();

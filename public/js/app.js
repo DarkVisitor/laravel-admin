@@ -12171,9 +12171,9 @@ module.exports = Vue;
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_iview__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_iview__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_iview___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_iview__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__js_config__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__js_config__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__js_router__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__util_js__ = __webpack_require__(2);
 
@@ -12220,35 +12220,6 @@ __WEBPACK_IMPORTED_MODULE_0_axios___default.a.interceptors.response.use(function
 
 /***/ }),
 /* 8 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return APP_CONFIG; });
-/**
- * Defines the API route we are using.
- */
-
-var app_url = '';
-var api_url = '';
-
-switch ("development") {
-    case 'development':
-        app_url = 'http://laravel-admin.test';
-        api_url = 'http://laravel-admin.test/backend';
-        break;
-    case 'production':
-        app_url = 'https://www.hanyingquan.com';
-        api_url = 'https://www.hanyingquan.com/api/v1';
-        break;
-}
-
-var APP_CONFIG = {
-    APP_URL: app_url,
-    API_URL: api_url
-};
-
-/***/ }),
-/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12349,10 +12320,10 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -12542,7 +12513,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -53622,11 +53593,40 @@ exports.staticRenderFns = staticRenderFns;
 //# sourceMappingURL=iview.js.map
 
 /***/ }),
+/* 11 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return APP_CONFIG; });
+/**
+ * Defines the API route we are using.
+ */
+
+var app_url = '';
+var api_url = '';
+
+switch ("development") {
+    case 'development':
+        app_url = 'http://laravel-admin.test';
+        api_url = 'http://laravel-admin.test/backend';
+        break;
+    case 'production':
+        app_url = 'https://www.hanyingquan.com';
+        api_url = 'https://www.hanyingquan.com/api/v1';
+        break;
+}
+
+var APP_CONFIG = {
+    APP_URL: app_url,
+    API_URL: api_url
+};
+
+/***/ }),
 /* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_config_js__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_config_js__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__js_libs_util_js__ = __webpack_require__(2);
 /**
  * essay
@@ -53818,14 +53818,10 @@ exports.staticRenderFns = staticRenderFns;
      * @param {id:id} params 
      */
     getRoleAuth: function getRoleAuth(params) {
-        var token = Object(__WEBPACK_IMPORTED_MODULE_0__js_libs_util_js__["b" /* getToken */])();
 
         return axios({
-            url: APP_CONFIG.API_URL + '/roleAuth',
+            url: '/roleAuth',
             method: 'get',
-            headers: {
-                'Authorization': 'Bearer ' + token
-            },
             params: params
         });
     },
@@ -53836,14 +53832,10 @@ exports.staticRenderFns = staticRenderFns;
      * @param {id:id,authority:authority} data 
      */
     postRoleAuth: function postRoleAuth(data) {
-        var token = Object(__WEBPACK_IMPORTED_MODULE_0__js_libs_util_js__["b" /* getToken */])();
 
         return axios({
-            url: APP_CONFIG.API_URL + '/saveRoleAuth',
+            url: '/saveRoleAuth',
             method: 'post',
-            headers: {
-                'Authorization': 'Bearer ' + token
-            },
             data: data
         });
     }
@@ -67045,7 +67037,7 @@ module.exports = Cancel;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_router__ = __webpack_require__(56);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__routers__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__store__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_iview__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_iview__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_iview___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_iview__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__js_libs_util_js__ = __webpack_require__(2);
 
@@ -67460,7 +67452,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_views_app_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__js_views_app_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__js_router__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__js_store__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_iview__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_iview__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_iview___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_iview__);
 
 /**
@@ -88659,7 +88651,7 @@ module.exports = function(module) {
 var utils = __webpack_require__(1);
 var bind = __webpack_require__(17);
 var Axios = __webpack_require__(35);
-var defaults = __webpack_require__(9);
+var defaults = __webpack_require__(8);
 
 /**
  * Create an instance of Axios
@@ -88742,7 +88734,7 @@ function isSlowBuffer (obj) {
 "use strict";
 
 
-var defaults = __webpack_require__(9);
+var defaults = __webpack_require__(8);
 var utils = __webpack_require__(1);
 var InterceptorManager = __webpack_require__(44);
 var dispatchRequest = __webpack_require__(45);
@@ -89281,7 +89273,7 @@ module.exports = InterceptorManager;
 var utils = __webpack_require__(1);
 var transformData = __webpack_require__(46);
 var isCancel = __webpack_require__(20);
-var defaults = __webpack_require__(9);
+var defaults = __webpack_require__(8);
 var isAbsoluteURL = __webpack_require__(47);
 var combineURLs = __webpack_require__(48);
 
@@ -89792,7 +89784,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(10)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(9)))
 
 /***/ }),
 /* 53 */
@@ -94704,7 +94696,7 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_api_essay_js__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__js_components_upload_picture__ = __webpack_require__(81);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__js_config_js__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__js_config_js__ = __webpack_require__(11);
 //
 //
 //
@@ -96580,7 +96572,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         },
                         on: {
                             'on-ok': function onOk() {
-                                _this.deleteRole(params.row.id);
+                                _this.deleteRole(params.index, params.row.id);
                             }
                         }
                     }, [h('Button', {
@@ -96669,8 +96661,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (!visible) this.$refs.roleData.resetFields();
         },
         /** 删除角色数据 */
-        deleteRole: function deleteRole(id) {
-            console.log(this.roleList);
+        deleteRole: function deleteRole(index, id) {
+            var that = this;
+            __WEBPACK_IMPORTED_MODULE_0__js_api_role_js__["a" /* default */].delRoleInfo({ id: id }).then(function (response) {
+                that.$Message.error(response.data.msg);
+                if (!response.data.code) {
+                    that.roleList.splice(index, 1);
+                }
+            }).catch(function () {
+                that.$Message.info('系统繁忙，请稍后再试！');
+            });
         }
     },
     created: function created() {
@@ -99909,7 +99909,7 @@ return Promise$1;
 
 //# sourceMappingURL=es6-promise.map
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10), __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9), __webpack_require__(4)))
 
 /***/ }),
 /* 121 */

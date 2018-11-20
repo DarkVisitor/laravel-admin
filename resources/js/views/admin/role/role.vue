@@ -150,7 +150,7 @@ export default {
                                 },
                                 on: {
                                     'on-ok': () => {
-                                        this.deleteRole(params.row.id);
+                                        this.deleteRole(params.index, params.row.id);
                                     }
                                 }
                             }, [
@@ -245,8 +245,18 @@ export default {
             if (!visible) this.$refs.roleData.resetFields();
         },
         /** 删除角色数据 */
-        deleteRole: function(id){
-            console.log(this.roleList);
+        deleteRole: function(index, id){
+            let that = this;
+            RoleAPI.delRoleInfo({id:id})
+                .then(function(response){
+                    that.$Message.error(response.data.msg);
+                    if(!response.data.code){
+                        that.roleList.splice(index, 1);
+                    }
+                })
+                .catch(function(){
+                    that.$Message.info('系统繁忙，请稍后再试！');
+                });
         }
     },
     created () {
