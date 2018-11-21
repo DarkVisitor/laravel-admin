@@ -116,6 +116,7 @@
         created() {
             this.flatAuth = this.compileFlatAuth();
             this.rebuildTree();
+            console.log(this.data);
         },
         mounted () {
             this.$on('on-check', this.handleCheck);

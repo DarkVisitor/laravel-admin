@@ -70,8 +70,7 @@ export const role = {
         loadRoleAuth({commit}, params) {
             RoleAPI.getRoleAuth(params)
                 .then(function(response){
-                    commit('setRoleInfo', response.data.data.roleInfo);
-                    commit('setRoleAuth', response.data.data.authority);
+                    commit('setRoleAuth', response.data.authTree);
                 })
                 .catch(function(){
                     commit('setRoleAuth', []);

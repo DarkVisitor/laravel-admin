@@ -13,7 +13,8 @@ export const admin = {
      * Defines the state being monitored for the module.
      */
     state: {
-        adminInfo: []
+        adminInfo: [],
+        adminList: []
     },
     /**
      * Defines the getters used by the module.
@@ -21,6 +22,9 @@ export const admin = {
     getters: {
         getAdminInfo (state) {
             return state.adminInfo;
+        },
+        getAdminList (state) {
+            return state.adminList;
         }
     },
     /**
@@ -29,6 +33,9 @@ export const admin = {
     mutations: {
         setAdminInfo (state, adminInfo) {
             state.adminInfo = adminInfo;
+        },
+        setAdminList (state, adminList) {
+            state.adminList = adminList;
         }
     },
     /**
@@ -43,6 +50,15 @@ export const admin = {
                 })
                 .catch((error) => {
                     commit('setAdminInfo', [])
+                });
+        },
+        loadAdminList ({commit}) {
+            AdminAPI.getAdminList()
+                .then((response) => {
+                    commit('setAdminList', response.data);
+                })
+                .catch((error) => {
+                    commit('setAdminList', []);
                 });
         }
     }

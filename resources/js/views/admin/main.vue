@@ -182,13 +182,12 @@ export default {
                     this.$router.push({path: '/admin/personalCenter'});
                     break;
                 case 'signOut':
-                    console.log(name);
                     //delete token
                     removeToken();
                     //delete menu tree
                     removeMenuTree();
-                    //delete users info
-                    localStorage.removeItem('users');
+                    //清除所有本地存储信息
+                    localStorage.clear();
                     //redirect to login page.
                     this.$router.push({name: 'login'});
                     break;

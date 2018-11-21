@@ -31,4 +31,15 @@ class AdminController extends Controller
     {
         return $this->adminService->getAdminInfo();
     }
+
+
+    /**
+     * Get administrator list.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getAdminList()
+    {
+        return $this->adminService->getAdminList();
+    }
 }

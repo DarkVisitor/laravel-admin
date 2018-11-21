@@ -8,6 +8,8 @@
         <div style="margin-bottom: 20px;">
             <Table ref="table" :columns="columns4" :data="roleList" :border="true"></Table>
         </div>
+
+        <!-- Role info -->
         <Modal v-model="isModal" :title="modalTitle" @on-visible-change="listenVisibleChange">
             <Form ref="roleData" :model="roleData" :rules="ruleValidate" :label-width="100"> 
                 <FormItem label="分组名称" prop="title">
@@ -19,9 +21,30 @@
             </Form>
             <div slot="footer">
                 <Button type="text" size="large" @click="modalCancel">取消</Button>
-                <Button type="primary" size="large" @click="modalOk">确定</Button>
+                <Button type="primary" size="large" @click="modalOk">保存</Button>
             </div>
         </Modal>
+        <!-- Role info -->
+
+        <!-- Allotment of members -->
+        <Modal v-model="isAdminModal" title="成员分配">
+            <Transfer 
+                :data="adminList" 
+                :targetKeys="allotAdminList" 
+                :titles="transferTitle" 
+                :list-style="{width: '210px'}" 
+                filterable 
+                filter-placeholder="请输入管理员名称"
+                @on-change="handleAllotAdminChange">
+            </Transfer>
+            <div slot="footer">
+                <Button type="text" size="large" @click="cancelAllotMember">取消</Button>
+                <Button type="primary" size="large" @click="saveAllotMember">保存</Button>
+            </div>
+        </Modal>
+        <!-- Allotment of members -->
+
+
     </div>
 </template>
 
@@ -30,6 +53,7 @@ import RoleAPI from '@js/api/role.js';
 export default {
     data () {
         return {
+            roleId: '',
             isModal: false,
             modalTitle: '新增',
             roleData: {
@@ -72,7 +96,7 @@ export default {
                             $.each(admins, function(key, val){
                                 rows.push(h('Tag', {
                                     props: {
-                                        color: 'orange'
+                                        color: 'cyan'
                                     }   
                                 }, val.name));
                             });
@@ -95,7 +119,8 @@ export default {
                                 props: {
                                     type: 'info',
                                     size: 'small',
-                                    icon: 'md-lock'
+                                    icon: 'md-lock',
+                                    disabled: params.row.id == '8bce12cbdfaf480fa69172e28eefb891' ? true : false
                                 },
                                 on: {
                                     click: () => {
@@ -120,14 +145,17 @@ export default {
                                     title: '成员分配'
                                 },
                                 on: {
-                                    
+                                    click: () => {
+                                        this.handleAllotMembers(params.row.id);
+                                    }
                                 }
                             }),
                             h('Button', {
                                 props: {
                                     type: 'primary',
                                     size: 'small',
-                                    icon: 'ios-create-outline'
+                                    icon: 'ios-create-outline',
+                                    disabled: params.row.id == '8bce12cbdfaf480fa69172e28eefb891' ? true : false
                                 },
                                 attrs: {
                                     title: '编辑分组'
@@ -158,7 +186,8 @@ export default {
                                     props: {
                                         type: 'error',
                                         size: 'small',
-                                        icon: 'md-trash'
+                                        icon: 'md-trash',
+                                        disabled: params.row.id == '8bce12cbdfaf480fa69172e28eefb891' ? true : false
                                     },
                                     attrs: {
                                         title: '删除分组'
@@ -168,7 +197,11 @@ export default {
                         ]);
                     }
                 }
-            ]
+            ],
+            isAdminModal: false,
+            adminList: [],
+            allotAdminList: [],
+            transferTitle: ['未分配成员', '已分配成员']
         }
     },
     computed: {
@@ -249,14 +282,56 @@ export default {
             let that = this;
             RoleAPI.delRoleInfo({id:id})
                 .then(function(response){
-                    that.$Message.error(response.data.msg);
-                    if(!response.data.code){
+                    if(response.data.code){
+                        that.$Message.error(response.data.msg);
+                    }else{
+                        that.$Message.success(response.data.msg);
                         that.roleList.splice(index, 1);
                     }
                 })
                 .catch(function(){
                     that.$Message.info('系统繁忙，请稍后再试！');
                 });
+        },
+        handleAllotMembers: function(id){
+            let that = this;
+            that.roleId = id;
+            RoleAPI.findRoleByMember({id:id})    
+                .then((response) => {
+                    if(response.data.code){
+                        that.$Message.error(response.data.msg);
+                        return false;
+                    }
+                    that.adminList = response.data.adminList;
+                    that.allotAdminList = response.data.roleMembers;
+                    that.isAdminModal = true;
+                })
+                .catch((error) => {
+                    that.$Message.info('系统繁忙，请稍后再试！');
+                });
+        },
+        /** 分配管理员 */
+        handleAllotAdminChange: function(newTargetKeys){
+            this.allotAdminList = newTargetKeys;
+        },
+        saveAllotMember () {
+            let that = this;
+            RoleAPI.postAllotMember({id:that.roleId, member:that.allotAdminList})
+                .then((response) => {
+                    if(response.data.code){
+                        that.$Message.error(response.data.msg);
+                    }else{
+                        that.$Message.success(response.data.msg);
+                        that.isAdminModal = false;
+                        that.$store.dispatch('loadRoleList');
+                    }
+                })
+                .catch((error) => {
+                    that.$Message.info('系统繁忙，请稍后再试！');
+                });
+        },
+        cancelAllotMember () {
+            this.isAdminModal = false;
         }
     },
     created () {

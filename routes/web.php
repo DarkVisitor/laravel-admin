@@ -48,6 +48,7 @@ Route::group(['middleware' => 'web', 'prefix' => 'backend', 'namespace' => 'Admi
          * Composite - system - administrator
          */
         Route::get('/getAdminInfo', 'AdminController@getAdminInfo');
+        Route::get('/getAdminList', 'AdminController@getAdminList');
 
 
         /**
@@ -66,6 +67,9 @@ Route::group(['middleware' => 'web', 'prefix' => 'backend', 'namespace' => 'Admi
         Route::get('/editRole', 'RoleController@edit');
         Route::post('/saveRole', 'RoleController@save');
         Route::post('/delRole', 'RoleController@delete');
+        Route::get('/roleMember', 'RoleController@roleMember');
+        Route::post('/allotMember', 'RoleController@allotMember');
+        Route::get('/roleAuth', 'RoleController@allotAuthority');
 
     });
 });

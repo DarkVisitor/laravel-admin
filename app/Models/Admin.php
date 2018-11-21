@@ -28,4 +28,15 @@ class Admin extends Authenticatable
     {
         return Admin::orWhere('email', $username)->orWhere('name', $username)->first();
     }
+
+
+    /**
+     * Relation role model
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function belongsToManyRole()
+    {
+        return $this->belongsToMany('App\Models\Role', 'role_admins');
+    }
 }

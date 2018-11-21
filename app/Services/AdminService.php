@@ -89,4 +89,25 @@ class AdminService
 
         return response()->json(['code' => 0, 'msg' => 'success', 'admins' => $admins, 'menuTree' => $menuTree]);
     }
+
+
+    /**
+     * Get administrator list.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getAdminList()
+    {
+        $admins = $this->adminRepository->allByAdmin();
+
+        if ($admins){
+            foreach ($admins as $key=>$item){
+                $admins[$key]['key'] = $key;
+                $admins[$key]['label'] = $item['name'];
+            }
+            return response()->json(['code' => 0, 'msg' => 'success', 'data' => $admins]);
+        }else{
+            return response()->json(['code' => 44001, 'msg' => '暂无数据']);
+        }
+    }
 }

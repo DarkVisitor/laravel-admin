@@ -67,9 +67,9 @@ class RoleController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function distributeAuthority(Request $request)
+    public function allotAuthority(Request $request)
     {
-        return $this->roleService->distributeAuthority($request);
+        return $this->roleService->allotRoleGroupByAuthority($request);
     }
 
 
@@ -83,6 +83,29 @@ class RoleController extends Controller
         return $this->roleService->postDistributeAuthority($request);
     }
 
+
+    /**
+     * Get role group members.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function roleMember(Request $request)
+    {
+        return $this->roleService->getRoleMembers($request);
+    }
+
+
+    /**
+     * Save members assigned to role groups.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function allotMember(Request $request)
+    {
+        return $this->roleService->saveAdminGroupMember($request);
+    }
 
 
 }

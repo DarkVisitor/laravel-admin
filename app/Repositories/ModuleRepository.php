@@ -64,4 +64,34 @@ class ModuleRepository extends Repository
             ->toArray();
     }
 
+
+    /**
+     * Get normal status module.
+     *
+     * @return mixed
+     */
+    public function findNormalByModule()
+    {
+        return $this->model
+            ->where('status', 1)
+            ->orderBy('sort', 'desc')
+            ->get()
+            ->toArray();
+    }
+
+
+    /**
+     * Get permission from role group.
+     *
+     * @param array $authority
+     * @return mixed
+     */
+    public function findRoleByModule(array $authority)
+    {
+        return $this->model
+            ->whereIn('id', $authority)
+            ->where('status', 1)
+            ->get()
+            ->toArray();
+    }
 }

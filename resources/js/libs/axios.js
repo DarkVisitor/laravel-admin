@@ -5,7 +5,6 @@ import {APP_CONFIG} from '@js/config';
 import router from '@js/router';
 import {getToken} from './util.js';
 
-const token = JSON.parse(getToken());
 
 /** Setup request baseURL */
 axios.defaults.baseURL = APP_CONFIG.API_URL;
@@ -16,7 +15,7 @@ axios.defaults.timeout = 30000;
 /** Http request interceptor (http请求拦截器) */
 axios.interceptors.request.use(
     config => {
-        config.headers.Authorization = `${token.token_type} ${token.access_token}`;
+        config.headers.Authorization = `${JSON.parse(getToken()).token_type} ${JSON.parse(getToken()).access_token}`;
         return config;
     },
     err => {

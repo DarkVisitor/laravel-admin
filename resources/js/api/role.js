@@ -44,12 +44,7 @@ export default {
      * @param {id:id} params 
      */
     getRoleAuth (params) {
-
-        return axios({
-            url: '/roleAuth',
-            method: 'get',
-            params: params
-        });
+        return axios.get('/roleAuth', {params: params});
     },
 
 
@@ -64,5 +59,23 @@ export default {
             method: 'post',
             data: data
         });
+    },
+
+    /**
+     * Find members associated with roles.
+     * 
+     * @param {id:id} params 
+     */
+    findRoleByMember (params) {
+        return axios.get('/roleMember', {params:params});
+    },
+
+    /**
+     * Assign members to user groups.
+     * 
+     * @param {id:id, member:member} data 
+     */
+    postAllotMember (data) {
+        return axios.post('/allotMember', data);
     }
 }

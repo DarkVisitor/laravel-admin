@@ -36,4 +36,36 @@ class AdminRepository extends Repository
     {
         return $this->model->orWhere('name', trim($username))->orWhere('email', trim($username))->first();
     }
+
+
+    /**
+     * Get all administrator data
+     *
+     * @return mixed
+     */
+    public function allByAdmin()
+    {
+        return $this->model
+            ->orderBy('created_at', 'asc')
+            ->get()
+            ->toArray();
+    }
+
+
+    /**
+     * Find members associated with roles.
+     *
+     * @param $roleId
+     * @return mixed
+     */
+    public function findRoleByAdmin($roleId)
+    {
+        return $this->model
+            ->whereHas('belongsToManyRole', function ($query) use ($roleId){
+                $query->where('id', $roleId);
+            })
+            ->orderBy('created_at', 'asc')
+            ->get()
+            ->toArray();
+    }
 }

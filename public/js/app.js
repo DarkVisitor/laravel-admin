@@ -12183,8 +12183,6 @@ module.exports = Vue;
 
 
 
-var token = JSON.parse(Object(__WEBPACK_IMPORTED_MODULE_4__util_js__["b" /* getToken */])());
-
 /** Setup request baseURL */
 __WEBPACK_IMPORTED_MODULE_0_axios___default.a.defaults.baseURL = __WEBPACK_IMPORTED_MODULE_2__js_config__["a" /* APP_CONFIG */].API_URL;
 
@@ -12193,7 +12191,7 @@ __WEBPACK_IMPORTED_MODULE_0_axios___default.a.defaults.timeout = 30000;
 
 /** Http request interceptor (http请求拦截器) */
 __WEBPACK_IMPORTED_MODULE_0_axios___default.a.interceptors.request.use(function (config) {
-    config.headers.Authorization = token.token_type + ' ' + token.access_token;
+    config.headers.Authorization = JSON.parse(Object(__WEBPACK_IMPORTED_MODULE_4__util_js__["b" /* getToken */])()).token_type + ' ' + JSON.parse(Object(__WEBPACK_IMPORTED_MODULE_4__util_js__["b" /* getToken */])()).access_token;
     return config;
 }, function (err) {
     return Promise.reject(err);
@@ -53818,12 +53816,7 @@ var APP_CONFIG = {
      * @param {id:id} params 
      */
     getRoleAuth: function getRoleAuth(params) {
-
-        return axios({
-            url: '/roleAuth',
-            method: 'get',
-            params: params
-        });
+        return axios.get('/roleAuth', { params: params });
     },
 
 
@@ -53838,6 +53831,26 @@ var APP_CONFIG = {
             method: 'post',
             data: data
         });
+    },
+
+
+    /**
+     * Find members associated with roles.
+     * 
+     * @param {id:id} params 
+     */
+    findRoleByMember: function findRoleByMember(params) {
+        return axios.get('/roleMember', { params: params });
+    },
+
+
+    /**
+     * Assign members to user groups.
+     * 
+     * @param {id:id, member:member} data 
+     */
+    postAllotMember: function postAllotMember(data) {
+        return axios.post('/allotMember', data);
     }
 });
 
@@ -92839,13 +92852,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     this.$router.push({ path: '/admin/personalCenter' });
                     break;
                 case 'signOut':
-                    console.log(name);
                     //delete token
                     Object(__WEBPACK_IMPORTED_MODULE_2__js_libs_util_js__["d" /* removeToken */])();
                     //delete menu tree
                     Object(__WEBPACK_IMPORTED_MODULE_2__js_libs_util_js__["c" /* removeMenuTree */])();
-                    //delete users info
-                    localStorage.removeItem('users');
+                    //清除所有本地存储信息
+                    localStorage.clear();
                     //redirect to login page.
                     this.$router.push({ name: 'login' });
                     break;
@@ -94432,8 +94444,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                             });
                             Object(__WEBPACK_IMPORTED_MODULE_1__js_libs_util_js__["f" /* setToken */])(res.data);
                             //that.$store.dispatch('initMenuTree', {id:res.data.admins.id});  
-                            //存储用户登录数据
-                            //localStorage.setItem('admins', JSON.stringify(res.data.admins));
+                            //移除所有本地存储信息
+                            localStorage.clear();
                             //跳转到后台首页
                             that.$router.push({
                                 name: 'admin'
@@ -96458,6 +96470,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -96465,6 +96500,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         var _this = this;
 
         return {
+            roleId: '',
             isModal: false,
             modalTitle: '新增',
             roleData: {
@@ -96501,7 +96537,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         $.each(admins, function (key, val) {
                             rows.push(h('Tag', {
                                 props: {
-                                    color: 'orange'
+                                    color: 'cyan'
                                 }
                             }, val.name));
                         });
@@ -96522,7 +96558,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         props: {
                             type: 'info',
                             size: 'small',
-                            icon: 'md-lock'
+                            icon: 'md-lock',
+                            disabled: params.row.id == '8bce12cbdfaf480fa69172e28eefb891' ? true : false
                         },
                         on: {
                             click: function click() {
@@ -96545,12 +96582,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         attrs: {
                             title: '成员分配'
                         },
-                        on: {}
+                        on: {
+                            click: function click() {
+                                _this.handleAllotMembers(params.row.id);
+                            }
+                        }
                     }), h('Button', {
                         props: {
                             type: 'primary',
                             size: 'small',
-                            icon: 'ios-create-outline'
+                            icon: 'ios-create-outline',
+                            disabled: params.row.id == '8bce12cbdfaf480fa69172e28eefb891' ? true : false
                         },
                         attrs: {
                             title: '编辑分组'
@@ -96579,14 +96621,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         props: {
                             type: 'error',
                             size: 'small',
-                            icon: 'md-trash'
+                            icon: 'md-trash',
+                            disabled: params.row.id == '8bce12cbdfaf480fa69172e28eefb891' ? true : false
                         },
                         attrs: {
                             title: '删除分组'
                         }
                     })])]);
                 }
-            }]
+            }],
+            isAdminModal: false,
+            adminList: [],
+            allotAdminList: [],
+            transferTitle: ['未分配成员', '已分配成员']
         };
     },
 
@@ -96664,13 +96711,51 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         deleteRole: function deleteRole(index, id) {
             var that = this;
             __WEBPACK_IMPORTED_MODULE_0__js_api_role_js__["a" /* default */].delRoleInfo({ id: id }).then(function (response) {
-                that.$Message.error(response.data.msg);
-                if (!response.data.code) {
+                if (response.data.code) {
+                    that.$Message.error(response.data.msg);
+                } else {
+                    that.$Message.success(response.data.msg);
                     that.roleList.splice(index, 1);
                 }
             }).catch(function () {
                 that.$Message.info('系统繁忙，请稍后再试！');
             });
+        },
+        handleAllotMembers: function handleAllotMembers(id) {
+            var that = this;
+            that.roleId = id;
+            __WEBPACK_IMPORTED_MODULE_0__js_api_role_js__["a" /* default */].findRoleByMember({ id: id }).then(function (response) {
+                if (response.data.code) {
+                    that.$Message.error(response.data.msg);
+                    return false;
+                }
+                that.adminList = response.data.adminList;
+                that.allotAdminList = response.data.roleMembers;
+                that.isAdminModal = true;
+            }).catch(function (error) {
+                that.$Message.info('系统繁忙，请稍后再试！');
+            });
+        },
+        /** 分配管理员 */
+        handleAllotAdminChange: function handleAllotAdminChange(newTargetKeys) {
+            this.allotAdminList = newTargetKeys;
+        },
+        saveAllotMember: function saveAllotMember() {
+            var that = this;
+            __WEBPACK_IMPORTED_MODULE_0__js_api_role_js__["a" /* default */].postAllotMember({ id: that.roleId, member: that.allotAdminList }).then(function (response) {
+                if (response.data.code) {
+                    that.$Message.error(response.data.msg);
+                } else {
+                    that.$Message.success(response.data.msg);
+                    that.isAdminModal = false;
+                    that.$store.dispatch('loadRoleList');
+                }
+            }).catch(function (error) {
+                that.$Message.info('系统繁忙，请稍后再试！');
+            });
+        },
+        cancelAllotMember: function cancelAllotMember() {
+            this.isAdminModal = false;
         }
     },
     created: function created() {
@@ -96820,7 +96905,60 @@ var render = function() {
                   attrs: { type: "primary", size: "large" },
                   on: { click: _vm.modalOk }
                 },
-                [_vm._v("确定")]
+                [_vm._v("保存")]
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "Modal",
+        {
+          attrs: { title: "成员分配" },
+          model: {
+            value: _vm.isAdminModal,
+            callback: function($$v) {
+              _vm.isAdminModal = $$v
+            },
+            expression: "isAdminModal"
+          }
+        },
+        [
+          _c("Transfer", {
+            attrs: {
+              data: _vm.adminList,
+              targetKeys: _vm.allotAdminList,
+              titles: _vm.transferTitle,
+              "list-style": { width: "210px" },
+              filterable: "",
+              "filter-placeholder": "请输入管理员名称"
+            },
+            on: { "on-change": _vm.handleAllotAdminChange }
+          }),
+          _vm._v(" "),
+          _c(
+            "div",
+            { attrs: { slot: "footer" }, slot: "footer" },
+            [
+              _c(
+                "Button",
+                {
+                  attrs: { type: "text", size: "large" },
+                  on: { click: _vm.cancelAllotMember }
+                },
+                [_vm._v("取消")]
+              ),
+              _vm._v(" "),
+              _c(
+                "Button",
+                {
+                  attrs: { type: "primary", size: "large" },
+                  on: { click: _vm.saveAllotMember }
+                },
+                [_vm._v("保存")]
               )
             ],
             1
@@ -97257,6 +97395,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     created: function created() {
         this.flatAuth = this.compileFlatAuth();
         this.rebuildTree();
+        console.log(this.data);
     },
     mounted: function mounted() {
         this.$on('on-check', this.handleCheck);
@@ -101112,8 +101251,7 @@ var role = {
             var commit = _ref3.commit;
 
             __WEBPACK_IMPORTED_MODULE_0__js_api_role_js__["a" /* default */].getRoleAuth(params).then(function (response) {
-                commit('setRoleInfo', response.data.data.roleInfo);
-                commit('setRoleAuth', response.data.data.authority);
+                commit('setRoleAuth', response.data.authTree);
             }).catch(function () {
                 commit('setRoleAuth', []);
             });
@@ -101408,7 +101546,8 @@ var admin = {
      * Defines the state being monitored for the module.
      */
     state: {
-        adminInfo: []
+        adminInfo: [],
+        adminList: []
     },
     /**
      * Defines the getters used by the module.
@@ -101416,6 +101555,9 @@ var admin = {
     getters: {
         getAdminInfo: function getAdminInfo(state) {
             return state.adminInfo;
+        },
+        getAdminList: function getAdminList(state) {
+            return state.adminList;
         }
     },
     /**
@@ -101424,6 +101566,9 @@ var admin = {
     mutations: {
         setAdminInfo: function setAdminInfo(state, adminInfo) {
             state.adminInfo = adminInfo;
+        },
+        setAdminList: function setAdminList(state, adminList) {
+            state.adminList = adminList;
         }
     },
     /**
@@ -101438,6 +101583,15 @@ var admin = {
                 commit('setAdminInfo', response.data.admins);
             }).catch(function (error) {
                 commit('setAdminInfo', []);
+            });
+        },
+        loadAdminList: function loadAdminList(_ref2) {
+            var commit = _ref2.commit;
+
+            __WEBPACK_IMPORTED_MODULE_0__js_api_admin_js__["a" /* default */].getAdminList().then(function (response) {
+                commit('setAdminList', response.data);
+            }).catch(function (error) {
+                commit('setAdminList', []);
             });
         }
     }
@@ -101454,8 +101608,19 @@ var admin = {
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
+    /**
+     * 获取管理员信息
+     */
     getAdminInfo: function getAdminInfo() {
         return __WEBPACK_IMPORTED_MODULE_0__js_libs_axios_js__["a" /* default */].get('/getAdminInfo');
+    },
+
+
+    /**
+     * 获取管理员列表
+     */
+    getAdminList: function getAdminList() {
+        return __WEBPACK_IMPORTED_MODULE_0__js_libs_axios_js__["a" /* default */].get('/getAdminList');
     }
 });
 

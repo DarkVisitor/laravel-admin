@@ -85,8 +85,8 @@ export default {
                                 });
                                 setToken(res.data);
                                 //that.$store.dispatch('initMenuTree', {id:res.data.admins.id});  
-                                //存储用户登录数据
-                                //localStorage.setItem('admins', JSON.stringify(res.data.admins));
+                                //移除所有本地存储信息
+                                localStorage.clear();
                                 //跳转到后台首页
                                 that.$router.push({
                                     name: 'admin'
