@@ -158,6 +158,12 @@ class RoleService
     }
 
 
+    /**
+     * Get permissions for role group assignment.
+     *
+     * @param $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function allotRoleGroupByAuthority($request)
     {
         if (!$request->filled('id')){

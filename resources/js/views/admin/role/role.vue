@@ -44,7 +44,12 @@
         </Modal>
         <!-- Allotment of members -->
 
-
+        <Modal v-model="isAuthModal" title="权限分配" width="80%">
+            <div slot="footer">
+                <Button type="text" size="large" @click="cancelAllotMember">取消</Button>
+                <Button type="primary" size="large" @click="saveAllotMember">保存</Button>
+            </div>
+        </Modal>
     </div>
 </template>
 
@@ -128,7 +133,8 @@ export default {
                                         //this.$router.push({name: 'roleAuth', params: {id:params.row.id}});
                                         
                                         //path 路由
-                                        this.$router.push({path: `/admin/system/basic/roleAuth/${params.row.id}`});
+                                        //this.$router.push({path: `/admin/system/basic/roleAuth/${params.row.id}`});
+                                        this.isAuthModal = true;
                                     }
                                 },
                                 attrs: {
@@ -201,7 +207,8 @@ export default {
             isAdminModal: false,
             adminList: [],
             allotAdminList: [],
-            transferTitle: ['未分配成员', '已分配成员']
+            transferTitle: ['未分配成员', '已分配成员'],
+            isAuthModal: false
         }
     },
     computed: {

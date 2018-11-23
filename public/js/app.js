@@ -96493,6 +96493,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -96567,7 +96572,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                                 //this.$router.push({name: 'roleAuth', params: {id:params.row.id}});
 
                                 //path 路由
-                                _this.$router.push({ path: '/admin/system/basic/roleAuth/' + params.row.id });
+                                //this.$router.push({path: `/admin/system/basic/roleAuth/${params.row.id}`});
+                                _this.isAuthModal = true;
                             }
                         },
                         attrs: {
@@ -96633,7 +96639,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             isAdminModal: false,
             adminList: [],
             allotAdminList: [],
-            transferTitle: ['未分配成员', '已分配成员']
+            transferTitle: ['未分配成员', '已分配成员'],
+            isAuthModal: false
         };
     },
 
@@ -96965,6 +96972,46 @@ var render = function() {
           )
         ],
         1
+      ),
+      _vm._v(" "),
+      _c(
+        "Modal",
+        {
+          attrs: { title: "权限分配", width: "80%" },
+          model: {
+            value: _vm.isAuthModal,
+            callback: function($$v) {
+              _vm.isAuthModal = $$v
+            },
+            expression: "isAuthModal"
+          }
+        },
+        [
+          _c(
+            "div",
+            { attrs: { slot: "footer" }, slot: "footer" },
+            [
+              _c(
+                "Button",
+                {
+                  attrs: { type: "text", size: "large" },
+                  on: { click: _vm.cancelAllotMember }
+                },
+                [_vm._v("取消")]
+              ),
+              _vm._v(" "),
+              _c(
+                "Button",
+                {
+                  attrs: { type: "primary", size: "large" },
+                  on: { click: _vm.saveAllotMember }
+                },
+                [_vm._v("保存")]
+              )
+            ],
+            1
+          )
+        ]
       )
     ],
     1
