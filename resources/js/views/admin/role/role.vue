@@ -44,18 +44,25 @@
         </Modal>
         <!-- Allotment of members -->
 
-        <Modal v-model="isAuthModal" title="权限分配" width="80%">
+        <!-- <Modal v-model="isAuthModal" title="权限分配" width="80%">
             <div slot="footer">
                 <Button type="text" size="large" @click="cancelAllotMember">取消</Button>
                 <Button type="primary" size="large" @click="saveAllotMember">保存</Button>
             </div>
-        </Modal>
+        </Modal> -->
+
+        <!-- Allotment of permissions -->
+        <allot-permissions v-model="isAuthModal"></allot-permissions>
     </div>
 </template>
 
 <script>
+import AllotPermissions from './components/allot-permissions';
 import RoleAPI from '@js/api/role.js';
 export default {
+    components: {
+        AllotPermissions
+    },
     data () {
         return {
             roleId: '',
