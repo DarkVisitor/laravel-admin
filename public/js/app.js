@@ -67250,57 +67250,7 @@ router.afterEach(function (to) {
 }]);
 
 /***/ }),
-/* 24 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(110)
-}
-var normalizeComponent = __webpack_require__(0)
-/* script */
-var __vue_script__ = __webpack_require__(112)
-/* template */
-var __vue_template__ = __webpack_require__(114)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/js/views/admin/role/auth-tree/auth-tree-node.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-4db764e2", Component.options)
-  } else {
-    hotAPI.reload("data-v-4db764e2", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
+/* 24 */,
 /* 25 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -96495,13 +96445,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -96582,6 +96525,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                                 //path 路由
                                 //this.$router.push({path: `/admin/system/basic/roleAuth/${params.row.id}`});
                                 _this.isAuthModal = true;
+                                //this.$store.dispatch('loadRoleAuth', {id:params.row.id});
+                                _this.roleId = params.row.id;
                             }
                         },
                         attrs: {
@@ -96841,6 +96786,8 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__auth_tree__ = __webpack_require__(143);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__js_api_role_js__ = __webpack_require__(13);
 //
 //
 //
@@ -96849,28 +96796,267 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'allot-permissions',
-    model: {
-        prop: 'isModal',
-        event: 'change'
+    components: {
+        AuthTree: __WEBPACK_IMPORTED_MODULE_0__auth_tree__["a" /* default */]
     },
     props: {
-        isModal: {
+        value: {
             type: Boolean,
             default: false
-        }
+        },
+        roleId: String
     },
     data: function data() {
-        return {};
+        return {
+            isModal: false,
+            /* roleAuth: [
+                        {
+                            "id": 7, 
+                            "parent_id": 0, 
+                            "title": "内容管理", 
+                            "vue_router": null, 
+                            "vue_name": "article", 
+                            "laravel_router": null, 
+                            "icon": "ios-paper", 
+                            "is_menu": 1, 
+                            "status": 1, 
+                            "sort": 2, 
+                            "created_at": "2018-09-04 02:34:46", 
+                            "updated_at": "2018-09-28 17:32:21", 
+                            "isChecked": 1, 
+                            "children": [
+                            {
+                                "id": 8, 
+                                "parent_id": 7, 
+                                "title": "文章管理", 
+                                "vue_router": null, 
+                                "vue_name": "essays", 
+                                "laravel_router": null, 
+                                "icon": "ios-paper-plane", 
+                                "is_menu": 1, 
+                                "status": 1, 
+                                "sort": 1, 
+                                "created_at": "2018-09-04 02:54:35", 
+                                "updated_at": "2018-09-28 17:48:11", 
+                                "isChecked": 1, 
+                                "children": [
+                                {
+                                    "id": 10, 
+                                    "parent_id": 8, 
+                                    "title": "写文章", 
+                                    "vue_router": "/admin/article/essays/write", 
+                                    "vue_name": "write", 
+                                    "laravel_router": null, 
+                                    "icon": null, 
+                                    "is_menu": 1, 
+                                    "status": 1, 
+                                    "sort": 2, 
+                                    "created_at": "2018-09-04 02:59:32", 
+                                    "updated_at": "2018-11-19 10:40:56", 
+                                    "isChecked": 1, 
+                                    "children": [ ]
+                                }, 
+                                {
+                                    "id": 11, 
+                                    "parent_id": 8, 
+                                    "title": "文章列表", 
+                                    "vue_router": "/admin/article/essays/essay", 
+                                    "vue_name": "essay", 
+                                    "laravel_router": null, 
+                                    "icon": null, 
+                                    "is_menu": 0, 
+                                    "status": 1, 
+                                    "sort": 1, 
+                                    "created_at": "2018-09-04 07:02:23", 
+                                    "updated_at": "2018-09-04 07:02:23", 
+                                    "isChecked": 1, 
+                                    "children": [ ]
+                                }
+                                ]
+                            }
+                            ]
+                        }, 
+                        {
+                            "id": 1, 
+                            "parent_id": 0, 
+                            "title": "综合设置", 
+                            "vue_router": null, 
+                            "vue_name": "system", 
+                            "laravel_router": null, 
+                            "icon": "ios-construct", 
+                            "is_menu": 1, 
+                            "status": 1, 
+                            "sort": 1, 
+                            "created_at": "2018-09-03 13:45:01", 
+                            "updated_at": "2018-09-28 17:32:41", 
+                            "isChecked": 1, 
+                            "children": [
+                            {
+                                "id": 5, 
+                                "parent_id": 1, 
+                                "title": "用户管理", 
+                                "vue_router": null, 
+                                "vue_name": "users", 
+                                "laravel_router": null, 
+                                "icon": "ios-people", 
+                                "is_menu": 1, 
+                                "status": 1, 
+                                "sort": 2, 
+                                "created_at": "2018-09-03 14:56:16", 
+                                "updated_at": "2018-09-28 17:54:13", 
+                                "isChecked": 1, 
+                                "children": [
+                                {
+                                    "id": 6, 
+                                    "parent_id": 5, 
+                                    "title": "成员信息", 
+                                    "vue_router": "/admin/system/users/user", 
+                                    "vue_name": "user", 
+                                    "laravel_router": "", 
+                                    "icon": "", 
+                                    "is_menu": 0, 
+                                    "status": 1, 
+                                    "sort": 1, 
+                                    "created_at": "2018-09-03 14:57:30", 
+                                    "updated_at": "2018-09-03 14:57:32", 
+                                    "isChecked": 1, 
+                                    "children": [ ]
+                                }
+                                ]
+                            }, 
+                            {
+                                "id": 2, 
+                                "parent_id": 1, 
+                                "title": "系统设置", 
+                                "vue_router": null, 
+                                "vue_name": "basic", 
+                                "laravel_router": null, 
+                                "icon": "ios-settings", 
+                                "is_menu": 1, 
+                                "status": 1, 
+                                "sort": 1, 
+                                "created_at": "2018-09-03 13:48:06", 
+                                "updated_at": "2018-09-28 17:46:21", 
+                                "isChecked": 1, 
+                                "children": [
+                                {
+                                    "id": 13, 
+                                    "parent_id": 2, 
+                                    "title": "管理员", 
+                                    "vue_router": null, 
+                                    "vue_name": null, 
+                                    "laravel_router": null, 
+                                    "icon": null, 
+                                    "is_menu": 1, 
+                                    "status": 1, 
+                                    "sort": 4, 
+                                    "created_at": "2018-11-21 17:01:34", 
+                                    "updated_at": "2018-11-21 17:01:34", 
+                                    "isChecked": 0, 
+                                    "children": [
+                                    {
+                                        "id": 14, 
+                                        "parent_id": 13, 
+                                        "title": "删除管理员", 
+                                        "vue_router": null, 
+                                        "vue_name": null, 
+                                        "laravel_router": null, 
+                                        "icon": null, 
+                                        "is_menu": 0, 
+                                        "status": 1, 
+                                        "sort": 1, 
+                                        "created_at": "2018-11-21 18:17:13", 
+                                        "updated_at": "2018-11-21 18:18:06", 
+                                        "isChecked": 0, 
+                                        "children": [ ]
+                                    }
+                                    ]
+                                }, 
+                                {
+                                    "id": 12, 
+                                    "parent_id": 2, 
+                                    "title": "短信配置", 
+                                    "vue_router": null, 
+                                    "vue_name": null, 
+                                    "laravel_router": null, 
+                                    "icon": null, 
+                                    "is_menu": 1, 
+                                    "status": 1, 
+                                    "sort": 3, 
+                                    "created_at": "2018-11-19 14:17:12", 
+                                    "updated_at": "2018-11-21 17:01:15", 
+                                    "isChecked": 0, 
+                                    "children": [ ]
+                                }, 
+                                {
+                                    "id": 4, 
+                                    "parent_id": 2, 
+                                    "title": "角色配置", 
+                                    "vue_router": "/admin/system/basic/role", 
+                                    "vue_name": "role", 
+                                    "laravel_router": "", 
+                                    "icon": "", 
+                                    "is_menu": 0, 
+                                    "status": 1, 
+                                    "sort": 2, 
+                                    "created_at": "2018-09-03 13:49:44", 
+                                    "updated_at": "2018-09-03 13:49:47", 
+                                    "isChecked": 1, 
+                                    "children": [ ]
+                                }, 
+                                {
+                                    "id": 3, 
+                                    "parent_id": 2, 
+                                    "title": "模块配置", 
+                                    "vue_router": "/admin/system/basic/module", 
+                                    "vue_name": "module", 
+                                    "laravel_router": "", 
+                                    "icon": "", 
+                                    "is_menu": 0, 
+                                    "status": 1, 
+                                    "sort": 1, 
+                                    "created_at": "2018-09-03 13:49:10", 
+                                    "updated_at": "2018-09-03 13:49:13", 
+                                    "isChecked": 1, 
+                                    "children": [ ]
+                                }
+                                ]
+                            }
+                            ]
+                        }
+                    ] */
+            roleAuth: []
+        };
     },
 
+    computed: {
+        /* roleAuth () {
+            return this.$store.getters.getRoleAuth;
+        }, */
+        roleInfo: function roleInfo() {
+            return this.$store.state.role.roleInfo;
+        }
+    },
     watch: {
-        /* value(newVal, oldVal) {
-            $emit('input', $event.target.value);
-        } */
+        value: function value(newVal, oldVal) {
+            this.isModal = newVal;
+        },
+        isModal: function isModal(newVal, oldVal) {
+            this.$emit('input', newVal);
+        },
+        roleId: function roleId(newVal) {
+            var that = this;
+            __WEBPACK_IMPORTED_MODULE_1__js_api_role_js__["a" /* default */].getRoleAuth({ id: newVal }).then(function (response) {
+                console.log(response);
+                that.roleAuth = response.data.AuthTree;
+            }).catch(function () {});
+        }
     },
     methods: {
         handleChangeModal: function handleChangeModal(event) {
@@ -96878,7 +97064,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     created: function created() {
-        console.log(this.isModal);
+        //this.$store.dispatch('loadRoleAuth', {id:'8bce12cbdfaf480fa69172e28eefb891'});
     }
 });
 
@@ -96894,11 +97080,6 @@ var render = function() {
     "Modal",
     {
       attrs: { title: "权限分配", width: "80%" },
-      on: {
-        change: function($event) {
-          _vm.handleChangeModal(_vm.event)
-        }
-      },
       model: {
         value: _vm.isModal,
         callback: function($$v) {
@@ -96908,6 +97089,8 @@ var render = function() {
       }
     },
     [
+      _c("auth-tree", { attrs: { data: _vm.roleAuth } }),
+      _vm._v(" "),
       _c(
         "div",
         { attrs: { slot: "footer" }, slot: "footer" },
@@ -96922,7 +97105,8 @@ var render = function() {
         ],
         1
       )
-    ]
+    ],
+    1
   )
 }
 var staticRenderFns = []
@@ -97140,6 +97324,7 @@ var render = function() {
       ),
       _vm._v(" "),
       _c("allot-permissions", {
+        attrs: { "role-id": _vm.roleId },
         model: {
           value: _vm.isAuthModal,
           callback: function($$v) {
@@ -97260,7 +97445,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_api_role_js__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__auth_tree__ = __webpack_require__(105);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_auth_tree__ = __webpack_require__(143);
 //
 //
 //
@@ -97283,7 +97468,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     components: {
-        AuthTree: __WEBPACK_IMPORTED_MODULE_1__auth_tree__["a" /* default */]
+        AuthTree: __WEBPACK_IMPORTED_MODULE_1__components_auth_tree__["a" /* default */]
     },
     data: function data() {
         return {
@@ -97340,346 +97525,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 105 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__auth_tree_vue__ = __webpack_require__(106);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__auth_tree_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__auth_tree_vue__);
-
-/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__auth_tree_vue___default.a);
-
-/***/ }),
-/* 106 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(107)
-}
-var normalizeComponent = __webpack_require__(0)
-/* script */
-var __vue_script__ = __webpack_require__(109)
-/* template */
-var __vue_template__ = __webpack_require__(119)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/js/views/admin/role/auth-tree/auth-tree.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-ee4788c6", Component.options)
-  } else {
-    hotAPI.reload("data-v-ee4788c6", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 107 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(108);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(5)("ab8705a8", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-ee4788c6\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./auth-tree.vue", function() {
-     var newContent = require("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-ee4788c6\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./auth-tree.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 108 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(3)(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 109 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__auth_tree_node_vue__ = __webpack_require__(24);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__auth_tree_node_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__auth_tree_node_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index_scss__ = __webpack_require__(115);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index_scss___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__index_scss__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    name: 'auth-tree',
-    components: { AuthTreeNode: __WEBPACK_IMPORTED_MODULE_0__auth_tree_node_vue___default.a },
-    props: {
-        data: {
-            type: Array,
-            default: function _default() {
-                return [];
-            }
-        }
-    },
-    data: function data() {
-        return {
-            authTree: this.data,
-            flatAuth: []
-        };
-    },
-
-    computed: {},
-    methods: {
-        compileFlatAuth: function compileFlatAuth() {
-            var keyCounter = 0;
-            var flatTree = [];
-            function flattenChildren(node, parent) {
-                node.nodeKey = keyCounter++;
-                flatTree[node.nodeKey] = { node: node, nodeKey: node.nodeKey };
-                if (typeof parent != 'undefined') {
-                    flatTree[node.nodeKey].parent = parent.nodeKey;
-                    flatTree[parent.nodeKey]['children'].push(node.nodeKey);
-                }
-
-                if (node['children']) {
-                    flatTree[node.nodeKey]['children'] = [];
-                    node['children'].forEach(function (child) {
-                        return flattenChildren(child, node);
-                    });
-                }
-            }
-
-            this.authTree.forEach(function (rootNode) {
-                flattenChildren(rootNode);
-            });
-
-            return flatTree;
-        },
-        refreshTreeUp: function refreshTreeUp(nodeKey) {
-            //向上刷新树节点数据
-            var parentKey = this.flatAuth[nodeKey].parent;
-            if (typeof parentKey == 'undefined') return;
-
-            var nullCount = 0;
-            var fullCount = 0;
-            var node = this.flatAuth[nodeKey].node;
-            var parentNode = this.flatAuth[parentKey].node;
-
-            for (var key in parentNode['children']) {
-                if (parentNode['children'][key].isChecked === 0) {
-                    nullCount++;
-                } else if (parentNode['children'][key].isChecked === 1 && !parentNode['children'][key].indeterminate) {
-                    fullCount++;
-                }
-            }
-
-            if (parentNode['children'].length === nullCount) {
-                this.$set(parentNode, 'isChecked', 0);
-                this.$set(parentNode, 'indeterminate', false);
-            } else if (parentNode['children'].length === fullCount) {
-                this.$set(parentNode, 'isChecked', 1);
-                this.$set(parentNode, 'indeterminate', false);
-            } else {
-                this.$set(parentNode, 'isChecked', 1);
-                this.$set(parentNode, 'indeterminate', true);
-            }
-
-            this.refreshTreeUp(parentKey);
-        },
-        refreshTreeDown: function refreshTreeDown(node) {
-            var _this = this;
-
-            var changes = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-            //向下刷新树节点数据
-
-            for (var key in changes) {
-                this.$set(node, key, changes[key]);
-            }
-            if (node['children']) {
-                node['children'].forEach(function (child) {
-                    _this.refreshTreeDown(child, changes);
-                });
-            }
-        },
-        rebuildTree: function rebuildTree() {
-            for (var key in this.flatAuth) {
-                if (this.flatAuth[key].node.isChecked) {
-                    this.refreshTreeUp(this.flatAuth[key].nodeKey);
-                }
-            }
-        },
-        handleCheck: function handleCheck(_ref) {
-            var checked = _ref.checked,
-                nodeKey = _ref.nodeKey;
-
-            var node = this.flatAuth[nodeKey].node;
-            this.$set(node, 'isChecked', checked);
-            this.$set(node, 'indeterminate', false);
-
-            this.refreshTreeUp(nodeKey);
-            this.refreshTreeDown(node, { isChecked: checked, indeterminate: false });
-        }
-    },
-    created: function created() {
-        this.flatAuth = this.compileFlatAuth();
-        this.rebuildTree();
-        console.log(this.data);
-    },
-    mounted: function mounted() {
-        this.$on('on-check', this.handleCheck);
-    }
-});
-
-/***/ }),
-/* 110 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(111);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(5)("9108ee20", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-4db764e2\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./auth-tree-node.vue", function() {
-     var newContent = require("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-4db764e2\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./auth-tree-node.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 111 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(3)(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 112 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__auth_tree_node_vue__ = __webpack_require__(24);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__auth_tree_node_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__auth_tree_node_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_iview_src_mixins_emitter_js__ = __webpack_require__(113);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    name: 'auth-tree-node',
-    mixins: [__WEBPACK_IMPORTED_MODULE_1_iview_src_mixins_emitter_js__["a" /* default */]],
-    components: { AuthTreeNode: __WEBPACK_IMPORTED_MODULE_0__auth_tree_node_vue___default.a },
-    props: ['model'],
-    data: function data() {
-        return {
-            author: this.model
-        };
-    },
-
-    computed: {
-        isFolder: function isFolder() {
-            return this.model.children && this.model.children.length;
-        },
-        isChildren: function isChildren() {
-            return !this.model.children || !this.model.children.length ? 'active-children' : '';
-        }
-    },
-    methods: {
-        onChangeAuth: function onChangeAuth(isCheck) {
-            //Vue2.x已移除dispatch方法，该方法使用的是iview-UI自定义的方法，用于事件分发，源码：iview/src/mixins/emitter.js
-            this.dispatch('auth-tree', 'on-check', { checked: isCheck, nodeKey: this.model.nodeKey });
-        }
-    }
-});
-
-/***/ }),
+/* 105 */,
+/* 106 */,
+/* 107 */,
+/* 108 */,
+/* 109 */,
+/* 110 */,
+/* 111 */,
+/* 112 */,
 /* 113 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -97720,109 +97573,9 @@ function broadcast(componentName, eventName, params) {
 });
 
 /***/ }),
-/* 114 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "li",
-    { class: _vm.isChildren },
-    [
-      _c(
-        "Checkbox",
-        {
-          attrs: {
-            "true-value": 1,
-            "false-value": 0,
-            indeterminate: _vm.author.indeterminate
-          },
-          on: { "on-change": _vm.onChangeAuth },
-          model: {
-            value: _vm.author.isChecked,
-            callback: function($$v) {
-              _vm.$set(_vm.author, "isChecked", $$v)
-            },
-            expression: "author.isChecked"
-          }
-        },
-        [_c("span", [_vm._v(_vm._s(_vm.model.title))])]
-      ),
-      _vm._v(" "),
-      _vm.isFolder
-        ? _c(
-            "ul",
-            { staticClass: "auth-tree-node" },
-            _vm._l(_vm.author.children, function(model, key, index) {
-              return _c("auth-tree-node", {
-                key: index,
-                attrs: { index: key, model: model }
-              })
-            })
-          )
-        : _vm._e()
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-4db764e2", module.exports)
-  }
-}
-
-/***/ }),
-/* 115 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(116);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(117)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/sass-loader/lib/loader.js!./index.scss", function() {
-			var newContent = require("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/sass-loader/lib/loader.js!./index.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 116 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(3)(false);
-// imports
-
-
-// module
-exports.push([module.i, ".role-author-tree ul {\n  list-style-type: none; }\n\n.role-author-tree .auth-tree > li {\n  padding: 15px;\n  border: 1px solid #eee;\n  border-radius: 6px;\n  margin-bottom: 14px;\n  box-shadow: 0 2px 2px 0 #ddd; }\n\n.role-author-tree .auth-tree .auth-tree-node {\n  display: inline-block;\n  vertical-align: middle; }\n\n.role-author-tree .auth-tree .auth-tree-node .active-children {\n  display: inline-block;\n  vertical-align: middle;\n  margin-right: 4px; }\n\n.role-author-tree .auth-tree li .ivu-checkbox-wrapper {\n  width: 100px; }\n", ""]);
-
-// exports
-
-
-/***/ }),
+/* 114 */,
+/* 115 */,
+/* 116 */,
 /* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -98277,37 +98030,7 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 119 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "role-author-tree" }, [
-    _c(
-      "ul",
-      { staticClass: "auth-tree" },
-      _vm._l(_vm.authTree, function(model, key, index) {
-        return _c("auth-tree-node", {
-          key: index,
-          attrs: { index: key, model: model }
-        })
-      })
-    )
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-ee4788c6", module.exports)
-  }
-}
-
-/***/ }),
+/* 119 */,
 /* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -101811,6 +101534,537 @@ var admin = {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 136 */,
+/* 137 */,
+/* 138 */,
+/* 139 */,
+/* 140 */,
+/* 141 */,
+/* 142 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(148)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(150)
+/* template */
+var __vue_template__ = __webpack_require__(151)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/views/admin/role/components/auth-tree/auth-tree-node.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-64072517", Component.options)
+  } else {
+    hotAPI.reload("data-v-64072517", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 143 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__auth_tree_vue__ = __webpack_require__(144);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__auth_tree_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__auth_tree_vue__);
+
+/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__auth_tree_vue___default.a);
+
+/***/ }),
+/* 144 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(145)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(147)
+/* template */
+var __vue_template__ = __webpack_require__(154)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/views/admin/role/components/auth-tree/auth-tree.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-cfaf2370", Component.options)
+  } else {
+    hotAPI.reload("data-v-cfaf2370", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 145 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(146);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(5)("7b518773", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../../../node_modules/css-loader/index.js!../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-cfaf2370\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./auth-tree.vue", function() {
+     var newContent = require("!!../../../../../../../node_modules/css-loader/index.js!../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-cfaf2370\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./auth-tree.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 146 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 147 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__auth_tree_node_vue__ = __webpack_require__(142);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__auth_tree_node_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__auth_tree_node_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index_scss__ = __webpack_require__(152);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index_scss___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__index_scss__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: 'auth-tree',
+    components: { AuthTreeNode: __WEBPACK_IMPORTED_MODULE_0__auth_tree_node_vue___default.a },
+    props: {
+        data: {
+            type: Array,
+            default: function _default() {
+                return [];
+            }
+        }
+    },
+    data: function data() {
+        return {
+            authTree: this.data,
+            flatAuth: []
+        };
+    },
+
+    computed: {},
+    methods: {
+        compileFlatAuth: function compileFlatAuth() {
+            var keyCounter = 0;
+            var flatTree = [];
+            function flattenChildren(node, parent) {
+                node.nodeKey = keyCounter++;
+                flatTree[node.nodeKey] = { node: node, nodeKey: node.nodeKey };
+                if (typeof parent != 'undefined') {
+                    flatTree[node.nodeKey].parent = parent.nodeKey;
+                    flatTree[parent.nodeKey]['children'].push(node.nodeKey);
+                }
+
+                if (node['children']) {
+                    flatTree[node.nodeKey]['children'] = [];
+                    node['children'].forEach(function (child) {
+                        return flattenChildren(child, node);
+                    });
+                }
+            }
+
+            this.authTree.forEach(function (rootNode) {
+                flattenChildren(rootNode);
+            });
+
+            return flatTree;
+        },
+        refreshTreeUp: function refreshTreeUp(nodeKey) {
+            //向上刷新树节点数据
+            var parentKey = this.flatAuth[nodeKey].parent;
+            if (typeof parentKey == 'undefined') return;
+
+            var nullCount = 0;
+            var fullCount = 0;
+            var node = this.flatAuth[nodeKey].node;
+            var parentNode = this.flatAuth[parentKey].node;
+
+            for (var key in parentNode['children']) {
+                if (parentNode['children'][key].isChecked === 0) {
+                    nullCount++;
+                } else if (parentNode['children'][key].isChecked === 1 && !parentNode['children'][key].indeterminate) {
+                    fullCount++;
+                }
+            }
+
+            if (parentNode['children'].length === nullCount) {
+                this.$set(parentNode, 'isChecked', 0);
+                this.$set(parentNode, 'indeterminate', false);
+            } else if (parentNode['children'].length === fullCount) {
+                this.$set(parentNode, 'isChecked', 1);
+                this.$set(parentNode, 'indeterminate', false);
+            } else {
+                this.$set(parentNode, 'isChecked', 1);
+                this.$set(parentNode, 'indeterminate', true);
+            }
+
+            this.refreshTreeUp(parentKey);
+        },
+        refreshTreeDown: function refreshTreeDown(node) {
+            var _this = this;
+
+            var changes = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+            //向下刷新树节点数据
+
+            for (var key in changes) {
+                this.$set(node, key, changes[key]);
+            }
+            if (node['children']) {
+                node['children'].forEach(function (child) {
+                    _this.refreshTreeDown(child, changes);
+                });
+            }
+        },
+        rebuildTree: function rebuildTree() {
+            for (var key in this.flatAuth) {
+                if (this.flatAuth[key].node.isChecked) {
+                    this.refreshTreeUp(this.flatAuth[key].nodeKey);
+                }
+            }
+        },
+        handleCheck: function handleCheck(_ref) {
+            var checked = _ref.checked,
+                nodeKey = _ref.nodeKey;
+
+            var node = this.flatAuth[nodeKey].node;
+            this.$set(node, 'isChecked', checked);
+            this.$set(node, 'indeterminate', false);
+
+            this.refreshTreeUp(nodeKey);
+            this.refreshTreeDown(node, { isChecked: checked, indeterminate: false });
+        }
+    },
+    created: function created() {
+        this.flatAuth = this.compileFlatAuth();
+        this.rebuildTree();
+        console.log(this.data);
+    },
+    mounted: function mounted() {
+        this.$on('on-check', this.handleCheck);
+    }
+});
+
+/***/ }),
+/* 148 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(149);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(5)("c208612a", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../../../node_modules/css-loader/index.js!../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-64072517\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./auth-tree-node.vue", function() {
+     var newContent = require("!!../../../../../../../node_modules/css-loader/index.js!../../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-64072517\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./auth-tree-node.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 149 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 150 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__auth_tree_node_vue__ = __webpack_require__(142);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__auth_tree_node_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__auth_tree_node_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_iview_src_mixins_emitter_js__ = __webpack_require__(113);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: 'auth-tree-node',
+    mixins: [__WEBPACK_IMPORTED_MODULE_1_iview_src_mixins_emitter_js__["a" /* default */]],
+    components: { AuthTreeNode: __WEBPACK_IMPORTED_MODULE_0__auth_tree_node_vue___default.a },
+    props: ['model'],
+    data: function data() {
+        return {
+            author: this.model
+        };
+    },
+
+    computed: {
+        isFolder: function isFolder() {
+            return this.model.children && this.model.children.length;
+        },
+        isChildren: function isChildren() {
+            return !this.model.children || !this.model.children.length ? 'active-children' : '';
+        }
+    },
+    methods: {
+        onChangeAuth: function onChangeAuth(isCheck) {
+            //Vue2.x已移除dispatch方法，该方法使用的是iview-UI自定义的方法，用于事件分发，源码：iview/src/mixins/emitter.js
+            this.dispatch('auth-tree', 'on-check', { checked: isCheck, nodeKey: this.model.nodeKey });
+        }
+    }
+});
+
+/***/ }),
+/* 151 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "li",
+    { class: _vm.isChildren },
+    [
+      _c(
+        "Checkbox",
+        {
+          attrs: {
+            "true-value": 1,
+            "false-value": 0,
+            indeterminate: _vm.author.indeterminate
+          },
+          on: { "on-change": _vm.onChangeAuth },
+          model: {
+            value: _vm.author.isChecked,
+            callback: function($$v) {
+              _vm.$set(_vm.author, "isChecked", $$v)
+            },
+            expression: "author.isChecked"
+          }
+        },
+        [_c("span", [_vm._v(_vm._s(_vm.model.title))])]
+      ),
+      _vm._v(" "),
+      _vm.isFolder
+        ? _c(
+            "ul",
+            { staticClass: "auth-tree-node" },
+            _vm._l(_vm.author.children, function(model, key, index) {
+              return _c("auth-tree-node", {
+                key: index,
+                attrs: { index: key, model: model }
+              })
+            })
+          )
+        : _vm._e()
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-64072517", module.exports)
+  }
+}
+
+/***/ }),
+/* 152 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(153);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(117)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../../../../../node_modules/css-loader/index.js!../../../../../../../node_modules/sass-loader/lib/loader.js!./index.scss", function() {
+			var newContent = require("!!../../../../../../../node_modules/css-loader/index.js!../../../../../../../node_modules/sass-loader/lib/loader.js!./index.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 153 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)(false);
+// imports
+
+
+// module
+exports.push([module.i, ".role-author-tree ul {\n  list-style-type: none; }\n\n.role-author-tree .auth-tree > li {\n  padding: 15px;\n  border: 1px solid #eee;\n  border-radius: 6px;\n  margin-bottom: 14px;\n  box-shadow: 0 2px 2px 0 #ddd; }\n\n.role-author-tree .auth-tree .auth-tree-node {\n  display: inline-block;\n  vertical-align: middle; }\n\n.role-author-tree .auth-tree .auth-tree-node .active-children {\n  display: inline-block;\n  vertical-align: middle;\n  margin-right: 4px; }\n\n.role-author-tree .auth-tree li .ivu-checkbox-wrapper {\n  width: 100px; }\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 154 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "role-author-tree" }, [
+    _c(
+      "ul",
+      { staticClass: "auth-tree" },
+      _vm._l(_vm.authTree, function(model, key, index) {
+        return _c("auth-tree-node", {
+          key: index,
+          attrs: { index: key, model: model }
+        })
+      })
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-cfaf2370", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

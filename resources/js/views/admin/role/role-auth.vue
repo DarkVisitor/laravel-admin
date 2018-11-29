@@ -17,7 +17,7 @@
 
 <script>
 import RoleAPI from '@js/api/role.js';
-import AuthTree from './auth-tree';
+import AuthTree from './components/auth-tree';
 export default {
     components: {
         AuthTree
