@@ -224,3 +224,9 @@ html [type=button], html .ivu-btn {
     height: 680px;
     z-index: 1000;
   }
+
+
+  // iView modal css.
+  .ivu-modal .ivu-modal-body {
+    position: relative;
+  }

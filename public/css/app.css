@@ -10734,6 +10734,10 @@ html .ivu-btn {
   z-index: 1000;
 }
 
+.ivu-modal .ivu-modal-body {
+  position: relative;
+}
+
 .login {
   width: 100%;
   height: 100%;

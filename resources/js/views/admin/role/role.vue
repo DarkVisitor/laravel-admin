@@ -1,8 +1,23 @@
+<style>
+    .demo-spin-icon-load{
+        animation: ani-demo-spin 1s linear infinite;
+    }
+    @keyframes ani-demo-spin {
+        from { transform: rotate(0deg);}
+        50%  { transform: rotate(180deg);}
+        to   { transform: rotate(360deg);}
+    }
+    .demo-spin-col{
+        height: 100px;
+        position: relative;
+        border: 1px solid #eee;
+    }
+</style>
 <template>
     <div>
         <div class="content-header">
             <div class="header-action">
-                <Button v-show="true" type="info" icon="android-add" @click="addRoleToModal('新增')">新增</Button>
+                <Button v-show="true" type="info" icon="android-add" @click="createRoleGroupInfo">新增</Button>
             </div>
         </div>
         <div style="margin-bottom: 20px;">
@@ -10,18 +25,21 @@
         </div>
 
         <!-- Role info -->
-        <Modal v-model="isModal" :title="modalTitle" @on-visible-change="listenVisibleChange">
-            <Form ref="roleData" :model="roleData" :rules="ruleValidate" :label-width="100"> 
+        <Modal v-model="isInfoModal" :title="infoModalTitle" @on-visible-change="listenVisibleChange">
+            <Spin fix v-if="spinShow">
+                <Icon type="ios-loading" size=50 class="demo-spin-icon-load"></Icon>
+            </Spin>
+            <Form ref="roleGroupForm" :model="roleGroupForm" :rules="ruleValidate" :label-width="100"> 
                 <FormItem label="分组名称" prop="title">
-                    <Input class="modal-form-item" placeholder="请输入分组名称" v-model="roleData.title"></Input>
+                    <Input class="modal-form-item" placeholder="请输入分组名称" v-model="roleGroupForm.title"></Input>
                 </FormItem>
-                <FormItem label="分组描述">
-                    <Input class="modal-form-item" type="textarea" :rows="4" placeholder="请输入分组描述" v-model="roleData.remarks"></Input>
+                <FormItem label="分组描述" prop="remarks">
+                    <Input class="modal-form-item" type="textarea" :rows="4" placeholder="请输入分组描述" v-model="roleGroupForm.remarks"></Input>
                 </FormItem>
             </Form>
             <div slot="footer">
-                <Button type="text" size="large" @click="modalCancel">取消</Button>
-                <Button type="primary" size="large" @click="modalOk">保存</Button>
+                <Button type="text" size="large" @click="handleInfoCancel">取消</Button>
+                <Button type="primary" size="large" :loading="loading" @click="handleInfoSave">保存</Button>
             </div>
         </Modal>
         <!-- Role info -->
@@ -59,9 +77,11 @@ export default {
     data () {
         return {
             roleId: '',
-            isModal: false,
-            modalTitle: '新增',
-            roleData: {
+            loading: false,
+            isInfoModal: false,
+            infoModalTitle: '新增',
+            spinShow: false,
+            roleGroupForm: {
                 id: '',
                 title: '',
                 remarks: ''
@@ -170,7 +190,7 @@ export default {
                                 },
                                 on: {
                                     click: () => {
-                                        this.editRoleToModal('编辑', params.row.id);
+                                        this.updateRoleGroupInfo(params.row.id);
                                     }
                                 }
                             }),
@@ -229,62 +249,11 @@ export default {
 
             this.$router.push({path:index})
         },
-        /** 新增模块 at Modal */
-        addRoleToModal: function(title) {
-            this.isModal = true;
-            this.modalTitle = title;
-        },
-        /** 编辑模块 at Modal */
-        editRoleToModal: function(title, id){
-            let that = this;
-            this.modalTitle = title;
-            RoleAPI.getRoleInfo({id:id})
-                .then(function(response){
-                    if(response.data.code){
-                        that.$Message.error(response.data.msg);
-                    }else{
-                        that.roleData = response.data.data;
-                        that.isModal = true;
-                    }
-                })
-                .catch(function(){
-                    that.$Message.info('系统繁忙，请稍后再试!');
-                });              
-        },
-        /** Modal 确定按钮点击事件 */
-        modalOk: function(){
-            this.$refs.roleData.validate((valid)=>{
-                if (valid) {
-                    let that = this;
-                    RoleAPI.postRoleInfo(that.roleData)
-                        .then(function(response){
-                            if(response.data.code){
-                                that.$Message.error(response.data.msg);
-                            }else{
-                                that.$Message.success(response.data.msg);
-                                that.$store.dispatch('loadRoleList');
-                                that.isModal = false;
-                            }
-                        })
-                        .catch(function(){
-                            that.$Message.info('系统繁忙，请稍后再试!');
-                        });
-                } else {
-                    
-                }
-            });
-        },
-        /** Modal 取消按钮点击事件 */
-        modalCancel: function(){
-            //重置表单
-            this.$refs.roleData.resetFields();
-            //隐藏Modal
-            this.isModal= false;
-        },
+        
         /** 监听Modal显示状态发生改变时 */
         listenVisibleChange: function(visible){
             //Modal隐藏时重置表单
-            if (!visible) this.$refs.roleData.resetFields();
+            if (!visible) this.$refs.roleGroupForm.resetFields();
         },
         /** 删除角色数据 */
         deleteRole: function(index, id){
@@ -341,7 +310,75 @@ export default {
         },
         cancelAllotMember () {
             this.isAdminModal = false;
+        },
+        /** Create role group info. */
+        createRoleGroupInfo() {
+            this.isInfoModal = true;
+            this.infoModalTitle = '新增';
+        },
+        /** Update role group info. */
+        updateRoleGroupInfo(id) {
+            let that = this;
+            that.infoModalTitle = '编辑';
+            that.spinShow = true;
+            that.isInfoModal = true;
+            RoleAPI.getRoleInfo({id:id})
+                .then(function(response){
+                    if(response.data.code){
+                        that.$Message.error(response.data.msg);
+                        that.isInfoModal = false;
+                    }else{
+                        that.roleGroupForm = response.data.data;
+                    }
+                    that.spinShow = false;
+                })
+                .catch(function(){
+                    that.$Message.info('系统繁忙，请稍后再试!');
+                    that.isInfoModal = false;
+                });
+        },
+        /** Admin group modal cancel event. */
+        handleInfoCancel() {
+            // Reset from
+            this.$refs['roleGroupForm'].resetFields();
+            this.resetRoleGroupFormFields();
+            // Hide modal
+            this.isInfoModal= false;
+        },
+        /** Administrator group form submission event. */
+        handleInfoSave() {
+            this.$refs.roleGroupForm.validate((valid)=>{
+                if (valid) {
+                    let that = this;
+                    that.loading = true;
+                    RoleAPI.postRoleInfo(that.roleGroupForm)
+                        .then(function(response){
+                            if(response.data.code){
+                                that.$Message.error(response.data.msg);
+                            }else{
+                                that.$Message.success(response.data.msg);
+                                that.$store.dispatch('loadRoleList');
+                                that.isInfoModal = false;
+                                that.loading = false;
+                            }
+                        })
+                        .catch(function(){
+                            that.$Message.info('系统繁忙，请稍后再试!');
+                        });
+                } else {
+                    
+                }
+            });
+        },
+        /** Reset role group fileds. */
+        resetRoleGroupFormFields() {
+            this.roleGroupForm = {
+                id: '',
+                title: '',
+                remarks: ''
+            };
         }
+
     },
     created () {
         this.$store.dispatch('loadRoleList');
