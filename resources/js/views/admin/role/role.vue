@@ -6,7 +6,7 @@
             </div>
         </div>
         <div style="margin-bottom: 20px;">
-            <Table ref="table" :columns="columns4" :data="roleList" :border="true"></Table>
+            <Table ref="table" :columns="columns4" :data="roleList" :border="true" :loading="loading"></Table>
         </div>
 
         <!-- Role info -->
@@ -228,6 +228,7 @@ export default {
     },
     computed: {
         roleList () {
+            this.loading = false;
             return this.$store.getters.getRoleList.data;
         },
         roleInfo () {
@@ -424,8 +425,10 @@ export default {
                 });
         }
     },
-    created () {
+    mounted () {
+        this.loading = true;
         this.$store.dispatch('loadRoleList');
     }
+    
 }
 </script>

@@ -71,9 +71,9 @@ class AdminService
     public function getAdminInfo()
     {
         $admins = auth('admin')->user()->toArray();
-        $roles = $this->roleRepository->findAdminByRole($admins['id']);
+        $roles = $this->roleRepository->findAdminByRole($admins['id']);info($roles);
         $authority = array();
-        if ($roles->isNotEmpty()){
+        if ($roles){
             foreach ($roles as $role){
                 $authority = array_merge($authority, explode(",", $role["authority"]));
             }

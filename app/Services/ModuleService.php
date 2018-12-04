@@ -41,7 +41,7 @@ class ModuleService
 
         $roles = $this->roleRepository->findAdminByRole($request->id);
         $authority = array();
-        if ($roles->isNotEmpty()){
+        if ($roles){
             foreach ($roles as $role){
                 $authority = array_merge($authority, explode(",", $role["authority"]));
             }

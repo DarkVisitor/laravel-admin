@@ -44,7 +44,7 @@
                     <Menu ref="siderMenu" :active-name="siderActiveName" theme="light" width="auto" :open-names="[siderOpenNames]" @on-open-change="handleSiderOpenChange">
                         <Submenu v-for="(item, index) in siderMenuList" :key="index" :name="item.vue_name">
                             <template slot="title">
-                                <Icon type="ios-navigate"></Icon>
+                                <Icon :type="item.icon"></Icon>
                                 {{item.title}}
                             </template>
                             <MenuItem v-for="(menu, menuIndex) in item.children" :key="menuIndex" :name="menu.vue_name" :to="menu.vue_router">{{menu.title}}</MenuItem>

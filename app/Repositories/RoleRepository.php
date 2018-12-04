@@ -31,12 +31,10 @@ class RoleRepository extends Repository
     public function findAdminByRole($id)
     {
         return $this->model
-            ->with([
-                'belongsToManyAdmin' => function($query) use ($id){
-                    $query->where('id', $id);
-                }
-            ])
-            ->get();
+            ->whereHas('belongsToManyAdmin', function($query) use ($id){
+                $query->where('id', $id);
+            })
+            ->get()->toArray();
     }
 
 

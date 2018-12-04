@@ -94119,7 +94119,7 @@ var render = function() {
                             "template",
                             { slot: "title" },
                             [
-                              _c("Icon", { attrs: { type: "ios-navigate" } }),
+                              _c("Icon", { attrs: { type: item.icon } }),
                               _vm._v(
                                 "\n                            " +
                                   _vm._s(item.title) +
@@ -96670,6 +96670,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     computed: {
         roleList: function roleList() {
+            this.loading = false;
             return this.$store.getters.getRoleList.data;
         },
         roleInfo: function roleInfo() {
@@ -96865,7 +96866,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         }
     },
-    created: function created() {
+    mounted: function mounted() {
+        this.loading = true;
         this.$store.dispatch('loadRoleList');
     }
 });
@@ -97883,7 +97885,12 @@ var render = function() {
         [
           _c("Table", {
             ref: "table",
-            attrs: { columns: _vm.columns4, data: _vm.roleList, border: true }
+            attrs: {
+              columns: _vm.columns4,
+              data: _vm.roleList,
+              border: true,
+              loading: _vm.loading
+            }
           })
         ],
         1
@@ -98288,6 +98295,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             trueValue: 1,
             falseValue: 0,
             spinShow: false,
+            loading: false,
             moduleData: {
                 id: '',
                 parent_id: -1,

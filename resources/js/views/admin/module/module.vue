@@ -67,6 +67,7 @@
                 trueValue: 1,
                 falseValue: 0,
                 spinShow: false,
+                loading: false,
                 moduleData: {
                     id: '',
                     parent_id: -1,
