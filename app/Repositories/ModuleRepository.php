@@ -94,4 +94,28 @@ class ModuleRepository extends Repository
             ->get()
             ->toArray();
     }
+
+
+    /**
+     * Get children modules.
+     *
+     * @param $id
+     * @return mixed
+     */
+    public function findModuleChildren($id)
+    {
+        return $this->model->where('parent_id', $id)->get()->toArray();
+    }
+
+
+    /**
+     * Delete module record.
+     *
+     * @param $id
+     * @return mixed
+     */
+    public function delete($id)
+    {
+        return $this->model->where('id', $id)->delete();
+    }
 }

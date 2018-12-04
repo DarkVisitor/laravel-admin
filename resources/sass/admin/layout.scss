@@ -230,3 +230,9 @@ html [type=button], html .ivu-btn {
   .ivu-modal .ivu-modal-body {
     position: relative;
   }
+
+
+  // Loading css.
+  .demo-spin-icon-load{
+    animation: ani-demo-spin 1s linear infinite;
+  }  

@@ -10738,6 +10738,11 @@ html .ivu-btn {
   position: relative;
 }
 
+.demo-spin-icon-load {
+  -webkit-animation: ani-demo-spin 1s linear infinite;
+          animation: ani-demo-spin 1s linear infinite;
+}
+
 .login {
   width: 100%;
   height: 100%;

@@ -63,7 +63,7 @@ export default {
      */
     deleteModule (data) {
         return axios({
-            url: '/deleteModule',
+            url: '/delModule',
             method: 'post',
             data: data
         });

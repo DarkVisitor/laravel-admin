@@ -120,16 +120,6 @@ export default [
                                 component: Vue.component('RoleConfig', require('@js/views/admin/role/role.vue'))
                             },
                             {
-                                path: 'roleAuth/:id',
-                                name: 'roleAuth',
-                                meta: {
-                                    title: '权限分配',
-                                    hideInMenu: false,
-                                    requiresLogin: true
-                                },
-                                component: Vue.component('RoleAuth', require('@js/views/admin/role/role-auth.vue'))
-                            },
-                            {
                                 path: 'module',
                                 name: 'module',
                                 meta: {

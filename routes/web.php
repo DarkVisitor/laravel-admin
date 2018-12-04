@@ -58,6 +58,8 @@ Route::group(['middleware' => 'web', 'prefix' => 'backend', 'namespace' => 'Admi
         Route::get('/navMenu', 'ModuleController@navMenuModule');
         Route::get('/editModule', 'ModuleController@edit');
         Route::post('/saveModule', 'ModuleController@save');
+        Route::post('/delModule', 'ModuleController@delete');
+        Route::post('/updateModuleStatus', 'ModuleController@updateStatus');
 
 
         /**
@@ -70,6 +72,7 @@ Route::group(['middleware' => 'web', 'prefix' => 'backend', 'namespace' => 'Admi
         Route::get('/roleMember', 'RoleController@roleMember');
         Route::post('/allotMember', 'RoleController@allotMember');
         Route::get('/roleAuth', 'RoleController@allotAuthority');
+        Route::post('/allotAuth', 'RoleController@saveRoleAuth');
 
     });
 });

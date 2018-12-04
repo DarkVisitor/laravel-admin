@@ -12281,7 +12281,7 @@ __WEBPACK_IMPORTED_MODULE_0_axios___default.a.interceptors.response.use(function
     postRoleAuth: function postRoleAuth(data) {
 
         return axios({
-            url: '/saveRoleAuth',
+            url: '/allotAuth',
             method: 'post',
             data: data
         });
@@ -67227,15 +67227,6 @@ router.afterEach(function (to) {
                 },
                 component: __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('RoleConfig', __webpack_require__(95))
             }, {
-                path: 'roleAuth/:id',
-                name: 'roleAuth',
-                meta: {
-                    title: '权限分配',
-                    hideInMenu: false,
-                    requiresLogin: true
-                },
-                component: __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('RoleAuth', __webpack_require__(118))
-            }, {
                 path: 'module',
                 name: 'module',
                 meta: {
@@ -67386,7 +67377,7 @@ module.exports = Component.exports
      */
     deleteModule: function deleteModule(data) {
         return Object(__WEBPACK_IMPORTED_MODULE_0__js_libs_axios_js__["a" /* default */])({
-            url: '/deleteModule',
+            url: '/delModule',
             method: 'post',
             data: data
         });
@@ -93785,7 +93776,6 @@ var render = function() {
           "Dropdown",
           {
             staticStyle: { "margin-top": "7px" },
-            attrs: { transfer: "" },
             on: { "on-click": _vm.handleTagsOption }
           },
           [
@@ -94163,6 +94153,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "Layout",
+                { staticStyle: { "overflow-y": "hidden" } },
                 [
                   _c(
                     "div",
@@ -94180,7 +94171,12 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "Content",
-                    { staticStyle: { "margin-top": "15px" } },
+                    {
+                      staticStyle: {
+                        "margin-top": "15px",
+                        "overflow-y": "auto"
+                      }
+                    },
                     [_c("router-view")],
                     1
                   )
@@ -96404,10 +96400,6 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(96)
-}
 var normalizeComponent = __webpack_require__(0)
 /* script */
 var __vue_script__ = __webpack_require__(98)
@@ -96416,7 +96408,7 @@ var __vue_template__ = __webpack_require__(117)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
-var __vue_styles__ = injectStyle
+var __vue_styles__ = null
 /* scopeId */
 var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
@@ -96451,55 +96443,15 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 96 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(97);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(4)("37eb9922", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-61d1e100\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./role.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-61d1e100\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./role.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 97 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(3)(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n.demo-spin-icon-load{\n    -webkit-animation: ani-demo-spin 1s linear infinite;\n            animation: ani-demo-spin 1s linear infinite;\n}\n@-webkit-keyframes ani-demo-spin {\nfrom { -webkit-transform: rotate(0deg); transform: rotate(0deg);\n}\n50%  { -webkit-transform: rotate(180deg); transform: rotate(180deg);\n}\nto   { -webkit-transform: rotate(360deg); transform: rotate(360deg);\n}\n}\n@keyframes ani-demo-spin {\nfrom { -webkit-transform: rotate(0deg); transform: rotate(0deg);\n}\n50%  { -webkit-transform: rotate(180deg); transform: rotate(180deg);\n}\nto   { -webkit-transform: rotate(360deg); transform: rotate(360deg);\n}\n}\n.demo-spin-col{\n    height: 100px;\n    position: relative;\n    border: 1px solid #eee;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
+/* 96 */,
+/* 97 */,
 /* 98 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_allot_permissions__ = __webpack_require__(99);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_auth_tree__ = __webpack_require__(24);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__js_api_role_js__ = __webpack_require__(8);
-//
-//
 //
 //
 //
@@ -96572,7 +96524,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     components: {
-        AllotPermissions: __WEBPACK_IMPORTED_MODULE_0__components_allot_permissions__["a" /* default */]
+        AuthTree: __WEBPACK_IMPORTED_MODULE_0__components_auth_tree__["a" /* default */]
     },
     data: function data() {
         var _this = this;
@@ -96580,9 +96532,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             roleId: '',
             loading: false,
+            spinShow: false,
             isInfoModal: false,
             infoModalTitle: '新增',
-            spinShow: false,
+            isMemberModal: false,
+            memberList: [],
+            allotMemberList: [],
+            transferTitle: ['未分配成员', '已分配成员'],
+            isAuthModal: false,
+            roleGroupAuthList: [],
             roleGroupForm: {
                 id: '',
                 title: '',
@@ -96643,13 +96601,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         },
                         on: {
                             click: function click() {
-                                //name 路由
-                                //this.$router.push({name: 'roleAuth', params: {id:params.row.id}});
-
-                                //path 路由
-                                //this.$router.push({path: `/admin/system/basic/roleAuth/${params.row.id}`});
-                                _this.isAuthModal = true;
-                                //this.$store.dispatch('loadRoleAuth', {id:params.row.id});
+                                _this.handleRoleGroupAuth(params.row.id);
                                 _this.roleId = params.row.id;
                             }
                         },
@@ -96712,12 +96664,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         }
                     })])]);
                 }
-            }],
-            isAdminModal: false,
-            adminList: [],
-            allotAdminList: [],
-            transferTitle: ['未分配成员', '已分配成员'],
-            isAuthModal: false
+            }]
         };
     },
 
@@ -96729,72 +96676,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return this.$store.getters.getRoleInfo.data;
         }
     },
+    watch: {},
     methods: {
-        handleSelectAll: function handleSelectAll(status) {
-            this.$refs.selection.selectAll(status);
-        },
-
-        selectedSecond: function selectedSecond(index) {
-
-            this.$router.push({ path: index });
-        },
-
-        /** 监听Modal显示状态发生改变时 */
-        listenVisibleChange: function listenVisibleChange(visible) {
-            //Modal隐藏时重置表单
-            if (!visible) this.$refs.roleGroupForm.resetFields();
-        },
-        /** 删除角色数据 */
-        deleteRole: function deleteRole(index, id) {
-            var that = this;
-            __WEBPACK_IMPORTED_MODULE_1__js_api_role_js__["a" /* default */].delRoleInfo({ id: id }).then(function (response) {
-                if (response.data.code) {
-                    that.$Message.error(response.data.msg);
-                } else {
-                    that.$Message.success(response.data.msg);
-                    that.roleList.splice(index, 1);
-                }
-            }).catch(function () {
-                that.$Message.info('系统繁忙，请稍后再试！');
-            });
-        },
-        handleAllotMembers: function handleAllotMembers(id) {
-            var that = this;
-            that.roleId = id;
-            __WEBPACK_IMPORTED_MODULE_1__js_api_role_js__["a" /* default */].findRoleByMember({ id: id }).then(function (response) {
-                if (response.data.code) {
-                    that.$Message.error(response.data.msg);
-                    return false;
-                }
-                that.adminList = response.data.adminList;
-                that.allotAdminList = response.data.roleMembers;
-                that.isAdminModal = true;
-            }).catch(function (error) {
-                that.$Message.info('系统繁忙，请稍后再试！');
-            });
-        },
-        /** 分配管理员 */
-        handleAllotAdminChange: function handleAllotAdminChange(newTargetKeys) {
-            this.allotAdminList = newTargetKeys;
-        },
-        saveAllotMember: function saveAllotMember() {
-            var that = this;
-            __WEBPACK_IMPORTED_MODULE_1__js_api_role_js__["a" /* default */].postAllotMember({ id: that.roleId, member: that.allotAdminList }).then(function (response) {
-                if (response.data.code) {
-                    that.$Message.error(response.data.msg);
-                } else {
-                    that.$Message.success(response.data.msg);
-                    that.isAdminModal = false;
-                    that.$store.dispatch('loadRoleList');
-                }
-            }).catch(function (error) {
-                that.$Message.info('系统繁忙，请稍后再试！');
-            });
-        },
-        cancelAllotMember: function cancelAllotMember() {
-            this.isAdminModal = false;
-        },
-
         /** Create role group info. */
         createRoleGroupInfo: function createRoleGroupInfo() {
             this.isInfoModal = true;
@@ -96809,8 +96692,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             that.isInfoModal = true;
             __WEBPACK_IMPORTED_MODULE_1__js_api_role_js__["a" /* default */].getRoleInfo({ id: id }).then(function (response) {
                 if (response.data.code) {
-                    that.$Message.error(response.data.msg);
                     that.isInfoModal = false;
+                    that.$Message.error(response.data.msg);
                 } else {
                     that.roleGroupForm = response.data.data;
                 }
@@ -96818,6 +96701,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).catch(function () {
                 that.$Message.info('系统繁忙，请稍后再试!');
                 that.isInfoModal = false;
+                that.spinShow = false;
             });
         },
 
@@ -96845,13 +96729,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                             that.$Message.success(response.data.msg);
                             that.$store.dispatch('loadRoleList');
                             that.isInfoModal = false;
-                            that.loading = false;
                         }
+                        that.loading = false;
                     }).catch(function () {
                         that.$Message.info('系统繁忙，请稍后再试!');
+                        that.loading = false;
                     });
-                } else {}
+                }
             });
+        },
+
+        /** Listen for User Group Information Modal Box to Send Change Events. */
+        listenInfoModalChange: function listenInfoModalChange(visible) {
+            if (!visible) {
+                this.$refs.roleGroupForm.resetFields();
+                this.resetRoleGroupFormFields();
+            }
         },
 
         /** Reset role group fileds. */
@@ -96861,6 +96754,115 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 title: '',
                 remarks: ''
             };
+        },
+
+        /** Delete user group information. */
+        deleteRole: function deleteRole(index, id) {
+            var that = this;
+            __WEBPACK_IMPORTED_MODULE_1__js_api_role_js__["a" /* default */].delRoleInfo({ id: id }).then(function (response) {
+                if (response.data.code) {
+                    that.$Message.error(response.data.msg);
+                } else {
+                    that.$Message.success(response.data.msg);
+                    that.roleList.splice(index, 1);
+                }
+            }).catch(function () {
+                that.$Message.info('系统繁忙，请稍后再试！');
+            });
+        },
+
+        /** Allot member to role. */
+        handleAllotMembers: function handleAllotMembers(id) {
+            var that = this;
+            that.roleId = id;
+            that.isMemberModal = true;
+            that.spinShow = true;
+            __WEBPACK_IMPORTED_MODULE_1__js_api_role_js__["a" /* default */].findRoleByMember({ id: id }).then(function (response) {
+                if (response.data.code) {
+                    that.isMemberModal = false;
+                    that.$Message.error(response.data.msg);
+                } else {
+                    that.memberList = response.data.adminList;
+                    that.allotMemberList = response.data.roleMembers;
+                }
+                that.spinShow = false;
+            }).catch(function (error) {
+                that.$Message.info('系统繁忙，请稍后再试！');
+                that.isMemberModal = false;
+                that.spinShow = false;
+            });
+        },
+
+        /** Allocation member. */
+        handleAllotMemberChange: function handleAllotMemberChange(newTargetKeys) {
+            this.allotMemberList = newTargetKeys;
+        },
+
+        /** Cancel member assignment operation. */
+        handleMemberCancel: function handleMemberCancel() {
+            this.isMemberModal = false;
+        },
+
+        /** Save member assignment information. */
+        handleMemberSave: function handleMemberSave() {
+            var that = this;
+            that.loading = true;
+            __WEBPACK_IMPORTED_MODULE_1__js_api_role_js__["a" /* default */].postAllotMember({ id: that.roleId, member: that.allotMemberList }).then(function (response) {
+                if (response.data.code) {
+                    that.$Message.error(response.data.msg);
+                } else {
+                    that.$Message.success(response.data.msg);
+                    that.isMemberModal = false;
+                    that.$store.dispatch('loadRoleList');
+                }
+                that.loading = false;
+            }).catch(function (error) {
+                that.$Message.info('系统繁忙，请稍后再试！');
+                that.loading = false;
+            });
+        },
+
+        /** Allocate role group permissions. */
+        handleRoleGroupAuth: function handleRoleGroupAuth(id) {
+            var that = this;
+            that.isAuthModal = true;
+            that.spinShow = true;
+            __WEBPACK_IMPORTED_MODULE_1__js_api_role_js__["a" /* default */].getRoleAuth({ id: id }).then(function (response) {
+                if (response.data.code) {
+                    that.$Message.error(response.data.msg);
+                    that.isAuthModal = false;
+                } else {
+                    that.roleGroupAuthList = response.data.authTree;
+                }
+                that.spinShow = false;
+            }).catch(function () {
+                that.$Message.info('系统繁忙，请稍后再试!');
+                that.isAuthModal = false;
+                that.spinShow = false;
+            });
+        },
+
+        /** Cancel assigning role group permissions. */
+        handleAuthCancel: function handleAuthCancel() {
+            this.isAuthModal = false;
+        },
+
+        /** Save role group permission information. */
+        handleAuthSave: function handleAuthSave() {
+            var that = this;
+            that.loading = true;
+            __WEBPACK_IMPORTED_MODULE_1__js_api_role_js__["a" /* default */].postRoleAuth({ id: this.roleId, authority: this.roleGroupAuthList }).then(function (response) {
+                if (response.data.code) {
+                    that.$Message.error(response.data.msg);
+                } else {
+                    that.$Message.success(response.data.msg);
+                    that.isAuthModal = false;
+                }
+                that.loading = false;
+            }).catch(function () {
+                that.$Message.info('系统繁忙，请稍后再试!');
+                that.loading = false;
+            });
         }
     },
     created: function created() {
@@ -96869,135 +96871,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 99 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__allot_permissions_vue__ = __webpack_require__(100);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__allot_permissions_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__allot_permissions_vue__);
-
-/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__allot_permissions_vue___default.a);
-
-/***/ }),
-/* 100 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(0)
-/* script */
-var __vue_script__ = __webpack_require__(101)
-/* template */
-var __vue_template__ = __webpack_require__(116)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/js/views/admin/role/components/allot-permissions/allot-permissions.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-759c2b7c", Component.options)
-  } else {
-    hotAPI.reload("data-v-759c2b7c", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 101 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__auth_tree__ = __webpack_require__(24);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__js_api_role_js__ = __webpack_require__(8);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    name: 'allot-permissions',
-    components: {
-        AuthTree: __WEBPACK_IMPORTED_MODULE_0__auth_tree__["a" /* default */]
-    },
-    props: {
-        value: {
-            type: Boolean,
-            default: false
-        },
-        roleId: String
-    },
-    data: function data() {
-        return {
-            isModal: false,
-            roleAuth: []
-        };
-    },
-
-    computed: {
-        /* roleAuth () {
-            return this.$store.getters.getRoleAuth;
-        }, */
-        roleInfo: function roleInfo() {
-            return this.$store.state.role.roleInfo;
-        }
-    },
-    watch: {
-        value: function value(newVal, oldVal) {
-            this.isModal = newVal;
-        },
-        isModal: function isModal(newVal, oldVal) {
-            this.$emit('input', newVal);
-        },
-        roleId: function roleId(newVal) {
-            var that = this;
-            __WEBPACK_IMPORTED_MODULE_1__js_api_role_js__["a" /* default */].getRoleAuth({ id: newVal }).then(function (response) {
-                that.roleAuth = response.data.authTree;
-                console.log(response.data.authTree);
-            }).catch(function () {});
-        }
-    },
-    methods: {
-        handleChangeModal: function handleChangeModal(event) {
-            console.log(event);
-        }
-    },
-    created: function created() {
-        //console.log('initialize');
-    }
-});
-
-/***/ }),
+/* 99 */,
+/* 100 */,
+/* 101 */,
 /* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -97115,8 +96991,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: 'auth-tree',
     components: { AuthTreeNode: __WEBPACK_IMPORTED_MODULE_0__auth_tree_node_vue___default.a },
+    model: {
+        prop: 'treeData',
+        event: 'change'
+    },
     props: {
-        data: {
+        treeData: {
             type: Array,
             default: function _default() {
                 return [];
@@ -97125,13 +97005,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     data: function data() {
         return {
-            authTree: this.data,
+            authTree: [],
             flatAuth: []
         };
     },
 
     computed: {},
+    watch: {
+        treeData: function treeData(newVal) {
+            this.authTree = newVal;
+            this.flatAuth = this.compileFlatAuth();
+            this.rebuildTree();
+        },
+        authTree: function authTree(newVal) {
+            this.$emit('change', newVal);
+        }
+    },
     methods: {
+        /** Screening permissions for role groups. */
         compileFlatAuth: function compileFlatAuth() {
             var keyCounter = 0;
             var flatTree = [];
@@ -97222,11 +97113,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.refreshTreeDown(node, { isChecked: checked, indeterminate: false });
         }
     },
-    created: function created() {
-        this.flatAuth = this.compileFlatAuth();
-        this.rebuildTree();
-        console.log(this.data);
-    },
     mounted: function mounted() {
         this.$on('on-check', this.handleCheck);
     }
@@ -97306,9 +97192,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     components: { AuthTreeNode: __WEBPACK_IMPORTED_MODULE_0__auth_tree_node_vue___default.a },
     props: ['model'],
     data: function data() {
-        return {
-            author: this.model
-        };
+        return {};
     },
 
     computed: {
@@ -97385,15 +97269,15 @@ var render = function() {
           attrs: {
             "true-value": 1,
             "false-value": 0,
-            indeterminate: _vm.author.indeterminate
+            indeterminate: _vm.model.indeterminate
           },
           on: { "on-change": _vm.onChangeAuth },
           model: {
-            value: _vm.author.isChecked,
+            value: _vm.model.isChecked,
             callback: function($$v) {
-              _vm.$set(_vm.author, "isChecked", $$v)
+              _vm.$set(_vm.model, "isChecked", $$v)
             },
-            expression: "author.isChecked"
+            expression: "model.isChecked"
           }
         },
         [_c("span", [_vm._v(_vm._s(_vm.model.title))])]
@@ -97403,7 +97287,7 @@ var render = function() {
         ? _c(
             "ul",
             { staticClass: "auth-tree-node" },
-            _vm._l(_vm.author.children, function(model, key, index) {
+            _vm._l(_vm.model.children, function(model, key, index) {
               return _c("auth-tree-node", {
                 key: index,
                 attrs: { index: key, model: model }
@@ -97956,57 +97840,7 @@ if (false) {
 }
 
 /***/ }),
-/* 116 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "Modal",
-    {
-      attrs: { title: "权限分配", width: "80%" },
-      model: {
-        value: _vm.isModal,
-        callback: function($$v) {
-          _vm.isModal = $$v
-        },
-        expression: "isModal"
-      }
-    },
-    [
-      _c("auth-tree", { attrs: { data: _vm.roleAuth } }),
-      _vm._v(" "),
-      _c(
-        "div",
-        { attrs: { slot: "footer" }, slot: "footer" },
-        [
-          _c("Button", { attrs: { type: "text", size: "large" } }, [
-            _vm._v("取消")
-          ]),
-          _vm._v(" "),
-          _c("Button", { attrs: { type: "primary", size: "large" } }, [
-            _vm._v("保存")
-          ])
-        ],
-        1
-      )
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-759c2b7c", module.exports)
-  }
-}
-
-/***/ }),
+/* 116 */,
 /* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -98059,7 +97893,7 @@ var render = function() {
         "Modal",
         {
           attrs: { title: _vm.infoModalTitle },
-          on: { "on-visible-change": _vm.listenVisibleChange },
+          on: { "on-visible-change": _vm.listenInfoModalChange },
           model: {
             value: _vm.isInfoModal,
             callback: function($$v) {
@@ -98176,24 +98010,38 @@ var render = function() {
         {
           attrs: { title: "成员分配" },
           model: {
-            value: _vm.isAdminModal,
+            value: _vm.isMemberModal,
             callback: function($$v) {
-              _vm.isAdminModal = $$v
+              _vm.isMemberModal = $$v
             },
-            expression: "isAdminModal"
+            expression: "isMemberModal"
           }
         },
         [
+          _vm.spinShow
+            ? _c(
+                "Spin",
+                { attrs: { fix: "" } },
+                [
+                  _c("Icon", {
+                    staticClass: "demo-spin-icon-load",
+                    attrs: { type: "ios-loading", size: "50" }
+                  })
+                ],
+                1
+              )
+            : _vm._e(),
+          _vm._v(" "),
           _c("Transfer", {
             attrs: {
-              data: _vm.adminList,
-              targetKeys: _vm.allotAdminList,
+              data: _vm.memberList,
+              targetKeys: _vm.allotMemberList,
               titles: _vm.transferTitle,
               "list-style": { width: "210px" },
               filterable: "",
-              "filter-placeholder": "请输入管理员名称"
+              "filter-placeholder": "请输入成员名称"
             },
-            on: { "on-change": _vm.handleAllotAdminChange }
+            on: { "on-change": _vm.handleAllotMemberChange }
           }),
           _vm._v(" "),
           _c(
@@ -98204,7 +98052,7 @@ var render = function() {
                 "Button",
                 {
                   attrs: { type: "text", size: "large" },
-                  on: { click: _vm.cancelAllotMember }
+                  on: { click: _vm.handleMemberCancel }
                 },
                 [_vm._v("取消")]
               ),
@@ -98212,8 +98060,12 @@ var render = function() {
               _c(
                 "Button",
                 {
-                  attrs: { type: "primary", size: "large" },
-                  on: { click: _vm.saveAllotMember }
+                  attrs: {
+                    type: "primary",
+                    size: "large",
+                    loading: _vm.loading
+                  },
+                  on: { click: _vm.handleMemberSave }
                 },
                 [_vm._v("保存")]
               )
@@ -98224,16 +98076,74 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c("allot-permissions", {
-        attrs: { "role-id": _vm.roleId },
-        model: {
-          value: _vm.isAuthModal,
-          callback: function($$v) {
-            _vm.isAuthModal = $$v
-          },
-          expression: "isAuthModal"
-        }
-      })
+      _c(
+        "Modal",
+        {
+          attrs: { title: "权限分配", width: "80%" },
+          model: {
+            value: _vm.isAuthModal,
+            callback: function($$v) {
+              _vm.isAuthModal = $$v
+            },
+            expression: "isAuthModal"
+          }
+        },
+        [
+          _vm.spinShow
+            ? _c(
+                "Spin",
+                { attrs: { fix: "" } },
+                [
+                  _c("Icon", {
+                    staticClass: "demo-spin-icon-load",
+                    attrs: { type: "ios-loading", size: "50" }
+                  })
+                ],
+                1
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _c("auth-tree", {
+            model: {
+              value: _vm.roleGroupAuthList,
+              callback: function($$v) {
+                _vm.roleGroupAuthList = $$v
+              },
+              expression: "roleGroupAuthList"
+            }
+          }),
+          _vm._v(" "),
+          _c(
+            "div",
+            { attrs: { slot: "footer" }, slot: "footer" },
+            [
+              _c(
+                "Button",
+                {
+                  attrs: { type: "text", size: "large" },
+                  on: { click: _vm.handleAuthCancel }
+                },
+                [_vm._v("取消")]
+              ),
+              _vm._v(" "),
+              _c(
+                "Button",
+                {
+                  attrs: {
+                    type: "primary",
+                    size: "large",
+                    loading: _vm.loading
+                  },
+                  on: { click: _vm.handleAuthSave }
+                },
+                [_vm._v("保存")]
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
     ],
     1
   )
@@ -98249,234 +98159,11 @@ if (false) {
 }
 
 /***/ }),
-/* 118 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(119)
-}
-var normalizeComponent = __webpack_require__(0)
-/* script */
-var __vue_script__ = __webpack_require__(121)
-/* template */
-var __vue_template__ = __webpack_require__(122)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/js/views/admin/role/role-auth.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-ffdb18f6", Component.options)
-  } else {
-    hotAPI.reload("data-v-ffdb18f6", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 119 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(120);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(4)("4a0c148f", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-ffdb18f6\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./role-auth.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-ffdb18f6\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./role-auth.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 120 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(3)(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 121 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_api_role_js__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_auth_tree__ = __webpack_require__(24);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    components: {
-        AuthTree: __WEBPACK_IMPORTED_MODULE_1__components_auth_tree__["a" /* default */]
-    },
-    data: function data() {
-        return {
-            auths: []
-        };
-    },
-
-    computed: {
-        roleAuth: function roleAuth() {
-            return this.$store.getters.getRoleAuth;
-        },
-        roleInfo: function roleInfo() {
-            return this.$store.state.role.roleInfo;
-        }
-    },
-    watch: {},
-    methods: {
-        handleSubmit: function handleSubmit(name) {
-            var _this = this;
-
-            this.$refs[name].validate(function (valid) {
-                if (valid) {
-                    _this.$Message.success('Success!');
-                } else {
-                    _this.$Message.error('Fail!');
-                }
-            });
-        },
-        handleReset: function handleReset(name) {
-            this.$refs[name].resetFields();
-        },
-
-        fromSubmit: function fromSubmit() {
-            var data = {
-                id: this.roleInfo.id,
-                authority: this.roleAuth
-            },
-                that = this;
-
-            __WEBPACK_IMPORTED_MODULE_0__js_api_role_js__["a" /* default */].postRoleAuth(data).then(function (response) {
-                if (response.data.code) {
-                    that.$Message.error(response.data.msg);
-                } else {
-                    that.$Message.success(response.data.msg);
-                }
-            }).catch(function () {
-                that.$Message.info('系统繁忙，请稍后再试!');
-            });
-        }
-    },
-    created: function created() {
-        this.$store.dispatch('loadRoleAuth', this.$route.params);
-    }
-});
-
-/***/ }),
-/* 122 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("div", { staticClass: "content-header" }, [
-        _c(
-          "div",
-          { staticClass: "header-action" },
-          [
-            _c(
-              "Button",
-              {
-                attrs: {
-                  to: "/admin/system/basic/role",
-                  size: "small",
-                  icon: "arrow-return-left"
-                }
-              },
-              [_vm._v("返回")]
-            )
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", [_c("auth-tree", { attrs: { data: _vm.roleAuth } })], 1),
-      _vm._v(" "),
-      _c("Button", { attrs: { type: "info" }, on: { click: _vm.fromSubmit } }, [
-        _vm._v("保存")
-      ])
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-ffdb18f6", module.exports)
-  }
-}
-
-/***/ }),
+/* 118 */,
+/* 119 */,
+/* 120 */,
+/* 121 */,
+/* 122 */,
 /* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -98584,6 +98271,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -98595,6 +98287,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             modalTitle: '新增',
             trueValue: 1,
             falseValue: 0,
+            spinShow: false,
             moduleData: {
                 id: '',
                 parent_id: -1,
@@ -98658,14 +98351,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                             value: params.row.status,
                             size: 'large',
                             trueValue: 1,
-                            falseValue: 0
+                            falseValue: 0,
+                            loading: params.row.loading
                         },
                         on: {
                             'on-change': function onChange(value) {
-                                console.log(value);
                                 //开关状态更改事件
-                                console.log(params);
-                                _this.updateModuleStatus(params.row.id, value);
+                                _this.updateModuleStatus(params.index, params.row.id, value);
                             }
                         }
                     }, [h('span', {
@@ -98691,8 +98383,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         },
                         on: {
                             click: function click() {
-
-                                _this.editModuleToModal('编辑', params.row.id);
+                                _this.updateModuleInfo(params.row.id);
                             }
                         }
                     }), h('Poptip', {
@@ -98737,45 +98428,58 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     methods: {
-        handleSelectAll: function handleSelectAll(status) {
+        /* handleSelectAll (status) {
             this.$refs.selection.selectAll(status);
         },
-
-        selectedSecond: function selectedSecond(index) {
-
-            this.$router.push({ path: index });
-        },
-        /** 新增模块 at Modal */
-        addModuleToModal: function addModuleToModal(title) {
+        selectedSecond:function(index){
+             this.$router.push({path:index})
+        }, */
+        /** Create module info. */
+        createModuleInfo: function createModuleInfo() {
             this.isModal = true;
-            this.modalTitle = title;
+            this.modalTitle = '新增';
             this.$store.dispatch('loadIsMenuModule');
         },
-        /** 编辑模块 at Modal */
-        editModuleToModal: function editModuleToModal(title, id) {
-            this.modalTitle = title;
-            this.$store.dispatch('loadIsMenuModule');
+
+        /** Update module info. */
+        updateModuleInfo: function updateModuleInfo(id) {
             var that = this;
+            that.modalTitle = '编辑';
+            that.$store.dispatch('loadIsMenuModule');
+            that.isModal = true;
+            that.spinShow = true;
             __WEBPACK_IMPORTED_MODULE_0__js_api_module_js__["a" /* default */].getModuleInfo(id).then(function (response) {
                 if (response.data.code) {
                     that.$Message.error(response.data.msg);
+                    that.isModal = false;
                 } else {
                     that.moduleData = response.data.data;
-                    that.isModal = true;
                 }
+                that.spinShow = false;
             }).catch(function () {
                 that.$Message.info('系统繁忙，请稍后再试!');
+                that.isModal = false;
+                that.spinShow = false;
             });
         },
-        /** Modal 确定按钮点击事件 */
-        moduleModalOk: function moduleModalOk() {
+
+        /** Module cancel event. */
+        handleInfoCancel: function handleInfoCancel() {
+            // reset from
+            this.$refs['moduleData'].resetFields();
+            // hide modal
+            this.isModal = false;
+        },
+
+        /** Save module info event. */
+        handleInfoSave: function handleInfoSave() {
             var _this2 = this;
 
             this.$refs['moduleData'].validate(function (valid) {
                 if (valid) {
                     var that = _this2;
+                    that.loading = true;
                     __WEBPACK_IMPORTED_MODULE_0__js_api_module_js__["a" /* default */].saveFromModule(_this2.moduleData).then(function (response) {
-                        console.log(response);
                         if (response.data.code) {
                             that.$Message.error(response.data.msg);
                         } else {
@@ -98783,21 +98487,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                             that.$store.dispatch('loadModule');
                             that.isModal = false;
                         }
+                        that.loading = false;
                     }).catch(function () {
                         that.$Message.info('系统繁忙，请稍后再试!');
+                        that.loading = false;
                     });
-                } else {
-                    _this2.loading = true;
                 }
             });
         },
-        /** Modal 取消按钮点击事件 */
-        moduleModalCancel: function moduleModalCancel() {
-            //重置表单
-            this.$refs['moduleData'].resetFields();
-            //隐藏Modal
-            this.isModal = false;
-        },
+
+
         /** 监听Modal显示状态发生改变时 */
         listenVisibleChange: function listenVisibleChange(visible) {
             //Modal隐藏时重置表单
@@ -98807,7 +98506,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         selectPaddingLeft: function selectPaddingLeft(child) {
             return child * 16 + 16;
         },
-        /** 删除菜单数据 */
+        /** Delete menu record. */
         deleteModule: function deleteModule(id) {
             var that = this;
             __WEBPACK_IMPORTED_MODULE_0__js_api_module_js__["a" /* default */].deleteModule({ id: id }).then(function (response) {
@@ -98822,8 +98521,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         /** Update module status */
-        updateModuleStatus: function updateModuleStatus(id, status) {
+        updateModuleStatus: function updateModuleStatus(index, id, status) {
             var that = this;
+            that.modules[index].loading = true;
             __WEBPACK_IMPORTED_MODULE_0__js_api_module_js__["a" /* default */].updateModuleStatus({ id: id, status: status }).then(function (response) {
                 if (response.data.code) {
                     that.$Message.error(response.data.msg);
@@ -98831,8 +98531,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     that.$Message.success(response.data.msg);
                 }
                 that.$store.dispatch('loadModule');
+                that.modules[index].loading = false;
             }).catch(function () {
                 that.$Message.info('系统繁忙，请稍后再试!');
+                that.modules[index].loading = false;
             });
         }
     },
@@ -98861,11 +98563,7 @@ var render = function() {
               "Button",
               {
                 attrs: { type: "success", icon: "android-add" },
-                on: {
-                  click: function($event) {
-                    _vm.addModuleToModal("新增")
-                  }
-                }
+                on: { click: _vm.createModuleInfo }
               },
               [_vm._v("新增")]
             )
@@ -98900,6 +98598,20 @@ var render = function() {
           }
         },
         [
+          _vm.spinShow
+            ? _c(
+                "Spin",
+                { attrs: { fix: "" } },
+                [
+                  _c("Icon", {
+                    staticClass: "demo-spin-icon-load",
+                    attrs: { type: "ios-loading", size: "50" }
+                  })
+                ],
+                1
+              )
+            : _vm._e(),
+          _vm._v(" "),
           _c(
             "Form",
             {
@@ -99127,7 +98839,7 @@ var render = function() {
                 "Button",
                 {
                   attrs: { type: "text", size: "large" },
-                  on: { click: _vm.moduleModalCancel }
+                  on: { click: _vm.handleInfoCancel }
                 },
                 [_vm._v("取消")]
               ),
@@ -99135,8 +98847,12 @@ var render = function() {
               _c(
                 "Button",
                 {
-                  attrs: { type: "primary", size: "large" },
-                  on: { click: _vm.moduleModalOk }
+                  attrs: {
+                    type: "primary",
+                    size: "large",
+                    loading: _vm.loading
+                  },
+                  on: { click: _vm.handleInfoSave }
                 },
                 [_vm._v("保存")]
               )

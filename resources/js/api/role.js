@@ -55,7 +55,7 @@ export default {
     postRoleAuth (data) {
         
         return axios({
-            url: '/saveRoleAuth',
+            url: '/allotAuth',
             method: 'post',
             data: data
         });

@@ -69,4 +69,17 @@ abstract class Repository implements RepositoryInterface
     {
         return $this->model->find($id);
     }
+
+
+    /**
+     * Update role group data.
+     *
+     * @param $id
+     * @param array $data
+     * @return mixed
+     */
+    public function update($id, array $data)
+    {
+        return $this->model->where('id', $id)->update($data);
+    }
 }
