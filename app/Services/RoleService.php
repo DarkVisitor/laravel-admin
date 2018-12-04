@@ -187,4 +187,32 @@ class RoleService
             return response()->json(['code' => 44004, 'msg' => '暂无数据']);
         }
     }
+
+
+    /**
+     * Save Administrator Group Permissions.
+     *
+     * @param $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function saveAdminGroupAuth($request)
+    {
+        if (!$request->filled('id')){
+            return response()->json(['code' => 44001, 'msg' => 'Invalid parameter id']);
+        }
+        if (!$request->filled('authority')){
+            return response()->json(['code' => 44001, 'msg' => 'Invalid parameter authority']);
+        }
+        $roles = $this->roleRepository->findBy($request->id);
+        if (!$roles){
+            return response()->json(['code' => 44004, 'msg' => '用户组不存在']);
+        }
+        $authority = implode(",", $this->analyzeAuthorityTree($request->authority));
+        $boole = $this->roleRepository->update($request->id, ['authority' => $authority]);
+        if ($boole){
+            return response()->json(["code" => 0, "msg" => "success"]);
+        }else{
+            return response()->json(["code" => 10002, "msg" => "fail"]);
+        }
+    }
 }

@@ -63,7 +63,8 @@ class RoleController extends Controller
 
 
     /**
-     * 获取用户组权限
+     * Get permissions for role group assignment.
+     *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -74,13 +75,14 @@ class RoleController extends Controller
 
 
     /**
-     * 保存用户组权限数据
+     * Save Administrator Group Permissions.
+     *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function saveRoleAuth(Request $request)
     {
-        return $this->roleService->postDistributeAuthority($request);
+        return $this->roleService->saveAdminGroupAuth($request);
     }
 
 

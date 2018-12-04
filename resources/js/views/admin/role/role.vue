@@ -1,18 +1,3 @@
-<style>
-    .demo-spin-icon-load{
-        animation: ani-demo-spin 1s linear infinite;
-    }
-    @keyframes ani-demo-spin {
-        from { transform: rotate(0deg);}
-        50%  { transform: rotate(180deg);}
-        to   { transform: rotate(360deg);}
-    }
-    .demo-spin-col{
-        height: 100px;
-        position: relative;
-        border: 1px solid #eee;
-    }
-</style>
 <template>
     <div>
         <div class="content-header">
@@ -25,7 +10,7 @@
         </div>
 
         <!-- Role info -->
-        <Modal v-model="isInfoModal" :title="infoModalTitle" @on-visible-change="listenVisibleChange">
+        <Modal v-model="isInfoModal" :title="infoModalTitle" @on-visible-change="listenInfoModalChange">
             <Spin fix v-if="spinShow">
                 <Icon type="ios-loading" size=50 class="demo-spin-icon-load"></Icon>
             </Spin>
@@ -45,42 +30,61 @@
         <!-- Role info -->
 
         <!-- Allotment of members -->
-        <Modal v-model="isAdminModal" title="成员分配">
+        <Modal v-model="isMemberModal" title="成员分配">
+            <Spin fix v-if="spinShow">
+                <Icon type="ios-loading" size=50 class="demo-spin-icon-load"></Icon>
+            </Spin>
             <Transfer 
-                :data="adminList" 
-                :targetKeys="allotAdminList" 
+                :data="memberList" 
+                :targetKeys="allotMemberList" 
                 :titles="transferTitle" 
                 :list-style="{width: '210px'}" 
                 filterable 
-                filter-placeholder="请输入管理员名称"
-                @on-change="handleAllotAdminChange">
+                filter-placeholder="请输入成员名称"
+                @on-change="handleAllotMemberChange">
             </Transfer>
             <div slot="footer">
-                <Button type="text" size="large" @click="cancelAllotMember">取消</Button>
-                <Button type="primary" size="large" @click="saveAllotMember">保存</Button>
+                <Button type="text" size="large" @click="handleMemberCancel">取消</Button>
+                <Button type="primary" size="large" :loading="loading" @click="handleMemberSave">保存</Button>
             </div>
         </Modal>
         <!-- Allotment of members -->
 
         <!-- Allotment of permissions -->
-        <allot-permissions v-model="isAuthModal" :role-id="roleId"></allot-permissions>
+        <Modal v-model="isAuthModal" title="权限分配" width="80%">
+            <Spin fix v-if="spinShow">
+                <Icon type="ios-loading" size=50 class="demo-spin-icon-load"></Icon>
+            </Spin>
+            <auth-tree v-model="roleGroupAuthList"></auth-tree>
+            <div slot="footer">
+                <Button type="text" size="large" @click="handleAuthCancel">取消</Button>
+                <Button type="primary" size="large" :loading="loading" @click="handleAuthSave">保存</Button>
+            </div>
+        </Modal>
+
     </div>
 </template>
 
 <script>
-import AllotPermissions from './components/allot-permissions';
+import AuthTree from './components/auth-tree';
 import RoleAPI from '@js/api/role.js';
 export default {
     components: {
-        AllotPermissions
+        AuthTree
     },
     data () {
         return {
             roleId: '',
             loading: false,
+            spinShow: false,
             isInfoModal: false,
             infoModalTitle: '新增',
-            spinShow: false,
+            isMemberModal: false,
+            memberList: [],
+            allotMemberList: [],
+            transferTitle: ['未分配成员', '已分配成员'],
+            isAuthModal: false,
+            roleGroupAuthList: [],
             roleGroupForm: {
                 id: '',
                 title: '',
@@ -149,13 +153,7 @@ export default {
                                 },
                                 on: {
                                     click: () => {
-                                        //name 路由
-                                        //this.$router.push({name: 'roleAuth', params: {id:params.row.id}});
-                                        
-                                        //path 路由
-                                        //this.$router.push({path: `/admin/system/basic/roleAuth/${params.row.id}`});
-                                        this.isAuthModal = true;
-                                        //this.$store.dispatch('loadRoleAuth', {id:params.row.id});
+                                        this.handleRoleGroupAuth(params.row.id);
                                         this.roleId = params.row.id;
                                     }
                                 },
@@ -225,12 +223,7 @@ export default {
                         ]);
                     }
                 }
-            ],
-            isAdminModal: false,
-            adminList: [],
-            allotAdminList: [],
-            transferTitle: ['未分配成员', '已分配成员'],
-            isAuthModal: false
+            ]
         }
     },
     computed: {
@@ -241,76 +234,10 @@ export default {
             return this.$store.getters.getRoleInfo.data;
         }
     },
-    methods: {
-        handleSelectAll (status) {
-            this.$refs.selection.selectAll(status);
-        },
-        selectedSecond:function(index){
-
-            this.$router.push({path:index})
-        },
+    watch: {
         
-        /** 监听Modal显示状态发生改变时 */
-        listenVisibleChange: function(visible){
-            //Modal隐藏时重置表单
-            if (!visible) this.$refs.roleGroupForm.resetFields();
-        },
-        /** 删除角色数据 */
-        deleteRole: function(index, id){
-            let that = this;
-            RoleAPI.delRoleInfo({id:id})
-                .then(function(response){
-                    if(response.data.code){
-                        that.$Message.error(response.data.msg);
-                    }else{
-                        that.$Message.success(response.data.msg);
-                        that.roleList.splice(index, 1);
-                    }
-                })
-                .catch(function(){
-                    that.$Message.info('系统繁忙，请稍后再试！');
-                });
-        },
-        handleAllotMembers: function(id){
-            let that = this;
-            that.roleId = id;
-            RoleAPI.findRoleByMember({id:id})    
-                .then((response) => {
-                    if(response.data.code){
-                        that.$Message.error(response.data.msg);
-                        return false;
-                    }
-                    that.adminList = response.data.adminList;
-                    that.allotAdminList = response.data.roleMembers;
-                    that.isAdminModal = true;
-                })
-                .catch((error) => {
-                    that.$Message.info('系统繁忙，请稍后再试！');
-                });
-        },
-        /** 分配管理员 */
-        handleAllotAdminChange: function(newTargetKeys){
-            this.allotAdminList = newTargetKeys;
-        },
-        saveAllotMember () {
-            let that = this;
-            RoleAPI.postAllotMember({id:that.roleId, member:that.allotAdminList})
-                .then((response) => {
-                    if(response.data.code){
-                        that.$Message.error(response.data.msg);
-                    }else{
-                        that.$Message.success(response.data.msg);
-                        that.isAdminModal = false;
-                        that.$store.dispatch('loadRoleList');
-                    }
-                })
-                .catch((error) => {
-                    that.$Message.info('系统繁忙，请稍后再试！');
-                });
-        },
-        cancelAllotMember () {
-            this.isAdminModal = false;
-        },
+    },
+    methods: {
         /** Create role group info. */
         createRoleGroupInfo() {
             this.isInfoModal = true;
@@ -325,8 +252,8 @@ export default {
             RoleAPI.getRoleInfo({id:id})
                 .then(function(response){
                     if(response.data.code){
-                        that.$Message.error(response.data.msg);
                         that.isInfoModal = false;
+                        that.$Message.error(response.data.msg);
                     }else{
                         that.roleGroupForm = response.data.data;
                     }
@@ -335,6 +262,7 @@ export default {
                 .catch(function(){
                     that.$Message.info('系统繁忙，请稍后再试!');
                     that.isInfoModal = false;
+                    that.spinShow = false;
                 });
         },
         /** Admin group modal cancel event. */
@@ -359,16 +287,22 @@ export default {
                                 that.$Message.success(response.data.msg);
                                 that.$store.dispatch('loadRoleList');
                                 that.isInfoModal = false;
-                                that.loading = false;
                             }
+                            that.loading = false;
                         })
                         .catch(function(){
                             that.$Message.info('系统繁忙，请稍后再试!');
+                            that.loading = false;
                         });
-                } else {
-                    
                 }
             });
+        },
+        /** Listen for User Group Information Modal Box to Send Change Events. */
+        listenInfoModalChange(visible) {
+            if (!visible) {
+                this.$refs.roleGroupForm.resetFields();
+                this.resetRoleGroupFormFields();
+            }
         },
         /** Reset role group fileds. */
         resetRoleGroupFormFields() {
@@ -377,8 +311,118 @@ export default {
                 title: '',
                 remarks: ''
             };
+        },
+        /** Delete user group information. */
+        deleteRole(index, id) {
+            let that = this;
+            RoleAPI.delRoleInfo({id:id})
+                .then(function(response){
+                    if(response.data.code){
+                        that.$Message.error(response.data.msg);
+                    }else{
+                        that.$Message.success(response.data.msg);
+                        that.roleList.splice(index, 1);
+                    }
+                })
+                .catch(function(){
+                    that.$Message.info('系统繁忙，请稍后再试！');
+                });
+        },
+        /** Allot member to role. */
+        handleAllotMembers(id) {
+            let that = this;
+            that.roleId = id;
+            that.isMemberModal = true;
+            that.spinShow = true;
+            RoleAPI.findRoleByMember({id:id})    
+                .then((response) => {
+                    if(response.data.code){
+                        that.isMemberModal = false;
+                        that.$Message.error(response.data.msg);
+                    }else{
+                        that.memberList = response.data.adminList;
+                        that.allotMemberList = response.data.roleMembers;
+                    }
+                    that.spinShow = false;
+                })
+                .catch((error) => {
+                    that.$Message.info('系统繁忙，请稍后再试！');
+                    that.isMemberModal = false;
+                    that.spinShow = false;
+                });
+        },
+        /** Allocation member. */
+        handleAllotMemberChange(newTargetKeys) {
+            this.allotMemberList = newTargetKeys;
+        },
+        /** Cancel member assignment operation. */
+        handleMemberCancel() {
+            this.isMemberModal = false;
+        },
+        /** Save member assignment information. */
+        handleMemberSave() {
+            let that = this;
+            that.loading = true;
+            RoleAPI.postAllotMember({id:that.roleId, member:that.allotMemberList})
+                .then((response) => {
+                    if(response.data.code){
+                        that.$Message.error(response.data.msg);
+                    }else{
+                        that.$Message.success(response.data.msg);
+                        that.isMemberModal = false;
+                        that.$store.dispatch('loadRoleList');
+                    }
+                    that.loading = false;
+                })
+                .catch((error) => {
+                    that.$Message.info('系统繁忙，请稍后再试！');
+                    that.loading = false;
+                });
+        },
+        /** Allocate role group permissions. */
+        handleRoleGroupAuth(id) {
+            let that = this;
+            that.isAuthModal = true;
+            that.spinShow = true;
+            RoleAPI.getRoleAuth({id:id})
+                .then(function(response){
+                    if(response.data.code){
+                        that.$Message.error(response.data.msg);
+                        that.isAuthModal = false;
+                    }else{
+                        that.roleGroupAuthList = response.data.authTree;
+                    }
+                    that.spinShow = false;
+                })
+                .catch(function(){
+                    that.$Message.info('系统繁忙，请稍后再试!');
+                    that.isAuthModal = false;
+                    that.spinShow = false;
+                });
+        },
+        /** Cancel assigning role group permissions. */
+        handleAuthCancel() {
+            this.isAuthModal = false;
+        },
+        /** Save role group permission information. */
+        handleAuthSave() {
+            let that = this;
+            that.loading = true;
+            RoleAPI.postRoleAuth({id: this.roleId, authority: this.roleGroupAuthList})
+                .then(function(response){
+                    if(response.data.code){
+                        that.$Message.error(response.data.msg);
+                    }else{
+                        that.$Message.success(response.data.msg);
+                        that.isAuthModal = false;
+                    }
+                    that.loading = false;
+                })
+                .catch(function(){
+                    that.$Message.info('系统繁忙，请稍后再试!');
+                    that.loading = false;
+                });
         }
-
     },
     created () {
         this.$store.dispatch('loadRoleList');

@@ -71,6 +71,9 @@ class ModuleService
 
         if ($modules){
             $modules = $this->sortParentChild($modules);
+            foreach ($modules as $key=>$module){
+                $modules[$key]['loading'] = false;
+            }
         }
 
         return response()->json(['code' => 0, 'msg' => 'success', 'data' => $modules]);
@@ -133,5 +136,52 @@ class ModuleService
     public function getInfo($request)
     {
         return $this->moduleRepository->findBy($request->id);
+    }
+
+
+    /**
+     * Delete module record.
+     *
+     * @param $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deleteModules($request)
+    {
+        if (!$request->filled('id')){
+            return response()->json(['code' => 44001, 'msg' => 'Invalid parameter id']);
+        }
+        $childModules = $this->moduleRepository->findModuleChildren($request->id);
+        if ($childModules){
+            return response()->json(['code' => 43001, 'msg' => '菜单下存在子菜单!']);
+        }
+        $boole = $this->moduleRepository->delete($request->id);
+        if ($boole){
+            return response()->json(['code' => 0, 'msg' => '已删除']);
+        }else{
+            return response()->json(['code' => 10001, 'msg' => '操作失败']);
+        }
+    }
+
+
+    /**
+     * Update module status.
+     *
+     * @param $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateModuleStatus($request)
+    {
+        if (!$request->filled('id')){
+            return response()->json(['code' => 44001, 'msg' => 'Invalid parameter id']);
+        }
+        if (!$request->filled('status')){
+            return response()->json(['code' => 44001, 'msg' => 'Invalid parameter status']);
+        }
+        $boole = $this->moduleRepository->update($request->id, ['status' => $request->status]);
+        if ($boole){
+            return response()->json(['code' => 0, 'msg' => '已更新']);
+        }else{
+            return response()->json(['code' => 10001, 'msg' => '操作失败']);
+        }
     }
 }

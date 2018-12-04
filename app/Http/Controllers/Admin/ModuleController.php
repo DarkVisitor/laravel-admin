@@ -64,23 +64,25 @@ class ModuleController extends Controller
 
 
     /**
-     * update module status
+     * Update module status.
+     *
      * @param Request $request
      * @return mixed
      */
     public function updateStatus(Request $request)
     {
-        return $this->moduleService->updateStatus($request);
+        return $this->moduleService->updateModuleStatus($request);
     }
 
 
     /**
-     * delete module
+     * Delete module record.
+     *
      * @param Request $request
      * @return mixed
      */
     public function delete(Request $request)
     {
-        return $this->moduleService->delete($request);
+        return $this->moduleService->deleteModules($request);
     }
 }

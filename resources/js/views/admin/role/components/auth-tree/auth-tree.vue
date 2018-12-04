@@ -15,8 +15,12 @@
     export default {
         name: 'auth-tree',
         components: {AuthTreeNode},
+        model:{
+            prop: 'treeData',
+            event: 'change'
+        },
         props: {
-            data: {
+            treeData: {
                 type: Array,
                 default () {
                     return [];
@@ -25,14 +29,25 @@
         },
         data() {
             return {
-                authTree: this.data,
+                authTree: [],
                 flatAuth: []
             }
         },
         computed: {
             
         },
+        watch: {
+            treeData(newVal) {
+                this.authTree = newVal;
+                this.flatAuth = this.compileFlatAuth();
+                this.rebuildTree();
+            },
+            authTree(newVal) {
+                this.$emit('change', newVal);
+            }
+        },
         methods: {
+            /** Screening permissions for role groups. */
             compileFlatAuth: function () {
                 let keyCounter = 0;
                 const flatTree = [];
@@ -112,11 +127,6 @@
                 this.refreshTreeUp(nodeKey);
                 this.refreshTreeDown(node, {isChecked: checked, indeterminate: false});
             }
-        },
-        created() {
-            this.flatAuth = this.compileFlatAuth();
-            this.rebuildTree();
-            console.log(this.data);
         },
         mounted () {
             this.$on('on-check', this.handleCheck);

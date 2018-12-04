@@ -2,13 +2,18 @@
     <div>
         <div class="content-header">
             <div class="header-action">
-                <Button type="success" icon="android-add" @click="addModuleToModal('新增')">新增</Button>
+                <Button type="success" icon="android-add" @click="createModuleInfo">新增</Button>
             </div>
         </div>
         <div style="margin-bottom: 20px;">
             <Table ref="expand" :columns="columns4" :data="modules" :border="true"></Table>
         </div>
+
+        <!-- Module info -->
         <Modal v-model="isModal" :title="modalTitle" @on-visible-change="listenVisibleChange">
+            <Spin fix v-if="spinShow">
+                <Icon type="ios-loading" size=50 class="demo-spin-icon-load"></Icon>
+            </Spin>
             <Form ref="moduleData" :model="moduleData" :rules="ruleValidate" :label-width="100"> 
                 <FormItem label="上级菜单" prop="parent_id">
                     <Select class="modal-form-item" v-model="moduleData.parent_id">
@@ -45,8 +50,8 @@
                 </FormItem>
             </Form>
             <div slot="footer">
-                <Button type="text" size="large" @click="moduleModalCancel">取消</Button>
-                <Button type="primary" size="large" @click="moduleModalOk">保存</Button>
+                <Button type="text" size="large" @click="handleInfoCancel">取消</Button>
+                <Button type="primary" size="large" :loading="loading" @click="handleInfoSave">保存</Button>
             </div>
         </Modal>
     </div>
@@ -61,6 +66,7 @@
                 modalTitle: '新增',
                 trueValue: 1,
                 falseValue: 0,
+                spinShow: false,
                 moduleData: {
                     id: '',
                     parent_id: -1,
@@ -134,14 +140,13 @@
                                     value: params.row.status,
                                     size: 'large',
                                     trueValue: 1,
-                                    falseValue: 0
+                                    falseValue: 0,
+                                    loading: params.row.loading
                                 },
                                 on: {
                                     'on-change': (value) => {
-                                        console.log(value);
                                         //开关状态更改事件
-                                        console.log(params);
-                                        this.updateModuleStatus(params.row.id, value);
+                                        this.updateModuleStatus(params.index, params.row.id, value);
                                     }
                                 }
                             }, [
@@ -172,8 +177,7 @@
                                     },
                                     on: {
                                         click: () => {
-                                            
-                                            this.editModuleToModal('编辑', params.row.id)
+                                            this.updateModuleInfo(params.row.id)
                                         }
                                     }
                                 }),
@@ -222,45 +226,57 @@
             }
         },
         methods: {
-            handleSelectAll (status) {
+            /* handleSelectAll (status) {
                 this.$refs.selection.selectAll(status);
             },
             selectedSecond:function(index){
 
                 this.$router.push({path:index})
-            },
-            /** 新增模块 at Modal */
-            addModuleToModal: function(title) {
+            }, */
+            /** Create module info. */
+            createModuleInfo() {
                 this.isModal = true;
-                this.modalTitle = title;
+                this.modalTitle = '新增';
                 this.$store.dispatch('loadIsMenuModule');
             },
-            /** 编辑模块 at Modal */
-            editModuleToModal: function(title, id){
-                this.modalTitle = title;
-                this.$store.dispatch('loadIsMenuModule');
+            /** Update module info. */
+            updateModuleInfo(id) {
                 let that = this;
+                that.modalTitle = '编辑';
+                that.$store.dispatch('loadIsMenuModule');
+                that.isModal = true;
+                that.spinShow = true;                
                 ModuleAPI.getModuleInfo(id)
                     .then(function(response){
                         if (response.data.code){
                             that.$Message.error(response.data.msg);
+                            that.isModal = false;
                         }else{
-                            that.moduleData = response.data.data;
-                            that.isModal = true;
+                            that.moduleData = response.data.data;                            
                         }
+                        that.spinShow = false;
                     })
                     .catch(function(){
                         that.$Message.info('系统繁忙，请稍后再试!');
+                        that.isModal = false;
+                        that.spinShow = false;
                     });
             },
-            /** Modal 确定按钮点击事件 */
-            moduleModalOk: function(){
+            /** Module cancel event. */
+            handleInfoCancel() {
+                // reset from
+                this.$refs['moduleData'].resetFields();
+                // hide modal
+                this.isModal= false;
+            },
+            /** Save module info event. */
+            handleInfoSave() {
                 this.$refs['moduleData'].validate((valid)=>{
                     if (valid) {
                         let that = this;
+                        that.loading = true;
                         ModuleAPI.saveFromModule(this.moduleData)
                             .then(function(response){
-                                console.log(response);
                                 if(response.data.code){
                                     that.$Message.error(response.data.msg);
                                 }else{
@@ -268,22 +284,16 @@
                                     that.$store.dispatch('loadModule');
                                     that.isModal = false;
                                 }
+                                that.loading = false;
                             })
                             .catch(function(){
                                 that.$Message.info('系统繁忙，请稍后再试!');
+                                that.loading = false;
                             });
-                    } else {
-                        this.loading = true;
                     }
                 });
             },
-            /** Modal 取消按钮点击事件 */
-            moduleModalCancel: function(){
-                //重置表单
-                this.$refs['moduleData'].resetFields();
-                //隐藏Modal
-                this.isModal= false;
-            },
+            
             /** 监听Modal显示状态发生改变时 */
             listenVisibleChange: function(visible){
                 //Modal隐藏时重置表单
@@ -293,7 +303,7 @@
             selectPaddingLeft: function(child){
                 return child * 16 + 16;
             },
-            /** 删除菜单数据 */
+            /** Delete menu record. */
             deleteModule: function(id){
                 let that = this;
                 ModuleAPI.deleteModule({id:id})
@@ -310,8 +320,9 @@
                     });
             },
             /** Update module status */
-            updateModuleStatus: function(id, status){
+            updateModuleStatus: function(index, id, status){
                 let that = this;
+                that.modules[index].loading = true;
                 ModuleAPI.updateModuleStatus({id:id,status:status})
                     .then(function(response){
                         if(response.data.code){
@@ -320,9 +331,11 @@
                             that.$Message.success(response.data.msg);
                         }
                         that.$store.dispatch('loadModule');
+                        that.modules[index].loading = false;
                     })
                     .catch(function(){
                         that.$Message.info('系统繁忙，请稍后再试!');
+                        that.modules[index].loading = false;
                     });
             }
         },

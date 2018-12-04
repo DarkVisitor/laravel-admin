@@ -1,11 +1,11 @@
 <template>
     
         <li :class="isChildren">
-            <Checkbox v-model="author.isChecked" @on-change="onChangeAuth" :true-value="1" :false-value="0" :indeterminate="author.indeterminate">
+            <Checkbox v-model="model.isChecked" @on-change="onChangeAuth" :true-value="1" :false-value="0" :indeterminate="model.indeterminate">
                 <span>{{model.title}}</span>
             </Checkbox>
             <ul class="auth-tree-node" v-if="isFolder">
-                <auth-tree-node v-for="(model, key, index) in author.children" :index="key" :key="index" :model="model"></auth-tree-node>
+                <auth-tree-node v-for="(model, key, index) in model.children" :index="key" :key="index" :model="model"></auth-tree-node>
             </ul>
         </li>
     
@@ -24,7 +24,7 @@
         props: ['model'],
         data() {
             return {
-                author: this.model
+                
             }
         },
         computed: {

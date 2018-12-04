@@ -52,11 +52,11 @@
                         
                     </Menu>
                 </Sider>
-                <Layout>
+                <Layout style="overflow-y: hidden;">
                     <div class="tag-nav-wrapper" style="background: #f0f0f0;height: 40px;padding: 0;">
                         <tags-nav :value="$route"></tags-nav>
                     </div>
-                    <Content style="margin-top: 15px;">
+                    <Content style="margin-top: 15px;overflow-y: auto;">
                         <router-view></router-view>
                     </Content>
                 </Layout>
