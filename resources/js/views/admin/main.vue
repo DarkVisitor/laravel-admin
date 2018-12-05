@@ -127,7 +127,7 @@ export default {
             if (route.matched.length > 1){
                 const name = route.matched[1].name;
                 this.topActiveName = name;
-                this.handleChangeTopMenu(name);
+                //this.handleChangeTopMenu(name);
             }else {
                 this.topActiveName = '';
             }
@@ -234,7 +234,7 @@ export default {
                 component: (resolve) => require(['@js/views/admin/login/login.vue'], resolve)
             }
         ]);
-        console.log(this.$router);
+        console.log(router);
     }
 }
 </script>
