@@ -12,8 +12,19 @@ export default [
             title: 'Login - 登录',
             hideInMenu: true
         },
-        component: Vue.component('Login', require('@js/views/admin/login/login.vue'))
+        component: (resolve) => require(['@js/views/admin/login/login.vue'], resolve)
     },
+    {
+        path: '/admin/404',
+        name: '404',
+        component: (resolve) => require(['@js/views/admin/login/login.vue'], resolve)
+    },
+    /* {
+        path: '*',
+        redirect: '/admin/404'
+    }, */
+
+    
     {
         path: '/admin',
         name: 'admin',
@@ -134,64 +145,6 @@ export default [
                 ]
             }
         ]
-    },
-    /* {
-        path: '/',
-        name: '/',
-        component: Web,
-        children: [
-            {
-                path: '/',
-                name: '/',
-                component: Vue.component('Home', require('@js/views/web/home/home.vue'))
-            },
-            {
-                path: '/essay',
-                name: 'essay',
-                component: ParentView,
-                children: [
-                    {
-                        path: 'php',
-                        name: 'php',
-                        component: Vue.component('PhpEssay', require('@js/views/web/essay/php.vue'))
-                    },
-                    {
-                        path: 'laravel',
-                        name: 'laravel',
-                        component: Vue.component('LaravelEssay', require('@js/views/web/essay/php.vue'))
-                    },
-                    {
-                        path: 'mysql',
-                        name: 'mysql',
-                        component: Vue.component('MysqlEssay', require('@js/views/web/essay/php.vue'))
-                    },
-                    {
-                        path: 'linux',
-                        name: 'linux',
-                        component: Vue.component('PhpEssay', require('@js/views/web/essay/php.vue'))
-                    },
-                    {
-                        path: 'python',
-                        name: 'python',
-                        component: Vue.component('PythonEssay', require('@js/views/web/essay/php.vue'))
-                    },
-                    {
-                        path: 'vuejs',
-                        name: 'vuejs',
-                        component: Vue.component('VueJsEssay', require('@js/views/web/essay/php.vue'))
-                    }
-                ]
-            },
-            {
-                path: '/essay/detail/:id',
-                name: 'essay-detail',
-                component: Vue.component('EssayDetail', require('@js/views/web/essay/essay-detail.vue'))
-            },
-            {
-                path: '/about',
-                name: 'about',
-                component: Vue.component('About', require('@js/views/web/about/about.vue'))
-            }
-        ]
-    } */
+    }
+    
 ];

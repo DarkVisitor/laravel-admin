@@ -68,6 +68,7 @@
     </div>
 </template>
 <script>
+import router from '@js/router';
 import routers from '@js/router/routers.js';
 import TagsNav from '@js/components/tags-nav';
 import {removeToken,getMenuTree,removeMenuTree} from '@js/libs/util.js';
@@ -224,6 +225,16 @@ export default {
         //Switch the top and side menu selections according to the current route.
         this.toggleTopActiveName(this.$route);
         this.toggleSiderOpenNames(this.$route);
+    },
+    mounted () {
+        router.addRoutes([
+            {
+                path: '/admin/429',
+                name: '429',
+                component: (resolve) => require(['@js/views/admin/login/login.vue'], resolve)
+            }
+        ]);
+        console.log(this.$router);
     }
 }
 </script>
