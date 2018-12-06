@@ -41,13 +41,13 @@
             </Header>
             <Layout v-show="topMenuList.length">
                 <Sider hide-trigger>
-                    <Menu ref="siderMenu" :active-name="siderActiveName" theme="light" width="auto" :open-names="[siderOpenNames]" @on-open-change="handleSiderOpenChange">
+                    <Menu ref="siderMenu" :active-name="siderActiveName" theme="light" width="auto" :open-names="[siderOpenNames]" @on-open-change="handleSiderOpenChange" @on-select="handleSelectMenu">
                         <Submenu v-for="(item, index) in siderMenuList" :key="index" :name="item.vue_name">
                             <template slot="title">
                                 <Icon :type="item.icon"></Icon>
                                 {{item.title}}
                             </template>
-                            <MenuItem v-for="(menu, menuIndex) in item.children" :key="menuIndex" :name="menu.vue_name" :to="menu.vue_router">{{menu.title}}</MenuItem>
+                            <MenuItem v-for="(menu, menuIndex) in item.children" :key="menuIndex" :name="menu.vue_name">{{menu.title}}</MenuItem>
                         </Submenu>
                         
                     </Menu>
@@ -68,10 +68,9 @@
     </div>
 </template>
 <script>
-import router from '@js/router';
 import routers from '@js/router/routers.js';
 import TagsNav from '@js/components/tags-nav';
-import {removeToken,getMenuTree,removeMenuTree} from '@js/libs/util.js';
+import {removeToken,getMenuTree,removeMenuTree,transferByRouteArray} from '@js/libs/util.js';
 export default {
     name: 'Main',
     components: {
@@ -94,6 +93,12 @@ export default {
         }
     },
     methods: {
+        /**
+         * 选择菜单（MenuItem）时触发事件
+         */
+        handleSelectMenu(name) {
+            this.$router.push({name: name});    //路由跳转
+        },
         /**
          * 顶部导航菜单选择触发事件
          */
@@ -198,7 +203,7 @@ export default {
     watch: {
        '$route' (to) {
             this.toggleTopActiveName(to);
-
+console.log(to);
             //
             this.toggleSiderOpenNames(to);
             this.siderActiveName = to.name;
@@ -225,16 +230,10 @@ export default {
         //Switch the top and side menu selections according to the current route.
         this.toggleTopActiveName(this.$route);
         this.toggleSiderOpenNames(this.$route);
+        console.log('debug2');
     },
     mounted () {
-        router.addRoutes([
-            {
-                path: '/admin/429',
-                name: '429',
-                component: (resolve) => require(['@js/views/admin/login/login.vue'], resolve)
-            }
-        ]);
-        console.log(router);
+        console.log(this.$route);
     }
 }
 </script>

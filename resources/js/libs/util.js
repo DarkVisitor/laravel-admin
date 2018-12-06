@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie';
 import { forEach, hasOneOf, objEqual } from '@js/libs/tools';
+import ParentView from '@js/components/parent-view';
 
 
 export const TOKEN_KEY = 'token';
@@ -41,6 +42,44 @@ export const getMenuTree = () => {
  */
 export const removeMenuTree = () => {
   localStorage.removeItem('menuTree');
+}
+
+
+
+/**
+ * 菜单数据转为路由数据
+ * @param {*} item 
+ */
+export const transferByRouteArray = (list) => {
+  let routes = [];
+  if (list.length){
+    forEach(list, item => {
+      let obj = {
+        path: `${item.vue_router}`,
+        name: `${item.vue_name}`,
+        meta: {
+          title: `${item.title}`,
+          isMenu: item.is_menu,
+          hideInMenu: item.is_menu ? false : true,
+          requiresLogin: true
+        }
+      };
+      if (item.children.length){
+        let childNodes = transferByRouteArray(item.children);
+        if (childNodes.length){
+          obj.children = childNodes;
+          obj.component = ParentView;
+        }        
+      }else if (item.vue_file){
+        obj.component = (resolve) => require([`@js/views/admin/${item.vue_file}.vue`], resolve);
+      }else{
+        obj.component = ParentView;
+      }
+      routes.push(obj);
+    })
+
+    return routes;
+  }
 }
 
 

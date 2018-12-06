@@ -25,7 +25,7 @@ export default [
     }, */
 
     
-    {
+    /* {
         path: '/admin',
         name: 'admin',
         meta: {
@@ -145,6 +145,6 @@ export default [
                 ]
             }
         ]
-    }
+    } */
     
 ];
