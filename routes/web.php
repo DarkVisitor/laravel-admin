@@ -11,10 +11,18 @@
 |
 */
 
-Route::get('/{query}', function () {
+/*Route::get('/{query}', function () {
     return view('welcome');
-})->where('query', '^((?!auth|api|web|backend).)*$');
+})->where('query', '^((?!auth|api|web|backend).)*$');*/
 
+Route::get('/admin/{query}', function ($query) {
+    info($query);
+    return view('welcome');
+})->where('query', '.*');
+
+Route::get('/admin', function () {
+    return response()->redirectTo('/admin/home');
+});
 
 /**
  * Web端路由组

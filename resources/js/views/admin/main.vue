@@ -61,7 +61,7 @@
                     </Content>
                 </Layout>
             </Layout>
-            <Layout v-show="!topMenuList.length">
+            <Layout v-if="!topMenuList.length">
                 <router-view></router-view>
             </Layout>
         </Layout>
@@ -203,7 +203,7 @@ export default {
     watch: {
        '$route' (to) {
             this.toggleTopActiveName(to);
-console.log(to);
+
             //
             this.toggleSiderOpenNames(to);
             this.siderActiveName = to.name;
@@ -230,7 +230,7 @@ console.log(to);
         //Switch the top and side menu selections according to the current route.
         this.toggleTopActiveName(this.$route);
         this.toggleSiderOpenNames(this.$route);
-        console.log('debug2');
+        console.log('debug3');
     },
     mounted () {
         console.log(this.$route);

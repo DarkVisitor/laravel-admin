@@ -84,12 +84,15 @@ export default {
                                     duration: 3
                                 });
                                 setToken(res.data);
-                                //that.$store.dispatch('initMenuTree', {id:res.data.admins.id});  
+                                that.$store.dispatch('loadAdminInfo');
                                 //移除所有本地存储信息
                                 localStorage.clear();
                                 //跳转到后台首页
-                                that.$router.push({
+                                /* that.$router.push({
                                     name: 'admin'
+                                }); */
+                                that.$router.push({
+                                    path: '/admin/home'
                                 });
                             }                            
                         })
