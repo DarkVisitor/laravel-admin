@@ -32,7 +32,7 @@
             :name="item.name"
             @on-close="handleClose(item)"
             @click.native="handleClick(item)"
-            :closable="item.name !== 'admin'"
+            :closable="item.name !== 'home'"
             :color="isCurrentTag(item) ? 'primary' : 'default'"
             @contextmenu.prevent.native="contextMenu(item, $event)"
           >{{ showTitleInside(item) }}</Tag>
@@ -59,8 +59,7 @@ export default {
       visible: false,
       list: [
           {
-              path: '/admin',
-              name: 'admin',
+              name: 'home',
               meta: {
                   title: 'Home',
                   requiresLogin: true
@@ -106,13 +105,13 @@ export default {
     handleTagsOption (type) {
       if (type === 'all') {
         // 关闭所有，除了home
-        let res = this.list.filter(item => item.name === 'admin')
+        let res = this.list.filter(item => item.name === 'home')
         
-        this.turnToPage('admin');
+        this.turnToPage('home');
         this.list = res;
       } else if (type === 'others') {
         // 关闭除当前页和home页的其他页
-        let res = this.list.filter(item => this.routeEqual(this.currentRouteObj, item) || item.name === 'admin')
+        let res = this.list.filter(item => this.routeEqual(this.currentRouteObj, item) || item.name === 'home')
         this.list = res;
         setTimeout(() => {
           this.getTagElementByName(this.currentRouteObj.name)
@@ -231,7 +230,7 @@ export default {
           let res = this.getHomeRoute(item.children)
           if (res.name) return res
         } else {
-          if (item.name === 'admin') homeRoute = item
+          if (item.name === 'home') homeRoute = item
         }
       }
       return homeRoute

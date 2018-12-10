@@ -17,7 +17,7 @@ export default [
     {
         path: '/admin/404',
         name: '404',
-        component: (resolve) => require(['@js/views/admin/login/login.vue'], resolve)
+        component: (resolve) => require(['@js/views/errors/404.vue'], resolve)
     },
     /* {
         path: '*',
@@ -29,7 +29,7 @@ export default [
         path: '/admin',
         name: 'admin',
         meta: {
-            title: 'Home',
+            title: 'admin',
             requiresLogin: true
         },
         component: AdminMain,
@@ -55,24 +55,30 @@ export default [
                         component: ParentView,
                         children: [
                             {
-                                path: 'write/:id?',
-                                name: 'write',
-                                meta: {
-                                    title: '写文章',
-                                    hideInMenu: false,
-                                    requiresLogin: true
-                                },
-                                component: Vue.component('WriteEssay', require('@js/views/admin/essay/write-essay.vue'))
-                            },
-                            {
                                 path: 'essay',
                                 name: 'essay',
-                                meta: {
-                                    title: '文章列表',
-                                    hideInMenu: false,
-                                    requiresLogin: true
-                                },
-                                component: Vue.component('Essay', require('@js/views/admin/essay/essay.vue'))
+                                component: ParentView,
+                                children: [
+                                    {
+                                        path: '',
+                                        meta: {
+                                            title: '文章列表',
+                                            hideInMenu: false,
+                                            requiresLogin: true
+                                        },
+                                        component: (resolve) => require(['@js/views/admin/essay/essay.vue'], resolve)
+                                    },
+                                    {
+                                        path: 'write/:id?',
+                                        name: 'write',
+                                        meta: {
+                                            title: '写文章',
+                                            hideInMenu: false,
+                                            requiresLogin: true
+                                        },
+                                        component: (resolve) => require(['@js/views/admin/essay/write-essay.vue'], resolve)
+                                    }
+                                ]
                             }
                         ]
                     }

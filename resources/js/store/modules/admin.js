@@ -14,7 +14,8 @@ export const admin = {
      */
     state: {
         adminInfo: [],
-        adminList: []
+        adminList: [],
+        permission: []
     },
     /**
      * Defines the getters used by the module.
@@ -25,6 +26,9 @@ export const admin = {
         },
         getAdminList (state) {
             return state.adminList;
+        },
+        getPermission (state) {
+            return state.permission;
         }
     },
     /**
@@ -36,6 +40,9 @@ export const admin = {
         },
         setAdminList (state, adminList) {
             state.adminList = adminList;
+        },
+        setPermission (state, permission) {
+            state.permission = permission;
         }
     },
     /**
@@ -47,9 +54,11 @@ export const admin = {
                 .then((response) => {
                     setMenuTree(response.data.menuTree);
                     commit('setAdminInfo', response.data.admins);
+                    commit('setPermission', response.data.menuTree);
                 })
                 .catch((error) => {
-                    commit('setAdminInfo', [])
+                    commit('setAdminInfo', []);
+                    commit('setPermission', []);
                 });
         },
         loadAdminList ({commit}) {

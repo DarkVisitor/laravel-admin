@@ -84,9 +84,9 @@ export default {
                                     duration: 3
                                 });
                                 setToken(res.data);
-                                that.$store.dispatch('loadAdminInfo');
                                 //移除所有本地存储信息
                                 localStorage.clear();
+                                that.loading = false;   //修改为可提交状态
                                 //跳转到后台首页
                                 /* that.$router.push({
                                     name: 'admin'

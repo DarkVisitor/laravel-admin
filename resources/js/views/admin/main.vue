@@ -20,7 +20,7 @@
                         <div class="personal-center">
                             <Dropdown trigger="click" @on-click="handleDropdownClick">
                                 <a href="javascript:void(0)">
-                                    <Avatar icon="ios-person" size="default" :src="userAvatar" />{{userName}}
+                                    <Avatar icon="ios-person" size="default" :src="admins.avatar" />{{admins.name}}
                                     <Icon type="arrow-down-b"></Icon>
                                 </a>
                                 <DropdownMenu slot="list">
@@ -61,9 +61,6 @@
                     </Content>
                 </Layout>
             </Layout>
-            <Layout v-if="!topMenuList.length">
-                <router-view></router-view>
-            </Layout>
         </Layout>
     </div>
 </template>
@@ -78,8 +75,6 @@ export default {
     },
     data () {
         return {
-            userAvatar: '',
-            userName: 'admin',
             topMenuList: [],
             siderMenuList: [],
             siderOpenNames: '',
@@ -88,8 +83,11 @@ export default {
         }
     },
     computed: {
-        admins () {
+        admins() {
             return this.$store.getters.getAdminInfo;
+        },
+        menuTrees() {
+            return this.$store.getters.getPermission;
         }
     },
     methods: {
@@ -147,7 +145,7 @@ export default {
          * 设置顶部菜单数据
          */
         setTopMenuList () {
-            const menuTree = getMenuTree();
+            const menuTree = this.menuTrees;
             const topMenu = [];
             menuTree.forEach((item, index) => {
                 if(!item.parent_id) topMenu.push(item);
@@ -203,7 +201,7 @@ export default {
     watch: {
        '$route' (to) {
             this.toggleTopActiveName(to);
-
+console.log(to);
             //
             this.toggleSiderOpenNames(to);
             this.siderActiveName = to.name;
@@ -222,7 +220,6 @@ export default {
        }
     },
     created () {
-        this.$store.dispatch('loadAdminInfo');
         
         //set top menu
         this.setTopMenuList();
@@ -230,10 +227,7 @@ export default {
         //Switch the top and side menu selections according to the current route.
         this.toggleTopActiveName(this.$route);
         this.toggleSiderOpenNames(this.$route);
-        console.log('debug3');
-    },
-    mounted () {
-        console.log(this.$route);
+        
     }
 }
 </script>
