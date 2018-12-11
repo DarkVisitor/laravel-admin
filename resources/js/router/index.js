@@ -42,7 +42,7 @@ router.beforeEach((to, from, next) => {
                     name: 'home',
                     meta: {
                         title: 'Home',
-                        requiresLogin: true
+                        isMenu: 1
                     },
                     component: (resolve) => require(['@js/views/admin/home/home.vue'], resolve)
                 });
@@ -51,8 +51,9 @@ router.beforeEach((to, from, next) => {
                     name: 'admin',
                     meta: {
                         title: 'admin',
-                        requiresLogin: true
+                        isMenu: 0
                     },
+                    redirect: { name: 'home' },
                     component: AdminMain,
                 };
                 if (adminRoutes.length) adminObj.children = adminRoutes;
@@ -75,7 +76,7 @@ router.beforeEach((to, from, next) => {
             });
     }else if (token && to.name == LOGIN_PAGE_NAME) {    
         next({
-            name: 'admin'
+            name: 'home'
         });
     }else {
         next();

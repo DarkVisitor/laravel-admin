@@ -112,7 +112,19 @@ export default [
                                     hideInMenu: false,
                                     requiresLogin: true
                                 },
-                                component: Vue.component('User', require('@js/views/admin/user/user.vue'))
+                                component: ParentView,
+                                children: [
+                                    {
+                                        path: '',
+                                        name: 'user',
+                                        meta: {
+                                            title: '成员信息',
+                                            hideInMenu: false,
+                                            requiresLogin: true
+                                        },
+                                        component: (resolve) => require(['@js/views/admin/user/user.vue'], resolve)
+                                    }
+                                ]
                             }
                         ]
                     },

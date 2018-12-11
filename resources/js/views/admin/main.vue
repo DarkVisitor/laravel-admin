@@ -11,7 +11,7 @@
                         </span>
                     </div>
                     <div class="layout-nav admin-top-nav">
-                        <MenuItem v-for="(item, index) in topMenuList" :key="index" :name="item.vue_name">
+                        <MenuItem v-for="(item, index) in topNavMenuList" :key="index" :name="item.vue_router_name">
                             <Icon :type="item.icon"></Icon>
                             {{ item.title }}
                         </MenuItem>
@@ -39,15 +39,15 @@
                     </div>
                 </Menu>
             </Header>
-            <Layout v-show="topMenuList.length">
+            <Layout v-if="topNavMenuList.length">
                 <Sider hide-trigger>
-                    <Menu ref="siderMenu" :active-name="siderActiveName" theme="light" width="auto" :open-names="[siderOpenNames]" @on-open-change="handleSiderOpenChange" @on-select="handleSelectMenu">
-                        <Submenu v-for="(item, index) in siderMenuList" :key="index" :name="item.vue_name">
+                    <Menu ref="siderMenu" :active-name="siderActiveName" theme="light" width="auto" :open-names="[siderOpenNames]" @on-select="handleSelectMenu">
+                        <Submenu v-for="(item, index) in siderNavMenuList" :key="index" :name="item.vue_router_name">
                             <template slot="title">
                                 <Icon :type="item.icon"></Icon>
                                 {{item.title}}
                             </template>
-                            <MenuItem v-for="(menu, menuIndex) in item.children" :key="menuIndex" :name="menu.vue_name">{{menu.title}}</MenuItem>
+                            <MenuItem v-for="(menu, menuIndex) in item.children" :key="menuIndex" :name="menu.vue_router_name">{{menu.title}}</MenuItem>
                         </Submenu>
                         
                     </Menu>
@@ -73,10 +73,10 @@ export default {
     components: {
         TagsNav
     },
-    data () {
+    data() {
         return {
-            topMenuList: [],
-            siderMenuList: [],
+            topNavMenuList: [],
+            siderNavMenuList: [],
             siderOpenNames: '',
             topActiveName: '',
             siderActiveName: ''
@@ -95,92 +95,86 @@ export default {
          * 选择菜单（MenuItem）时触发事件
          */
         handleSelectMenu(name) {
-            this.$router.push({name: name});    //路由跳转
+            this.$router.push({name: name, params: { id: 134}});    //路由跳转
         },
         /**
-         * 顶部导航菜单选择触发事件
+         * 设置顶部导航菜单
          */
-        handleChangeTopMenu (name) {
+        setTopNavMenu() {
+            const topNavMenu = [];
+            this.menuTrees.forEach((item, index) => {
+                if(!item.parent_id && item.is_menu) topNavMenu.push(item);  //将符合条件的数据放入顶部导航菜单数组中
+            });
+
+            this.topNavMenuList = topNavMenu;  //更新顶部导航菜单列表
+
+            if (!this.siderNavMenuList.length){
+                //设置初始化侧边菜单
+                this.siderNavMenuList = this.menuTrees[0].children;
+            }
+        },
+        /**
+         * 根据当前路由设置侧边导航菜单
+         */
+        setSiderNavMenu() {
+            const matcheds = this.$route.matched;
+            let topSelectName = matcheds[1].name;
+            this.topNavMenuList.forEach(item => {
+                if (item.vue_router_name === topSelectName){
+                    this.siderNavMenuList = item.children;  // 重新赋值侧边导航菜单数据
+                }
+            });
+        },
+        /**
+         * 根据顶部导航菜单切换侧边导航菜单
+         */
+        handleChangeTopMenu(name) {
             this.topActiveName = name;
-            this.topMenuList.forEach(item => {
-                if (item.vue_name === name){
-                    this.siderMenuList = item.children;
+            this.topNavMenuList.forEach(item => {
+                if (item.vue_router_name === name){
+                    this.siderNavMenuList = item.children;  // 重新赋值侧边导航菜单数据
                 }
             });
 
-            //手动切换顶部菜单选中项
+            // 手动切换顶部菜单选中项
             this.$nextTick(() => {
                 this.$refs.topMenu.updateActiveName();
             })
 
-            //1、根据当前选中路由开启/关闭左侧子菜单
-            this.setCurrentActiveNameAndOpenNames();
-
-        },
-        /**
-         * 监听Sider菜单展开或关闭
-         */
-        handleSiderOpenChange (open) {
-            /* console.log(open) */
-        },
-        /**
-         * 根据TagsNav切换顶部菜单当前选中状态
-         */
-        toggleTopActiveName (route) {
-            if (route.matched.length > 1){
-                const name = route.matched[1].name;
-                this.topActiveName = name;
-                //this.handleChangeTopMenu(name);
-            }else {
-                this.topActiveName = '';
-            }
-        },
-        /**
-         * 根据TagsNav切换左侧菜单选中
-         */
-        toggleSiderOpenNames (route) {
-            this.setCurrentActiveNameAndOpenNames();
-        },
-        /**
-         * 设置顶部菜单数据
-         */
-        setTopMenuList () {
-            const menuTree = this.menuTrees;
-            const topMenu = [];
-            menuTree.forEach((item, index) => {
-                if(!item.parent_id) topMenu.push(item);
-            });
-
-            this.topMenuList = topMenu;
-
-            //首次加载Sider菜单显示顶部第一个菜单的子项
-            if (menuTree.length && this.siderMenuList.length <= 0){
-                if (menuTree[0].children.length){
-                    this.siderMenuList = menuTree[0].children;
-                }            
-            }
-        },
-        /**
-         * 根据当前路由设置侧边菜单选中项和父菜单展开项
-         */
-        setCurrentActiveNameAndOpenNames () {
             const matcheds = this.$route.matched;
-            if(matcheds.length > 1){
-                this.siderOpenNames = matcheds[matcheds.length - 1].parent.name;
-                this.siderActiveName = this.$route.name;
+            if (matcheds[1].name === name){
+                this.setNavMenuSelectStatus();      // 切换导航菜单选中状态
+            }else{
+                this.siderOpenNames = '';
+                this.siderActiveName = '';
                 this.$nextTick(() => {
                     this.$refs.siderMenu.updateOpened();
                     this.$refs.siderMenu.updateActiveName();
-                });
-            }
-            
+                });  
+            }            
         },
-        /**刷新页面标签菜单选中项不是Home时，根据当前路由选中顶部菜单和切换侧边父菜单展开项 */
-        initActiveMenu () {
-
+        /**
+         * 根据当前路由设置导航菜单选中状态
+         */
+        setNavMenuSelectStatus() {
+            const matcheds = this.$route.matched;
+            if(matcheds.length > 2){
+                this.topActiveName = matcheds[1].name;      // 获取顶部导航菜单 name 属性
+                this.siderOpenNames = matcheds[2].name;     // 获取侧边一级导航菜单 name 属性
+                this.siderActiveName = matcheds[3].name;    // 获取侧边二级导航菜单 name 属性
+            }else{
+                this.topActiveName = '';
+                this.siderOpenNames = '';
+                this.siderActiveName = '';
+            }
+            this.$nextTick(() => {
+                this.$refs.topMenu.updateActiveName();
+                this.$refs.siderMenu.updateOpened();
+                this.$refs.siderMenu.updateActiveName();
+            });       
         },
         /**下拉菜单选中点击事件 */
-        handleDropdownClick (name) {
+        handleDropdownClick(name) {
             switch(name){
                 case 'personalCenter':
                     this.$router.push({path: '/admin/personalCenter'});
@@ -199,35 +193,25 @@ export default {
         }
     },
     watch: {
-       '$route' (to) {
-            this.toggleTopActiveName(to);
-console.log(to);
-            //
-            this.toggleSiderOpenNames(to);
-            this.siderActiveName = to.name;
-
-            this.$nextTick(() => {
-                this.$refs.siderMenu.updateOpened();
-                this.$refs.siderMenu.updateActiveName();
-            });
+       '$route'(to) {
+            this.setSiderNavMenu();
+            this.setNavMenuSelectStatus();
        },
-       admins (curVal) {
+       admins(curVal) {
             this.userName = curVal.name;
             this.userAvatar = curVal.avatar;
             
-            //set top menu
-            this.setTopMenuList();
+            // set top menu
+            this.setTopNavMenu();   // 设置顶部导航菜单
        }
     },
-    created () {
+    created() {
         
-        //set top menu
-        this.setTopMenuList();
-    
-        //Switch the top and side menu selections according to the current route.
-        this.toggleTopActiveName(this.$route);
-        this.toggleSiderOpenNames(this.$route);
-        
+    },
+    mounted() {
+        this.setTopNavMenu();       // 设置顶部导航菜单
+        this.setSiderNavMenu();
+        this.setNavMenuSelectStatus();
     }
 }
 </script>

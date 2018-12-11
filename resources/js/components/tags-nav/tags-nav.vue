@@ -123,8 +123,9 @@ export default {
     handleClose (current) {
       let res = this.list.filter(item => !this.routeEqual(current, item));
       const nextRoute = this.getNextRoute(this.list, current);
-      this.$router.push({path:nextRoute.path});
+      this.$router.push({name:nextRoute.name});
       this.list = res;
+      this.updateStorageTagsNav(this.list);
     },
     handleClick (item) {
       this.turnToPage(item);
@@ -265,14 +266,18 @@ export default {
     routeHasExist () {
       let routeItem = this.resetRoute(this.$route);
       let isCheck = false;
-      this.list.forEach((item, index) => {
-          if(this.routeEqual(item, routeItem)){
-              isCheck = true;
-          }
-      });
+      //检查导航菜单
+      if (this.$route.meta.isMenu){
+        this.list.forEach((item, index) => {
+            if(this.routeEqual(item, routeItem)){
+                isCheck = true;
+            }
+        });
       
-      if (!isCheck) this.list.push(routeItem);
-      this.updateStorageTagsNav(this.list);
+        if (!isCheck) this.list.push(routeItem);
+        this.updateStorageTagsNav(this.list);
+      }
+      
     },
     /**
      * 重构路由

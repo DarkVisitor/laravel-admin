@@ -2,11 +2,12 @@
     <div>
         <div class="content-header">
             <div class="header-action">
-                <Button v-show="true" type="info" icon="android-add" @click="createRoleGroupInfo">新增</Button>
+                <Button type="success" icon="md-add" shape="circle" @click="createRoleGroupInfo">新增</Button>
+                <Button v-show="true" type="warning" icon="android-add" :to="{name: 'permission'}">跳转</Button>
             </div>
         </div>
         <div style="margin-bottom: 20px;">
-            <Table ref="table" :columns="columns4" :data="roleList" :border="true" :loading="loading"></Table>
+            <Table ref="table" :columns="columns4" :data="roleList" :border="false" :loading="loading"></Table>
         </div>
 
         <!-- Role info -->
@@ -105,18 +106,15 @@ export default {
                 {
                     title: '分组名称',
                     key: 'title',
-                    align: 'center',
                     minWidth: 120
                 },
                 {
                     title: '分组描述',
                     key: 'remarks',
-                    align: 'center',
                     minWidth: 120
                 },
                 {
                     title: '用户列表',
-                    align: 'center',
                     minWidth: 320,
                     render: (h, params) => {
                         let rows = [];

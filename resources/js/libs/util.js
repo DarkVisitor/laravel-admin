@@ -55,26 +55,58 @@ export const transferByRouteArray = (list) => {
   if (list.length){
     forEach(list, item => {
       let obj = {
-        path: `${item.vue_router}`,
-        name: `${item.vue_name}`,
+        path: `${item.vue_router_path}`,
+        name: `${item.vue_router_name}`,
         meta: {
           title: `${item.title}`,
-          isMenu: item.is_menu,
-          hideInMenu: item.is_menu ? false : true,
-          requiresLogin: true
+          isMenu: item.is_menu
         }
       };
+
+      //判断是否存在子节点
       if (item.children.length){
-        let childNodes = transferByRouteArray(item.children);
-        if (childNodes.length){
-          obj.children = childNodes;
-          obj.component = ParentView;
-        }        
-      }else if (item.vue_file){
-        obj.component = (resolve) => require([`@js/views/admin/${item.vue_file}.vue`], resolve);
-      }else{
+        let childNodes = transferByRouteArray(item.children);   //递归获取子节点数组数据
+
+        //判断当前节点数据是否导航菜单and拥有单页面文件路径
+        if (item.is_menu && item.vue_file_path){
+          //存在即将当前节点添加到子节点数组中，vue-router的path为空（表示当前节点）
+          childNodes.push({
+            path: '',
+            name: `${item.vue_router_name}`,
+            meta: {
+              title: `${item.title}`,
+              isMenu: item.is_menu
+            },
+            component: (resolve) => require([`@js/views${item.vue_file_path}`], resolve)
+          });
+          obj.path = `${item.vue_router_path}/:id`;    //更改当前节点的 path 属性
+          //obj.name = `${item.vue_router_name}Index`;   //更改当前节点的 name 属性
+        }
+        obj.children = childNodes;    //将子节点数组赋值给当前节点的 children 属性
         obj.component = ParentView;
+      }else if (item.is_menu && item.vue_file_path){
+        //不存在子节点 and 是导航菜单 and 拥有单页面文件路径
+        obj.path = `${item.vue_router_path}/:id`;    //更改当前节点的 path 属性
+        //obj.name = `${item.vue_router_name}Index`;   //更改当前节点的 name 属性
+
+        //将当前节点数据赋值给当前节点的 children 属性
+        obj.children = [{
+          path: '',
+          name: `${item.vue_router_name}`,
+          meta: {
+            title: `${item.title}`,
+            isMenu: item.is_menu
+          },
+          component: (resolve) => require([`@js/views${item.vue_file_path}`], resolve)
+        }];
+        obj.component = ParentView;
+      }else if (!item.is_menu && item.vue_file_path){
+        //不存在子节点 and 不是导航菜单 and 拥有单页面文件路径
+        obj.component = (resolve) => require([`@js/views${item.vue_file_path}`], resolve);
+      }else {
+        obj.component = (resolve) => require([`@js/views${item.vue_file_path}`], resolve);
       }
+
       routes.push(obj);
     })
 
