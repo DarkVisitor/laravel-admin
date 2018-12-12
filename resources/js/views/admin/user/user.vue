@@ -1,5 +1,9 @@
 <template>
-    <div>
+    <div class="laradmin-main">
+        <Breadcrumb separator=">">
+            <BreadcrumbItem :to="{name: 'module'}">模块配置</BreadcrumbItem>
+            <BreadcrumbItem>新增模块配置</BreadcrumbItem>
+        </Breadcrumb>
         <div class="content-header">
             <Form ref="formSearchData" :model="formSearchData" inline>
                 <FormItem prop="keyword" label='关键字' :label-width="60">

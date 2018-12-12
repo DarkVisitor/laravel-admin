@@ -95,11 +95,12 @@ class ModuleService
         }
         $modules->parent_id = $request->parent_id;
         $modules->title = $request->title;
-        $modules->vue_router = $request->vue_router;
-        $modules->vue_name = $request->vue_name;
-        $modules->laravel_router = $request->laravel_router;
-        $modules->icon = $request->icon;
+        $modules->vue_router_path = $request->vue_router_path;
+        $modules->vue_router_name = $request->vue_router_name;
+        $modules->vue_file_path = $request->vue_file_path;
+        $modules->laravel_router_path = $request->laravel_router_path;
         $modules->is_menu = $request->is_menu;
+        $modules->icon = $request->icon;
         $modules->status = $request->status;
         $modules->sort = $request->sort;
         $boole = $modules->save();

@@ -1,17 +1,19 @@
 <template>
-    <div>
+    <div class="laradmin-main">
+        <Breadcrumb>
+            <BreadcrumbItem>角色配置</BreadcrumbItem>
+        </Breadcrumb>
         <div class="content-header">
             <div class="header-action">
-                <Button type="success" icon="md-add" shape="circle" @click="createRoleGroupInfo">新增</Button>
-                <Button v-show="true" type="warning" icon="android-add" :to="{name: 'permission'}">跳转</Button>
+                <Button type="success" icon="md-add" shape="circle" :to="{name: 'createRole'}">新增角色分组</Button>
             </div>
         </div>
         <div style="margin-bottom: 20px;">
-            <Table ref="table" :columns="columns4" :data="roleList" :border="false" :loading="loading"></Table>
+            <Table ref="table" :columns="tableColumns" :data="roleList" :border="false" :loading="loading"></Table>
         </div>
 
         <!-- Role info -->
-        <Modal v-model="isInfoModal" :title="infoModalTitle" @on-visible-change="listenInfoModalChange">
+        <!-- <Modal v-model="isInfoModal" :title="infoModalTitle" @on-visible-change="listenInfoModalChange">
             <Spin fix v-if="spinShow">
                 <Icon type="ios-loading" size=50 class="demo-spin-icon-load"></Icon>
             </Spin>
@@ -27,7 +29,7 @@
                 <Button type="text" size="large" @click="handleInfoCancel">取消</Button>
                 <Button type="primary" size="large" :loading="loading" @click="handleInfoSave">保存</Button>
             </div>
-        </Modal>
+        </Modal> -->
         <!-- Role info -->
 
         <!-- Allotment of members -->
@@ -86,7 +88,7 @@ export default {
             transferTitle: ['未分配成员', '已分配成员'],
             isAuthModal: false,
             roleGroupAuthList: [],
-            roleGroupForm: {
+            /* roleGroupForm: {
                 id: '',
                 title: '',
                 remarks: ''
@@ -95,8 +97,8 @@ export default {
                 title: [
                     {required: true, message: '请输入分组名称', trigger: 'blur'}
                 ]
-            },
-            columns4: [
+            }, */
+            tableColumns: [
                 {
                     type: 'index',
                     title: '编号',
@@ -229,21 +231,21 @@ export default {
             this.loading = false;
             return this.$store.getters.getRoleList.data;
         },
-        roleInfo () {
+        /* roleInfo () {
             return this.$store.getters.getRoleInfo.data;
-        }
+        } */
     },
     watch: {
         
     },
     methods: {
         /** Create role group info. */
-        createRoleGroupInfo() {
+        /* createRoleGroupInfo() {
             this.isInfoModal = true;
             this.infoModalTitle = '新增';
-        },
+        }, */
         /** Update role group info. */
-        updateRoleGroupInfo(id) {
+        /* updateRoleGroupInfo(id) {
             let that = this;
             that.infoModalTitle = '编辑';
             that.spinShow = true;
@@ -263,17 +265,17 @@ export default {
                     that.isInfoModal = false;
                     that.spinShow = false;
                 });
-        },
+        }, */
         /** Admin group modal cancel event. */
-        handleInfoCancel() {
+        /* handleInfoCancel() {
             // Reset from
             this.$refs['roleGroupForm'].resetFields();
             this.resetRoleGroupFormFields();
             // Hide modal
             this.isInfoModal= false;
-        },
+        }, */
         /** Administrator group form submission event. */
-        handleInfoSave() {
+        /* handleInfoSave() {
             this.$refs.roleGroupForm.validate((valid)=>{
                 if (valid) {
                     let that = this;
@@ -295,7 +297,7 @@ export default {
                         });
                 }
             });
-        },
+        }, */
         /** Listen for User Group Information Modal Box to Send Change Events. */
         listenInfoModalChange(visible) {
             if (!visible) {
@@ -423,8 +425,13 @@ export default {
                 });
         }
     },
+    created() {
+        if (this.roleList == undefined){
+            this.loading = true;
+        }
+    },
     mounted () {
-        this.loading = true;
+        // Initialize table data.
         this.$store.dispatch('loadRoleList');
     }
     

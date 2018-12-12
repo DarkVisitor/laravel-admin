@@ -571,14 +571,14 @@ var transferByRouteArray = function transferByRouteArray(list) {
               return __webpack_require__.e/* require */(0/* duplicate */).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(6)("./views" + item.vue_file_path)]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe);
             }
           });
-          obj.path = item.vue_router_path + '/:id'; //更改当前节点的 path 属性
+          //obj.path = `${item.vue_router_path}/:id`;    //更改当前节点的 path 属性
           //obj.name = `${item.vue_router_name}Index`;   //更改当前节点的 name 属性
         }
         obj.children = childNodes; //将子节点数组赋值给当前节点的 children 属性
         obj.component = __WEBPACK_IMPORTED_MODULE_2__js_components_parent_view__["a" /* default */];
       } else if (item.is_menu && item.vue_file_path) {
         //不存在子节点 and 是导航菜单 and 拥有单页面文件路径
-        obj.path = item.vue_router_path + '/:id'; //更改当前节点的 path 属性
+        //obj.path = `${item.vue_router_path}/:id`;    //更改当前节点的 path 属性
         //obj.name = `${item.vue_router_name}Index`;   //更改当前节点的 name 属性
 
         //将当前节点数据赋值给当前节点的 children 属性
@@ -67067,49 +67067,58 @@ router.beforeEach(function (to, from, next) {
     } else if (token && !__WEBPACK_IMPORTED_MODULE_3__store__["a" /* default */].state.admin.permission.length) {
         //获取当前用户信息
         __WEBPACK_IMPORTED_MODULE_7__js_api_admin_js__["a" /* default */].getAdminInfo().then(function (response) {
-            __WEBPACK_IMPORTED_MODULE_3__store__["a" /* default */].commit('setAdminInfo', response.data.admins);
-            __WEBPACK_IMPORTED_MODULE_3__store__["a" /* default */].commit('setPermission', response.data.menuTree);
-            var permission = __WEBPACK_IMPORTED_MODULE_3__store__["a" /* default */].state.admin.permission;
-            var adminRoutes = Object(__WEBPACK_IMPORTED_MODULE_5__js_libs_util_js__["f" /* transferByRouteArray */])(permission);
-            adminRoutes.push({
-                path: 'home',
-                name: 'home',
-                meta: {
-                    title: 'Home',
-                    isMenu: 1
-                },
-                component: function component(resolve) {
-                    return __webpack_require__.e/* require */(3).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(89)]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe);
-                }
-            });
-            var adminObj = {
-                path: '/admin',
-                name: 'admin',
-                meta: {
-                    title: 'admin',
-                    isMenu: 0
-                },
-                redirect: { name: 'home' },
-                component: __WEBPACK_IMPORTED_MODULE_6__js_views_admin_main___default.a
-            };
-            if (adminRoutes.length) adminObj.children = adminRoutes;
-            //动态添加当前用户权限路由
-            router.addRoutes([adminObj, {
-                path: '/admin/429',
-                name: '429',
-                component: function component(resolve) {
-                    return __webpack_require__.e/* require */(1/* duplicate */).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(27)]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe);
-                }
-            }, {
-                path: '*',
-                redirect: '/admin/404'
-            }]);
-            next({
-                path: to.path
-            });
+            if (!response.data.code) {
+                __WEBPACK_IMPORTED_MODULE_3__store__["a" /* default */].commit('setAdminInfo', response.data.admins);
+                __WEBPACK_IMPORTED_MODULE_3__store__["a" /* default */].commit('setPermission', response.data.menuTree);
+                var permission = __WEBPACK_IMPORTED_MODULE_3__store__["a" /* default */].state.admin.permission;
+                var adminRoutes = Object(__WEBPACK_IMPORTED_MODULE_5__js_libs_util_js__["f" /* transferByRouteArray */])(permission);
+                adminRoutes.push({
+                    path: 'home',
+                    name: 'home',
+                    meta: {
+                        title: 'Home',
+                        isMenu: 1
+                    },
+                    component: function component(resolve) {
+                        return __webpack_require__.e/* require */(3).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(89)]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe);
+                    }
+                });
+                var adminObj = {
+                    path: '/admin',
+                    name: 'admin',
+                    meta: {
+                        title: 'admin',
+                        isMenu: 0
+                    },
+                    redirect: { name: 'home' },
+                    component: __WEBPACK_IMPORTED_MODULE_6__js_views_admin_main___default.a
+                };
+                if (adminRoutes.length) adminObj.children = adminRoutes;
+                //动态添加当前用户权限路由
+                router.addRoutes([adminObj, {
+                    path: '/admin/429',
+                    name: '429',
+                    component: function component(resolve) {
+                        return __webpack_require__.e/* require */(1/* duplicate */).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(27)]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe);
+                    }
+                }, {
+                    path: '*',
+                    redirect: '/admin/404'
+                }]);
+                next({
+                    path: to.path
+                });
+            } else {
+                next({
+                    name: LOGIN_PAGE_NAME
+                });
+            }
         }).catch(function (error) {
             __WEBPACK_IMPORTED_MODULE_3__store__["a" /* default */].commit('setAdminInfo', []);
             __WEBPACK_IMPORTED_MODULE_3__store__["a" /* default */].commit('setPermission', []);
+            next({
+                name: LOGIN_PAGE_NAME
+            });
         });
     } else if (token && to.name == LOGIN_PAGE_NAME) {
         next({
@@ -67124,7 +67133,6 @@ router.beforeEach(function (to, from, next) {
 router.afterEach(function (to) {
     //iview 全局加载进度条,结束进度条，自动补全剩余进度
     __WEBPACK_IMPORTED_MODULE_4_iview___default.a.LoadingBar.finish();
-    //window.scrollTo(0, 0);
 });
 
 /* harmony default export */ __webpack_exports__["a"] = (router);
@@ -92846,6 +92854,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return this.$store.getters.getPermission;
         }
     },
+    watch: {
+        '$route': function $route(to) {
+            this.setSiderNavMenu();
+            this.setNavMenuSelectStatus();
+        },
+        admins: function admins(curVal) {
+            this.userName = curVal.name;
+            this.userAvatar = curVal.avatar;
+
+            // set top menu
+            this.setTopNavMenu(); // 设置顶部导航菜单
+        }
+    },
     methods: {
         /**
          * 选择菜单（MenuItem）时触发事件
@@ -92957,19 +92978,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     this.$router.push({ name: 'login' });
                     break;
             }
-        }
-    },
-    watch: {
-        '$route': function $route(to) {
-            this.setSiderNavMenu();
-            this.setNavMenuSelectStatus();
-        },
-        admins: function admins(curVal) {
-            this.userName = curVal.name;
-            this.userAvatar = curVal.avatar;
-
-            // set top menu
-            this.setTopNavMenu(); // 设置顶部导航菜单
         }
     },
     created: function created() {},
@@ -94317,12 +94325,7 @@ var render = function() {
                       _vm._v(" "),
                       _c(
                         "Content",
-                        {
-                          staticStyle: {
-                            "margin-top": "15px",
-                            "overflow-y": "auto"
-                          }
-                        },
+                        { staticClass: "laradmin" },
                         [_c("router-view")],
                         1
                       )

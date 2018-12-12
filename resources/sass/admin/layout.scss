@@ -157,15 +157,46 @@ html, body, #app {
 }
 
 /* Content Style (右侧内容样式) */
-.ivu-layout-content {
+.laradmin.ivu-layout-content {
+    margin-top: 15px;
+    height: 100%;
+    overflow-y: auto;
+}
+.laradmin.ivu-layout-content .laradmin-main {
     padding: 24px;
-    background: #fff;
+    background-color: #fff;
+}
+.laradmin.ivu-layout-content .laradmin-form {
+    background-color: #f7f8f8;
 }
 
+// Form element
+.laradmin-form-element {
+    position: relative;
+    background-color: #fff;
+    padding: 48px;
+    box-shadow: 0 1px 4px 0 #e3e8ee;
+    border-radius: 4px;
+}
+
+// Breadcrumb
+.ivu-layout-content .ivu-breadcrumb {
+    font-size: 18px;
+    line-height: 24px;
+    padding-bottom: 20px;
+    color: #464c5b;
+}
+.ivu-layout-content .ivu-breadcrumb span {
+    font-weight: 400;
+}
+.ivu-layout-content .ivu-breadcrumb span:not(:last-child) .ivu-breadcrumb-item-link {
+    color: #57a3f3;
+}
 
 //header search style
 .content-header {
-    margin-bottom: 20px;
+    padding-top: 8px;
+    padding-bottom: 20px;
 }
 .content-header .ivu-form-item {
     margin-bottom: 12px;

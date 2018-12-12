@@ -21,6 +21,8 @@ var map = {
 	"./views/admin/login/login.vue": 27,
 	"./views/admin/main": 12,
 	"./views/admin/main.vue": 12,
+	"./views/admin/module/components/edit/edit": 148,
+	"./views/admin/module/components/edit/edit.vue": 148,
 	"./views/admin/module/module": 105,
 	"./views/admin/module/module.vue": 105,
 	"./views/admin/role/components/auth-tree": 92,
@@ -32,6 +34,8 @@ var map = {
 	"./views/admin/role/components/auth-tree/index": 92,
 	"./views/admin/role/components/auth-tree/index.js": 92,
 	"./views/admin/role/components/auth-tree/index.scss": 106,
+	"./views/admin/role/components/edit/edit": 151,
+	"./views/admin/role/components/edit/edit.vue": 151,
 	"./views/admin/role/components/permission/permission": 107,
 	"./views/admin/role/components/permission/permission.vue": 107,
 	"./views/admin/role/role": 108,
@@ -2968,49 +2972,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3018,28 +2979,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         var _this = this;
 
         return {
-            isModal: false,
-            modalTitle: '新增',
-            trueValue: 1,
-            falseValue: 0,
-            spinShow: false,
             loading: false,
-            moduleData: {
-                id: '',
-                parent_id: -1,
-                title: '',
-                vue_router: '',
-                laravel_router: '',
-                is_menu: 1,
-                icon: '',
-                sort: 1,
-                status: 1
-            },
-            ruleValidate: {
-                parent_id: [{ required: true, type: 'number', min: 0, message: '请选择上级菜单', trigger: 'change' }],
-                title: [{ required: true, message: '请输入菜单名称', trigger: 'blur' }]
-            },
-            columns4: [{
+            tableColumns: [{
                 title: '菜单名称',
                 align: 'left',
                 minWidth: 180,
@@ -3051,15 +2992,37 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     }, params.row.title);
                 }
             }, {
-                title: 'Vue路由',
-                key: 'vue_router',
+                title: 'Vue路由地址',
+                key: 'vue_router_path',
                 align: 'left',
                 minWidth: 120
             }, {
-                title: 'Laravel路由',
-                key: 'laravel_router',
+                title: 'Vue路由名称',
+                key: 'vue_router_name',
                 align: 'left',
                 minWidth: 120
+            }, {
+                title: 'Vue文件地址',
+                key: 'vue_file_path',
+                align: 'left',
+                minWidth: 120
+            }, {
+                title: 'Laravel路由地址',
+                key: 'laravel_router_path',
+                align: 'left',
+                minWidth: 140
+            }, {
+                title: '导航菜单',
+                key: 'is_menu',
+                align: 'center',
+                minWidth: 100,
+                render: function render(h, params) {
+                    return h("Tag", {
+                        props: {
+                            color: params.row.is_menu ? 'success' : '#999'
+                        }
+                    }, params.row.is_menu ? '是' : '否');
+                }
             }, {
                 title: 'icon',
                 key: 'icon',
@@ -3119,7 +3082,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         },
                         on: {
                             click: function click() {
-                                _this.updateModuleInfo(params.row.id);
+                                _this.$router.push({
+                                    name: 'editModule',
+                                    params: {
+                                        id: params.row.id
+                                    }
+                                });
                             }
                         }
                     }), h('Poptip', {
@@ -3154,95 +3122,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     computed: {
         modules: function modules() {
+            this.loading = false;
             return this.$store.getters.getModuleList.data;
-        },
-        menuModules: function menuModules() {
-            return this.$store.getters.getMenuModule.data;
-        },
-        moduleInfo: function moduleInfo() {
-            return this.$store.getters.getModuleInfo.data;
         }
     },
     methods: {
-        /* handleSelectAll (status) {
-            this.$refs.selection.selectAll(status);
-        },
-        selectedSecond:function(index){
-             this.$router.push({path:index})
-        }, */
-        /** Create module info. */
+        /** 
+         * Create module info.
+         */
         createModuleInfo: function createModuleInfo() {
             this.isModal = true;
             this.modalTitle = '新增';
             this.$store.dispatch('loadIsMenuModule');
         },
 
-        /** Update module info. */
-        updateModuleInfo: function updateModuleInfo(id) {
-            var that = this;
-            that.modalTitle = '编辑';
-            that.$store.dispatch('loadIsMenuModule');
-            that.isModal = true;
-            that.spinShow = true;
-            __WEBPACK_IMPORTED_MODULE_0__js_api_module_js__["a" /* default */].getModuleInfo(id).then(function (response) {
-                if (response.data.code) {
-                    that.$Message.error(response.data.msg);
-                    that.isModal = false;
-                } else {
-                    that.moduleData = response.data.data;
-                }
-                that.spinShow = false;
-            }).catch(function () {
-                that.$Message.info('系统繁忙，请稍后再试!');
-                that.isModal = false;
-                that.spinShow = false;
-            });
-        },
-
-        /** Module cancel event. */
-        handleInfoCancel: function handleInfoCancel() {
-            // reset from
-            this.$refs['moduleData'].resetFields();
-            // hide modal
-            this.isModal = false;
-        },
-
-        /** Save module info event. */
-        handleInfoSave: function handleInfoSave() {
-            var _this2 = this;
-
-            this.$refs['moduleData'].validate(function (valid) {
-                if (valid) {
-                    var that = _this2;
-                    that.loading = true;
-                    __WEBPACK_IMPORTED_MODULE_0__js_api_module_js__["a" /* default */].saveFromModule(_this2.moduleData).then(function (response) {
-                        if (response.data.code) {
-                            that.$Message.error(response.data.msg);
-                        } else {
-                            that.$Message.success(response.data.msg);
-                            that.$store.dispatch('loadModule');
-                            that.isModal = false;
-                        }
-                        that.loading = false;
-                    }).catch(function () {
-                        that.$Message.info('系统繁忙，请稍后再试!');
-                        that.loading = false;
-                    });
-                }
-            });
-        },
-
-
-        /** 监听Modal显示状态发生改变时 */
-        listenVisibleChange: function listenVisibleChange(visible) {
-            //Modal隐藏时重置表单
-            if (!visible) this.$refs['moduleData'].resetFields();
-        },
-        /** 顶级菜单列表样式 */
-        selectPaddingLeft: function selectPaddingLeft(child) {
-            return child * 16 + 16;
-        },
-        /** Delete menu record. */
+        /** 
+         * Delete menu record.
+         */
         deleteModule: function deleteModule(id) {
             var that = this;
             __WEBPACK_IMPORTED_MODULE_0__js_api_module_js__["a" /* default */].deleteModule({ id: id }).then(function (response) {
@@ -3256,7 +3152,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 that.$Message.info('系统繁忙，请稍后再试!');
             });
         },
-        /** Update module status */
+        /** 
+         * Update module status.
+         */
         updateModuleStatus: function updateModuleStatus(index, id, status) {
             var that = this;
             that.modules[index].loading = true;
@@ -3275,6 +3173,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     created: function created() {
+        if (this.modules == undefined) {
+            this.loading = true;
+        }
+    },
+    mounted: function mounted() {
+        // Initialize table data.
         this.$store.dispatch('loadModule');
     }
 });
@@ -3289,7 +3193,10 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    { staticClass: "laradmin-main" },
     [
+      _c("Breadcrumb", [_c("BreadcrumbItem", [_vm._v("模块配置")])], 1),
+      _vm._v(" "),
       _c("div", { staticClass: "content-header" }, [
         _c(
           "div",
@@ -3298,10 +3205,14 @@ var render = function() {
             _c(
               "Button",
               {
-                attrs: { type: "success", icon: "android-add" },
-                on: { click: _vm.createModuleInfo }
+                attrs: {
+                  type: "success",
+                  shape: "circle",
+                  icon: "md-add",
+                  to: { name: "createModule" }
+                }
               },
-              [_vm._v("新增")]
+              [_vm._v("新增配置")]
             )
           ],
           1
@@ -3314,287 +3225,13 @@ var render = function() {
         [
           _c("Table", {
             ref: "expand",
-            attrs: { columns: _vm.columns4, data: _vm.modules, border: true }
+            attrs: {
+              columns: _vm.tableColumns,
+              data: _vm.modules,
+              border: true,
+              loading: _vm.loading
+            }
           })
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "Modal",
-        {
-          attrs: { title: _vm.modalTitle },
-          on: { "on-visible-change": _vm.listenVisibleChange },
-          model: {
-            value: _vm.isModal,
-            callback: function($$v) {
-              _vm.isModal = $$v
-            },
-            expression: "isModal"
-          }
-        },
-        [
-          _vm.spinShow
-            ? _c(
-                "Spin",
-                { attrs: { fix: "" } },
-                [
-                  _c("Icon", {
-                    staticClass: "demo-spin-icon-load",
-                    attrs: { type: "ios-loading", size: "50" }
-                  })
-                ],
-                1
-              )
-            : _vm._e(),
-          _vm._v(" "),
-          _c(
-            "Form",
-            {
-              ref: "moduleData",
-              attrs: {
-                model: _vm.moduleData,
-                rules: _vm.ruleValidate,
-                "label-width": 100
-              }
-            },
-            [
-              _c(
-                "FormItem",
-                { attrs: { label: "上级菜单", prop: "parent_id" } },
-                [
-                  _c(
-                    "Select",
-                    {
-                      staticClass: "modal-form-item",
-                      model: {
-                        value: _vm.moduleData.parent_id,
-                        callback: function($$v) {
-                          _vm.$set(_vm.moduleData, "parent_id", $$v)
-                        },
-                        expression: "moduleData.parent_id"
-                      }
-                    },
-                    [
-                      _c("Option", { attrs: { value: 0 } }, [
-                        _vm._v("顶级菜单")
-                      ]),
-                      _vm._v(" "),
-                      _vm._l(_vm.menuModules, function(item) {
-                        return _c(
-                          "Option",
-                          {
-                            key: item.id,
-                            style: {
-                              paddingLeft:
-                                _vm.selectPaddingLeft(item.index) + "px"
-                            },
-                            attrs: { value: item.id }
-                          },
-                          [_vm._v(_vm._s(item.title))]
-                        )
-                      })
-                    ],
-                    2
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "FormItem",
-                { attrs: { label: "菜单名称", prop: "title" } },
-                [
-                  _c("Input", {
-                    staticClass: "modal-form-item",
-                    attrs: { placeholder: "请输入菜单名称" },
-                    model: {
-                      value: _vm.moduleData.title,
-                      callback: function($$v) {
-                        _vm.$set(_vm.moduleData, "title", $$v)
-                      },
-                      expression: "moduleData.title"
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "FormItem",
-                { attrs: { label: "Vue路由" } },
-                [
-                  _c("Input", {
-                    staticClass: "modal-form-item",
-                    attrs: { placeholder: "请输入Vue路由" },
-                    model: {
-                      value: _vm.moduleData.vue_router,
-                      callback: function($$v) {
-                        _vm.$set(_vm.moduleData, "vue_router", $$v)
-                      },
-                      expression: "moduleData.vue_router"
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "FormItem",
-                { attrs: { label: "Laravel路由" } },
-                [
-                  _c("Input", {
-                    staticClass: "modal-form-item",
-                    attrs: { placeholder: "请输入Laravel路由" },
-                    model: {
-                      value: _vm.moduleData.laravel_router,
-                      callback: function($$v) {
-                        _vm.$set(_vm.moduleData, "laravel_router", $$v)
-                      },
-                      expression: "moduleData.laravel_router"
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "FormItem",
-                { attrs: { label: "导航菜单" } },
-                [
-                  _c(
-                    "i-switch",
-                    {
-                      attrs: {
-                        size: "large",
-                        "true-value": _vm.trueValue,
-                        "false-value": _vm.falseValue
-                      },
-                      model: {
-                        value: _vm.moduleData.is_menu,
-                        callback: function($$v) {
-                          _vm.$set(_vm.moduleData, "is_menu", $$v)
-                        },
-                        expression: "moduleData.is_menu"
-                      }
-                    },
-                    [
-                      _c("span", { attrs: { slot: "open" }, slot: "open" }, [
-                        _vm._v("是")
-                      ]),
-                      _vm._v(" "),
-                      _c("span", { attrs: { slot: "close" }, slot: "close" }, [
-                        _vm._v("否")
-                      ])
-                    ]
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "FormItem",
-                { attrs: { label: "icon" } },
-                [
-                  _c("Input", {
-                    staticClass: "modal-form-item",
-                    attrs: { placeholder: "请输入icon" },
-                    model: {
-                      value: _vm.moduleData.icon,
-                      callback: function($$v) {
-                        _vm.$set(_vm.moduleData, "icon", $$v)
-                      },
-                      expression: "moduleData.icon"
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "FormItem",
-                { attrs: { label: "排序" } },
-                [
-                  _c("InputNumber", {
-                    staticClass: "modal-form-item",
-                    attrs: { min: 1 },
-                    model: {
-                      value: _vm.moduleData.sort,
-                      callback: function($$v) {
-                        _vm.$set(_vm.moduleData, "sort", $$v)
-                      },
-                      expression: "moduleData.sort"
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "FormItem",
-                { attrs: { label: "状态" } },
-                [
-                  _c(
-                    "i-switch",
-                    {
-                      attrs: {
-                        size: "large",
-                        "true-value": _vm.trueValue,
-                        "false-value": _vm.falseValue
-                      },
-                      model: {
-                        value: _vm.moduleData.status,
-                        callback: function($$v) {
-                          _vm.$set(_vm.moduleData, "status", $$v)
-                        },
-                        expression: "moduleData.status"
-                      }
-                    },
-                    [
-                      _c("span", { attrs: { slot: "open" }, slot: "open" }, [
-                        _vm._v("开启")
-                      ]),
-                      _vm._v(" "),
-                      _c("span", { attrs: { slot: "close" }, slot: "close" }, [
-                        _vm._v("关闭")
-                      ])
-                    ]
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            { attrs: { slot: "footer" }, slot: "footer" },
-            [
-              _c(
-                "Button",
-                {
-                  attrs: { type: "text", size: "large" },
-                  on: { click: _vm.handleInfoCancel }
-                },
-                [_vm._v("取消")]
-              ),
-              _vm._v(" "),
-              _c(
-                "Button",
-                {
-                  attrs: {
-                    type: "primary",
-                    size: "large",
-                    loading: _vm.loading
-                  },
-                  on: { click: _vm.handleInfoSave }
-                },
-                [_vm._v("保存")]
-              )
-            ],
-            1
-          )
         ],
         1
       )
@@ -4164,6 +3801,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -4186,15 +3825,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             transferTitle: ['未分配成员', '已分配成员'],
             isAuthModal: false,
             roleGroupAuthList: [],
-            roleGroupForm: {
+            /* roleGroupForm: {
                 id: '',
                 title: '',
                 remarks: ''
             },
             ruleValidate: {
-                title: [{ required: true, message: '请输入分组名称', trigger: 'blur' }]
-            },
-            columns4: [{
+                title: [
+                    {required: true, message: '请输入分组名称', trigger: 'blur'}
+                ]
+            }, */
+            tableColumns: [{
                 type: 'index',
                 title: '编号',
                 width: 60,
@@ -4314,74 +3955,69 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         roleList: function roleList() {
             this.loading = false;
             return this.$store.getters.getRoleList.data;
-        },
-        roleInfo: function roleInfo() {
-            return this.$store.getters.getRoleInfo.data;
         }
     },
     watch: {},
     methods: {
         /** Create role group info. */
-        createRoleGroupInfo: function createRoleGroupInfo() {
+        /* createRoleGroupInfo() {
             this.isInfoModal = true;
             this.infoModalTitle = '新增';
-        },
-
+        }, */
         /** Update role group info. */
-        updateRoleGroupInfo: function updateRoleGroupInfo(id) {
-            var that = this;
+        /* updateRoleGroupInfo(id) {
+            let that = this;
             that.infoModalTitle = '编辑';
             that.spinShow = true;
             that.isInfoModal = true;
-            __WEBPACK_IMPORTED_MODULE_1__js_api_role_js__["a" /* default */].getRoleInfo({ id: id }).then(function (response) {
-                if (response.data.code) {
+            RoleAPI.getRoleInfo({id:id})
+                .then(function(response){
+                    if(response.data.code){
+                        that.isInfoModal = false;
+                        that.$Message.error(response.data.msg);
+                    }else{
+                        that.roleGroupForm = response.data.data;
+                    }
+                    that.spinShow = false;
+                })
+                .catch(function(){
+                    that.$Message.info('系统繁忙，请稍后再试!');
                     that.isInfoModal = false;
-                    that.$Message.error(response.data.msg);
-                } else {
-                    that.roleGroupForm = response.data.data;
-                }
-                that.spinShow = false;
-            }).catch(function () {
-                that.$Message.info('系统繁忙，请稍后再试!');
-                that.isInfoModal = false;
-                that.spinShow = false;
-            });
-        },
-
+                    that.spinShow = false;
+                });
+        }, */
         /** Admin group modal cancel event. */
-        handleInfoCancel: function handleInfoCancel() {
+        /* handleInfoCancel() {
             // Reset from
             this.$refs['roleGroupForm'].resetFields();
             this.resetRoleGroupFormFields();
             // Hide modal
-            this.isInfoModal = false;
-        },
-
+            this.isInfoModal= false;
+        }, */
         /** Administrator group form submission event. */
-        handleInfoSave: function handleInfoSave() {
-            var _this2 = this;
-
-            this.$refs.roleGroupForm.validate(function (valid) {
+        /* handleInfoSave() {
+            this.$refs.roleGroupForm.validate((valid)=>{
                 if (valid) {
-                    var that = _this2;
+                    let that = this;
                     that.loading = true;
-                    __WEBPACK_IMPORTED_MODULE_1__js_api_role_js__["a" /* default */].postRoleInfo(that.roleGroupForm).then(function (response) {
-                        if (response.data.code) {
-                            that.$Message.error(response.data.msg);
-                        } else {
-                            that.$Message.success(response.data.msg);
-                            that.$store.dispatch('loadRoleList');
-                            that.isInfoModal = false;
-                        }
-                        that.loading = false;
-                    }).catch(function () {
-                        that.$Message.info('系统繁忙，请稍后再试!');
-                        that.loading = false;
-                    });
+                    RoleAPI.postRoleInfo(that.roleGroupForm)
+                        .then(function(response){
+                            if(response.data.code){
+                                that.$Message.error(response.data.msg);
+                            }else{
+                                that.$Message.success(response.data.msg);
+                                that.$store.dispatch('loadRoleList');
+                                that.isInfoModal = false;
+                            }
+                            that.loading = false;
+                        })
+                        .catch(function(){
+                            that.$Message.info('系统繁忙，请稍后再试!');
+                            that.loading = false;
+                        });
                 }
             });
-        },
-
+        }, */
         /** Listen for User Group Information Modal Box to Send Change Events. */
         listenInfoModalChange: function listenInfoModalChange(visible) {
             if (!visible) {
@@ -4508,8 +4144,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         }
     },
+    created: function created() {
+        if (this.roleList == undefined) {
+            this.loading = true;
+        }
+    },
     mounted: function mounted() {
-        this.loading = true;
+        // Initialize table data.
         this.$store.dispatch('loadRoleList');
     }
 });
@@ -4524,7 +4165,10 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    { staticClass: "laradmin-main" },
     [
+      _c("Breadcrumb", [_c("BreadcrumbItem", [_vm._v("角色配置")])], 1),
+      _vm._v(" "),
       _c("div", { staticClass: "content-header" }, [
         _c(
           "div",
@@ -4533,30 +4177,14 @@ var render = function() {
             _c(
               "Button",
               {
-                attrs: { type: "success", icon: "md-add", shape: "circle" },
-                on: { click: _vm.createRoleGroupInfo }
-              },
-              [_vm._v("新增")]
-            ),
-            _vm._v(" "),
-            _c(
-              "Button",
-              {
-                directives: [
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value: true,
-                    expression: "true"
-                  }
-                ],
                 attrs: {
-                  type: "warning",
-                  icon: "android-add",
-                  to: { name: "permission" }
+                  type: "success",
+                  icon: "md-add",
+                  shape: "circle",
+                  to: { name: "createRole" }
                 }
               },
-              [_vm._v("跳转")]
+              [_vm._v("新增角色分组")]
             )
           ],
           1
@@ -4570,128 +4198,12 @@ var render = function() {
           _c("Table", {
             ref: "table",
             attrs: {
-              columns: _vm.columns4,
+              columns: _vm.tableColumns,
               data: _vm.roleList,
               border: false,
               loading: _vm.loading
             }
           })
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "Modal",
-        {
-          attrs: { title: _vm.infoModalTitle },
-          on: { "on-visible-change": _vm.listenInfoModalChange },
-          model: {
-            value: _vm.isInfoModal,
-            callback: function($$v) {
-              _vm.isInfoModal = $$v
-            },
-            expression: "isInfoModal"
-          }
-        },
-        [
-          _vm.spinShow
-            ? _c(
-                "Spin",
-                { attrs: { fix: "" } },
-                [
-                  _c("Icon", {
-                    staticClass: "demo-spin-icon-load",
-                    attrs: { type: "ios-loading", size: "50" }
-                  })
-                ],
-                1
-              )
-            : _vm._e(),
-          _vm._v(" "),
-          _c(
-            "Form",
-            {
-              ref: "roleGroupForm",
-              attrs: {
-                model: _vm.roleGroupForm,
-                rules: _vm.ruleValidate,
-                "label-width": 100
-              }
-            },
-            [
-              _c(
-                "FormItem",
-                { attrs: { label: "分组名称", prop: "title" } },
-                [
-                  _c("Input", {
-                    staticClass: "modal-form-item",
-                    attrs: { placeholder: "请输入分组名称" },
-                    model: {
-                      value: _vm.roleGroupForm.title,
-                      callback: function($$v) {
-                        _vm.$set(_vm.roleGroupForm, "title", $$v)
-                      },
-                      expression: "roleGroupForm.title"
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "FormItem",
-                { attrs: { label: "分组描述", prop: "remarks" } },
-                [
-                  _c("Input", {
-                    staticClass: "modal-form-item",
-                    attrs: {
-                      type: "textarea",
-                      rows: 4,
-                      placeholder: "请输入分组描述"
-                    },
-                    model: {
-                      value: _vm.roleGroupForm.remarks,
-                      callback: function($$v) {
-                        _vm.$set(_vm.roleGroupForm, "remarks", $$v)
-                      },
-                      expression: "roleGroupForm.remarks"
-                    }
-                  })
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            { attrs: { slot: "footer" }, slot: "footer" },
-            [
-              _c(
-                "Button",
-                {
-                  attrs: { type: "text", size: "large" },
-                  on: { click: _vm.handleInfoCancel }
-                },
-                [_vm._v("取消")]
-              ),
-              _vm._v(" "),
-              _c(
-                "Button",
-                {
-                  attrs: {
-                    type: "primary",
-                    size: "large",
-                    loading: _vm.loading
-                  },
-                  on: { click: _vm.handleInfoSave }
-                },
-                [_vm._v("保存")]
-              )
-            ],
-            1
-          )
         ],
         1
       ),
@@ -4855,6 +4367,10 @@ if (false) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
 //
 //
 //
@@ -5093,167 +4609,193 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "div",
-      { staticClass: "content-header" },
-      [
-        _c(
-          "Form",
-          {
-            ref: "formSearchData",
-            attrs: { model: _vm.formSearchData, inline: "" }
-          },
-          [
-            _c(
-              "FormItem",
-              {
-                attrs: { prop: "keyword", label: "关键字", "label-width": 60 }
-              },
-              [
-                _c("Input", {
-                  staticClass: "header-form-search",
-                  attrs: { type: "text", clearable: "", placeholder: "请输入" },
-                  model: {
-                    value: _vm.formSearchData.keyword,
-                    callback: function($$v) {
-                      _vm.$set(_vm.formSearchData, "keyword", $$v)
-                    },
-                    expression: "formSearchData.keyword"
-                  }
-                })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "FormItem",
-              {
-                attrs: { prop: "typeid", label: "文章分类", "label-width": 60 }
-              },
-              [
-                _c(
-                  "Select",
-                  {
+  return _c(
+    "div",
+    { staticClass: "laradmin-main" },
+    [
+      _c(
+        "Breadcrumb",
+        { attrs: { separator: ">" } },
+        [
+          _c("BreadcrumbItem", { attrs: { to: { name: "module" } } }, [
+            _vm._v("模块配置")
+          ]),
+          _vm._v(" "),
+          _c("BreadcrumbItem", [_vm._v("新增模块配置")])
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "content-header" },
+        [
+          _c(
+            "Form",
+            {
+              ref: "formSearchData",
+              attrs: { model: _vm.formSearchData, inline: "" }
+            },
+            [
+              _c(
+                "FormItem",
+                {
+                  attrs: { prop: "keyword", label: "关键字", "label-width": 60 }
+                },
+                [
+                  _c("Input", {
                     staticClass: "header-form-search",
-                    attrs: { clearable: "" },
-                    model: {
-                      value: _vm.formSearchData.typeid,
-                      callback: function($$v) {
-                        _vm.$set(_vm.formSearchData, "typeid", $$v)
-                      },
-                      expression: "formSearchData.typeid"
-                    }
-                  },
-                  _vm._l(_vm.cityList, function(item) {
-                    return _c(
-                      "Option",
-                      { key: item.value, attrs: { value: item.value } },
-                      [_vm._v(_vm._s(item.label))]
-                    )
-                  })
-                )
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "FormItem",
-              {
-                attrs: {
-                  prop: "datetime",
-                  label: "注册时间",
-                  "label-width": 60
-                }
-              },
-              [
-                _c("DatePicker", {
-                  staticClass: "header-form-search",
-                  attrs: {
-                    type: "daterange",
-                    format: "yyyy-MM-dd",
-                    options: _vm.options2,
-                    placement: "bottom-end",
-                    placeholder: "请选择日期"
-                  },
-                  on: { "on-change": _vm.changeDateTime },
-                  model: {
-                    value: _vm.searchDateTime,
-                    callback: function($$v) {
-                      _vm.searchDateTime = $$v
+                    attrs: {
+                      type: "text",
+                      clearable: "",
+                      placeholder: "请输入"
                     },
-                    expression: "searchDateTime"
+                    model: {
+                      value: _vm.formSearchData.keyword,
+                      callback: function($$v) {
+                        _vm.$set(_vm.formSearchData, "keyword", $$v)
+                      },
+                      expression: "formSearchData.keyword"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "FormItem",
+                {
+                  attrs: {
+                    prop: "typeid",
+                    label: "文章分类",
+                    "label-width": 60
                   }
-                })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "FormItem",
-              [
-                _c(
-                  "Button",
-                  {
-                    attrs: { type: "primary", icon: "ios-search" },
-                    on: {
-                      click: function($event) {
-                        _vm.handleSubmit("formSearchData")
+                },
+                [
+                  _c(
+                    "Select",
+                    {
+                      staticClass: "header-form-search",
+                      attrs: { clearable: "" },
+                      model: {
+                        value: _vm.formSearchData.typeid,
+                        callback: function($$v) {
+                          _vm.$set(_vm.formSearchData, "typeid", $$v)
+                        },
+                        expression: "formSearchData.typeid"
                       }
+                    },
+                    _vm._l(_vm.cityList, function(item) {
+                      return _c(
+                        "Option",
+                        { key: item.value, attrs: { value: item.value } },
+                        [_vm._v(_vm._s(item.label))]
+                      )
+                    })
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "FormItem",
+                {
+                  attrs: {
+                    prop: "datetime",
+                    label: "注册时间",
+                    "label-width": 60
+                  }
+                },
+                [
+                  _c("DatePicker", {
+                    staticClass: "header-form-search",
+                    attrs: {
+                      type: "daterange",
+                      format: "yyyy-MM-dd",
+                      options: _vm.options2,
+                      placement: "bottom-end",
+                      placeholder: "请选择日期"
+                    },
+                    on: { "on-change": _vm.changeDateTime },
+                    model: {
+                      value: _vm.searchDateTime,
+                      callback: function($$v) {
+                        _vm.searchDateTime = $$v
+                      },
+                      expression: "searchDateTime"
                     }
-                  },
-                  [_vm._v("搜索")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "Button",
-                  {
-                    attrs: { type: "default" },
-                    on: {
-                      click: function($event) {
-                        _vm.handleReset("formSearchData")
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "FormItem",
+                [
+                  _c(
+                    "Button",
+                    {
+                      attrs: { type: "primary", icon: "ios-search" },
+                      on: {
+                        click: function($event) {
+                          _vm.handleSubmit("formSearchData")
+                        }
                       }
-                    }
-                  },
-                  [_vm._v("重置")]
-                )
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticStyle: { "margin-bottom": "20px" } },
-      [
-        _c("Table", {
-          ref: "selection",
-          attrs: { columns: _vm.columns4, data: _vm.data1 }
-        })
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      [
-        _c("Page", {
-          attrs: {
-            total: 100,
-            "show-elevator": "",
-            "show-total": "",
-            "show-sizer": ""
-          }
-        })
-      ],
-      1
-    )
-  ])
+                    },
+                    [_vm._v("搜索")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "Button",
+                    {
+                      attrs: { type: "default" },
+                      on: {
+                        click: function($event) {
+                          _vm.handleReset("formSearchData")
+                        }
+                      }
+                    },
+                    [_vm._v("重置")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticStyle: { "margin-bottom": "20px" } },
+        [
+          _c("Table", {
+            ref: "selection",
+            attrs: { columns: _vm.columns4, data: _vm.data1 }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        [
+          _c("Page", {
+            attrs: {
+              total: 100,
+              "show-elevator": "",
+              "show-total": "",
+              "show-sizer": ""
+            }
+          })
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -5264,6 +4806,860 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-0ee24ca0", module.exports)
   }
 }
+
+/***/ }),
+/* 142 */,
+/* 143 */,
+/* 144 */,
+/* 145 */,
+/* 146 */,
+/* 147 */,
+/* 148 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(4)
+/* script */
+var __vue_script__ = __webpack_require__(149)
+/* template */
+var __vue_template__ = __webpack_require__(150)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/views/admin/module/components/edit/edit.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3610926c", Component.options)
+  } else {
+    hotAPI.reload("data-v-3610926c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 149 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_api_module_js__ = __webpack_require__(31);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: 'editModule',
+    data: function data() {
+        return {
+            spinShow: false,
+            loading: false,
+            activeStatus: '新增',
+            trueValue: 1,
+            falseValue: 0,
+            moduleData: {
+                id: '',
+                parent_id: -1,
+                title: '',
+                vue_router_path: '',
+                vue_router_name: '',
+                vue_file_path: '',
+                laravel_router_path: '',
+                is_menu: 0,
+                icon: '',
+                sort: 1,
+                status: 1
+            },
+            ruleValidate: {
+                parent_id: [{ required: true, type: 'number', min: 0, message: '请选择上级菜单', trigger: 'change' }],
+                title: [{ required: true, message: '请输入菜单名称', trigger: 'blur' }]
+            }
+        };
+    },
+
+    computed: {
+        menuModules: function menuModules() {
+            return this.$store.getters.getMenuModule.data;
+        },
+        moduleInfo: function moduleInfo() {
+            return this.$store.getters.getModuleInfo.data;
+        }
+    },
+    watch: {
+        moduleInfo: function moduleInfo(curVal, oldVal) {
+            this.moduleData = curVal;
+            this.spinShow = false;
+        }
+    },
+    methods: {
+        /**
+         * 设置顶级菜单 select 组件元素列表展示样式
+         */
+        selectPaddingLeft: function selectPaddingLeft(child) {
+            return child * 16 + 16;
+        },
+
+        /** 
+         * Module cancel event.
+         */
+        handleInfoCancel: function handleInfoCancel() {
+            // reset from
+            this.$refs['moduleData'].resetFields();
+        },
+
+        /** 
+         * Save module info event.
+         */
+        handleInfoSave: function handleInfoSave() {
+            var _this = this;
+
+            this.$refs['moduleData'].validate(function (valid) {
+                if (valid) {
+                    var that = _this;
+                    that.loading = true;
+                    __WEBPACK_IMPORTED_MODULE_0__js_api_module_js__["a" /* default */].saveFromModule(_this.moduleData).then(function (response) {
+                        that.loading = false;
+                        if (response.data.code) {
+                            that.$Message.error(response.data.msg);
+                        } else {
+                            that.$Message.success(response.data.msg);
+                            that.$router.go(-1);
+                        }
+                    }).catch(function () {
+                        that.$Message.info('系统繁忙，请稍后再试!');
+                        that.loading = false;
+                    });
+                }
+            });
+        }
+    },
+    created: function created() {
+        // 编辑模式
+        var params = this.$route.params;
+        var query = this.$route.query;
+        if ('id' in params) {
+            this.activeStatus = '编辑';
+            this.spinShow = true;
+            this.$store.dispatch('loadModuleInfo', params.id);
+        } else if ('id' in query) {
+            this.activeStatus = '编辑';
+            this.spinShow = true;
+            this.$store.dispatch('loadModuleInfo', query.id);
+        }
+    },
+    mounted: function mounted() {
+        // Initialize parent menu list.
+        this.$store.dispatch('loadIsMenuModule');
+    }
+});
+
+/***/ }),
+/* 150 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "laradmin-main laradmin-form" },
+    [
+      _c(
+        "Breadcrumb",
+        { attrs: { separator: ">" } },
+        [
+          _c("BreadcrumbItem", { attrs: { to: { name: "module" } } }, [
+            _vm._v("模块配置")
+          ]),
+          _vm._v(" "),
+          _c("BreadcrumbItem", [_vm._v(_vm._s(_vm.activeStatus) + "模块配置")])
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "laradmin-form-element" },
+        [
+          _vm.spinShow
+            ? _c(
+                "Spin",
+                { attrs: { fix: "" } },
+                [
+                  _c("Icon", {
+                    staticClass: "demo-spin-icon-load",
+                    attrs: { type: "ios-loading", size: "50" }
+                  })
+                ],
+                1
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _c(
+            "Form",
+            {
+              ref: "moduleData",
+              staticStyle: { width: "420px" },
+              attrs: {
+                model: _vm.moduleData,
+                rules: _vm.ruleValidate,
+                "label-width": 100
+              }
+            },
+            [
+              _c(
+                "FormItem",
+                { attrs: { label: "上级菜单", prop: "parent_id" } },
+                [
+                  _c(
+                    "Select",
+                    {
+                      staticClass: "modal-form-item",
+                      model: {
+                        value: _vm.moduleData.parent_id,
+                        callback: function($$v) {
+                          _vm.$set(_vm.moduleData, "parent_id", $$v)
+                        },
+                        expression: "moduleData.parent_id"
+                      }
+                    },
+                    [
+                      _c("Option", { attrs: { value: 0 } }, [
+                        _vm._v("顶级菜单")
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(_vm.menuModules, function(item) {
+                        return _c(
+                          "Option",
+                          {
+                            key: item.id,
+                            style: {
+                              paddingLeft:
+                                _vm.selectPaddingLeft(item.index) + "px"
+                            },
+                            attrs: { value: item.id }
+                          },
+                          [_vm._v(_vm._s(item.title))]
+                        )
+                      })
+                    ],
+                    2
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "FormItem",
+                { attrs: { label: "菜单名称", prop: "title" } },
+                [
+                  _c("Input", {
+                    staticClass: "modal-form-item",
+                    attrs: { placeholder: "请输入菜单名称" },
+                    model: {
+                      value: _vm.moduleData.title,
+                      callback: function($$v) {
+                        _vm.$set(_vm.moduleData, "title", $$v)
+                      },
+                      expression: "moduleData.title"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "FormItem",
+                { attrs: { label: "Vue路由地址", prop: "vue_router_path" } },
+                [
+                  _c("Input", {
+                    staticClass: "modal-form-item",
+                    attrs: { placeholder: "请输入Vue路由地址" },
+                    model: {
+                      value: _vm.moduleData.vue_router_path,
+                      callback: function($$v) {
+                        _vm.$set(_vm.moduleData, "vue_router_path", $$v)
+                      },
+                      expression: "moduleData.vue_router_path"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "FormItem",
+                { attrs: { label: "Vue路由名称", prop: "vue_router_name" } },
+                [
+                  _c("Input", {
+                    staticClass: "modal-form-item",
+                    attrs: { placeholder: "请输入Vue路由名称" },
+                    model: {
+                      value: _vm.moduleData.vue_router_name,
+                      callback: function($$v) {
+                        _vm.$set(_vm.moduleData, "vue_router_name", $$v)
+                      },
+                      expression: "moduleData.vue_router_name"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "FormItem",
+                { attrs: { label: "Vue文件地址", prop: "vue_file_path" } },
+                [
+                  _c("Input", {
+                    staticClass: "modal-form-item",
+                    attrs: { placeholder: "请输入Vue文件地址" },
+                    model: {
+                      value: _vm.moduleData.vue_file_path,
+                      callback: function($$v) {
+                        _vm.$set(_vm.moduleData, "vue_file_path", $$v)
+                      },
+                      expression: "moduleData.vue_file_path"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "FormItem",
+                {
+                  attrs: { label: "Laravel路由", prop: "laravel_router_path" }
+                },
+                [
+                  _c("Input", {
+                    staticClass: "modal-form-item",
+                    attrs: { placeholder: "请输入Laravel路由" },
+                    model: {
+                      value: _vm.moduleData.laravel_router_path,
+                      callback: function($$v) {
+                        _vm.$set(_vm.moduleData, "laravel_router_path", $$v)
+                      },
+                      expression: "moduleData.laravel_router_path"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "FormItem",
+                { attrs: { label: "导航菜单", prop: "is_menu" } },
+                [
+                  _c(
+                    "i-switch",
+                    {
+                      attrs: {
+                        size: "large",
+                        "true-value": _vm.trueValue,
+                        "false-value": _vm.falseValue
+                      },
+                      model: {
+                        value: _vm.moduleData.is_menu,
+                        callback: function($$v) {
+                          _vm.$set(_vm.moduleData, "is_menu", $$v)
+                        },
+                        expression: "moduleData.is_menu"
+                      }
+                    },
+                    [
+                      _c("span", { attrs: { slot: "open" }, slot: "open" }, [
+                        _vm._v("是")
+                      ]),
+                      _vm._v(" "),
+                      _c("span", { attrs: { slot: "close" }, slot: "close" }, [
+                        _vm._v("否")
+                      ])
+                    ]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "FormItem",
+                { attrs: { label: "icon", prop: "icon" } },
+                [
+                  _c("Input", {
+                    staticClass: "modal-form-item",
+                    attrs: { placeholder: "请输入icon" },
+                    model: {
+                      value: _vm.moduleData.icon,
+                      callback: function($$v) {
+                        _vm.$set(_vm.moduleData, "icon", $$v)
+                      },
+                      expression: "moduleData.icon"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "FormItem",
+                { attrs: { label: "排序", prop: "sort" } },
+                [
+                  _c("InputNumber", {
+                    staticClass: "modal-form-item",
+                    attrs: { min: 1 },
+                    model: {
+                      value: _vm.moduleData.sort,
+                      callback: function($$v) {
+                        _vm.$set(_vm.moduleData, "sort", $$v)
+                      },
+                      expression: "moduleData.sort"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "FormItem",
+                { attrs: { label: "状态", prop: "status" } },
+                [
+                  _c(
+                    "i-switch",
+                    {
+                      attrs: {
+                        size: "large",
+                        "true-value": _vm.trueValue,
+                        "false-value": _vm.falseValue
+                      },
+                      model: {
+                        value: _vm.moduleData.status,
+                        callback: function($$v) {
+                          _vm.$set(_vm.moduleData, "status", $$v)
+                        },
+                        expression: "moduleData.status"
+                      }
+                    },
+                    [
+                      _c("span", { attrs: { slot: "open" }, slot: "open" }, [
+                        _vm._v("开启")
+                      ]),
+                      _vm._v(" "),
+                      _c("span", { attrs: { slot: "close" }, slot: "close" }, [
+                        _vm._v("关闭")
+                      ])
+                    ]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "FormItem",
+                [
+                  _c(
+                    "Button",
+                    {
+                      attrs: { type: "primary", loading: _vm.loading },
+                      on: { click: _vm.handleInfoSave }
+                    },
+                    [_vm._v("保存")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "Button",
+                    {
+                      staticStyle: { "margin-left": "8px" },
+                      on: { click: _vm.handleInfoCancel }
+                    },
+                    [_vm._v("重置")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-3610926c", module.exports)
+  }
+}
+
+/***/ }),
+/* 151 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(4)
+/* script */
+var __vue_script__ = __webpack_require__(153)
+/* template */
+var __vue_template__ = __webpack_require__(152)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/views/admin/role/components/edit/edit.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6f9f1380", Component.options)
+  } else {
+    hotAPI.reload("data-v-6f9f1380", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 152 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "laradmin-main laradmin-form" },
+    [
+      _c(
+        "Breadcrumb",
+        { attrs: { separator: ">" } },
+        [
+          _c("BreadcrumbItem", { attrs: { to: { name: "role" } } }, [
+            _vm._v("角色配置")
+          ]),
+          _vm._v(" "),
+          _c("BreadcrumbItem", [_vm._v(_vm._s(_vm.activeStatus) + "角色分组")])
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "laradmin-form-element" },
+        [
+          _vm.spinShow
+            ? _c(
+                "Spin",
+                { attrs: { fix: "" } },
+                [
+                  _c("Icon", {
+                    staticClass: "demo-spin-icon-load",
+                    attrs: { type: "ios-loading", size: "50" }
+                  })
+                ],
+                1
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _c(
+            "Form",
+            {
+              ref: "roleGroupForm",
+              staticStyle: { width: "420px" },
+              attrs: {
+                model: _vm.roleGroupForm,
+                rules: _vm.ruleValidate,
+                "label-width": 100
+              }
+            },
+            [
+              _c(
+                "FormItem",
+                { attrs: { label: "分组名称", prop: "title" } },
+                [
+                  _c("Input", {
+                    staticClass: "modal-form-item",
+                    attrs: { placeholder: "请输入分组名称" },
+                    model: {
+                      value: _vm.roleGroupForm.title,
+                      callback: function($$v) {
+                        _vm.$set(_vm.roleGroupForm, "title", $$v)
+                      },
+                      expression: "roleGroupForm.title"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "FormItem",
+                { attrs: { label: "分组描述", prop: "remarks" } },
+                [
+                  _c("Input", {
+                    staticClass: "modal-form-item",
+                    attrs: {
+                      type: "textarea",
+                      rows: 4,
+                      placeholder: "请输入分组描述"
+                    },
+                    model: {
+                      value: _vm.roleGroupForm.remarks,
+                      callback: function($$v) {
+                        _vm.$set(_vm.roleGroupForm, "remarks", $$v)
+                      },
+                      expression: "roleGroupForm.remarks"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "FormItem",
+                [
+                  _c(
+                    "Button",
+                    {
+                      attrs: { type: "primary", loading: _vm.loading },
+                      on: { click: _vm.handleInfoSave }
+                    },
+                    [_vm._v("保存")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "Button",
+                    {
+                      staticStyle: { "margin-left": "8px" },
+                      on: { click: _vm.handleInfoCancel }
+                    },
+                    [_vm._v("重置")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-6f9f1380", module.exports)
+  }
+}
+
+/***/ }),
+/* 153 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: 'editRole',
+    data: function data() {
+        return {
+            spinShow: false,
+            loading: false,
+            activeStatus: '新增',
+            roleGroupForm: {
+                id: '',
+                title: '',
+                remarks: ''
+            },
+            ruleValidate: {
+                title: [{ required: true, message: '请输入分组名称', trigger: 'blur' }]
+            }
+        };
+    },
+
+    computed: {
+        roleInfo: function roleInfo() {
+            return this.$store.getters.getRoleInfo.data;
+        }
+    },
+    watch: {},
+    methods: {
+        /** 
+         * Admin group modal cancel event.
+         */
+        handleInfoCancel: function handleInfoCancel() {
+            // Reset from
+            this.$refs['roleGroupForm'].resetFields();
+            //this.resetRoleGroupFormFields();
+            // Hide modal
+            //this.isInfoModal= false;
+        },
+
+        /** 
+         * Administrator group form submission event.
+         */
+        handleInfoSave: function handleInfoSave() {
+            var _this = this;
+
+            this.$refs.roleGroupForm.validate(function (valid) {
+                if (valid) {
+                    var that = _this;
+                    that.loading = true;
+                    RoleAPI.postRoleInfo(that.roleGroupForm).then(function (response) {
+                        if (response.data.code) {
+                            that.$Message.error(response.data.msg);
+                        } else {
+                            that.$Message.success(response.data.msg);
+                            that.$store.dispatch('loadRoleList');
+                            that.isInfoModal = false;
+                        }
+                        that.loading = false;
+                    }).catch(function () {
+                        that.$Message.info('系统繁忙，请稍后再试!');
+                        that.loading = false;
+                    });
+                }
+            });
+        }
+    },
+    created: function created() {},
+    mounted: function mounted() {}
+});
 
 /***/ })
 ]);

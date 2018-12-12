@@ -33,46 +33,55 @@ router.beforeEach((to, from, next) => {
         //获取当前用户信息
         AdminAPI.getAdminInfo()
             .then((response) => {
-                store.commit('setAdminInfo', response.data.admins);
-                store.commit('setPermission', response.data.menuTree);
-                let permission = store.state.admin.permission;
-                let adminRoutes = transferByRouteArray(permission);
-                adminRoutes.push({
-                    path: 'home',
-                    name: 'home',
-                    meta: {
-                        title: 'Home',
-                        isMenu: 1
-                    },
-                    component: (resolve) => require(['@js/views/admin/home/home.vue'], resolve)
-                });
-                let adminObj = {
-                    path: '/admin',
-                    name: 'admin',
-                    meta: {
-                        title: 'admin',
-                        isMenu: 0
-                    },
-                    redirect: { name: 'home' },
-                    component: AdminMain,
-                };
-                if (adminRoutes.length) adminObj.children = adminRoutes;
-                //动态添加当前用户权限路由
-                router.addRoutes([adminObj, {
-                    path: '/admin/429',
-                    name: '429',
-                    component: (resolve) => require(['@js/views/admin/login/login.vue'], resolve)
-                },{
-                    path: '*',
-                    redirect: '/admin/404'
-                }]);
-                next({
-                    path: to.path
-                });
+                if (!response.data.code){
+                    store.commit('setAdminInfo', response.data.admins);
+                    store.commit('setPermission', response.data.menuTree);
+                    let permission = store.state.admin.permission;
+                    let adminRoutes = transferByRouteArray(permission);
+                    adminRoutes.push({
+                        path: 'home',
+                        name: 'home',
+                        meta: {
+                            title: 'Home',
+                            isMenu: 1
+                        },
+                        component: (resolve) => require(['@js/views/admin/home/home.vue'], resolve)
+                    });
+                    let adminObj = {
+                        path: '/admin',
+                        name: 'admin',
+                        meta: {
+                            title: 'admin',
+                            isMenu: 0
+                        },
+                        redirect: { name: 'home' },
+                        component: AdminMain,
+                    };
+                    if (adminRoutes.length) adminObj.children = adminRoutes;
+                    //动态添加当前用户权限路由
+                    router.addRoutes([adminObj, {
+                        path: '/admin/429',
+                        name: '429',
+                        component: (resolve) => require(['@js/views/admin/login/login.vue'], resolve)
+                    },{
+                        path: '*',
+                        redirect: '/admin/404'
+                    }]);
+                    next({
+                        path: to.path
+                    });
+                }else{
+                    next({
+                        name: LOGIN_PAGE_NAME
+                    });
+                }                
             })
             .catch((error) => {
                 store.commit('setAdminInfo', []);
                 store.commit('setPermission', []);
+                next({
+                    name: LOGIN_PAGE_NAME
+                });
             });
     }else if (token && to.name == LOGIN_PAGE_NAME) {    
         next({
@@ -88,7 +97,6 @@ router.beforeEach((to, from, next) => {
 router.afterEach(to => {
     //iview 全局加载进度条,结束进度条，自动补全剩余进度
     iView.LoadingBar.finish();
-    //window.scrollTo(0, 0);
 });
 
 export default router;

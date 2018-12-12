@@ -79,14 +79,14 @@ export const transferByRouteArray = (list) => {
             },
             component: (resolve) => require([`@js/views${item.vue_file_path}`], resolve)
           });
-          obj.path = `${item.vue_router_path}/:id`;    //更改当前节点的 path 属性
+          //obj.path = `${item.vue_router_path}/:id`;    //更改当前节点的 path 属性
           //obj.name = `${item.vue_router_name}Index`;   //更改当前节点的 name 属性
         }
         obj.children = childNodes;    //将子节点数组赋值给当前节点的 children 属性
         obj.component = ParentView;
       }else if (item.is_menu && item.vue_file_path){
         //不存在子节点 and 是导航菜单 and 拥有单页面文件路径
-        obj.path = `${item.vue_router_path}/:id`;    //更改当前节点的 path 属性
+        //obj.path = `${item.vue_router_path}/:id`;    //更改当前节点的 path 属性
         //obj.name = `${item.vue_router_name}Index`;   //更改当前节点的 name 属性
 
         //将当前节点数据赋值给当前节点的 children 属性
