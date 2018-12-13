@@ -6,6 +6,7 @@
  */
 
 import SystemAPI from '@js/api/system.js';
+import LoginAPI from '@js/api/login.js';
 import {setMenuTree} from '@js/libs/util.js';
 
 export const system = {
@@ -13,14 +14,18 @@ export const system = {
      * Defines the state being monitored for the module.
      */
     state: {
-        menuTree: []
+        menuTree: [],
+        verifyCode: ''
     },
     /**
      * Defines the getters used by the module.
      */
     getters: {
-        getMenuTree (state){
+        getMenuTree(state) {
             return state.menuTree;
+        },
+        getVerifyCode(state) {
+            return state.verifyCode;
         }
     },
     /**
@@ -29,6 +34,9 @@ export const system = {
     mutations: {
         setMenuTree (state, menuTree){
             state.menuTree = menuTree;
+        },
+        setVerifyCode(state, verifyCode) {
+            state.verifyCode = verifyCode;
         }
     },
     /**
@@ -49,6 +57,19 @@ export const system = {
                 .catch(err => {
                     commit('setMenuTree', []);
                 })            
+        },
+        loadVerifyCode({commit}, params) {
+            LoginAPI.getVerifyCode(params)
+                .then(res => {
+                    if (res.data.code){
+                        commit('setVerifyCode', '');
+                    }else{
+                        commit('setVerifyCode', res.data.verify_code);
+                    }
+                })
+                .catch(err => {
+                    commit('setVerifyCode', '');
+                })
         }
     }
     

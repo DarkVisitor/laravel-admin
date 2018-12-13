@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\AdminLoginPost;
 use App\Services\AdminService;
+use Gregwar\Captcha\CaptchaBuilder;
 use Illuminate\Routing\Controller;
 
 class LoginController extends Controller
@@ -54,6 +55,18 @@ class LoginController extends Controller
 
         $response = json_decode((string) $response->getBody(), true);
         return response()->json(["code" => 0, "msg" => "success", "data" => $response]);
+    }
+
+
+    public function getVerifyCode()
+    {
+        $builder = new CaptchaBuilder();
+        $builder->build($width = 144, $height = 32, $font = null);
+        $phrase = $builder->getPhrase();
+
+        //Session::flash('verifyCode', $phrase);
+
+        return response()->json(['code' => 0, 'msg' => 'success', 'verify_code' => 'data:image/jpeg;base64,' . base64_encode($builder->get())]);
     }
 
 }

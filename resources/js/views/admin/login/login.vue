@@ -22,6 +22,11 @@
                                 </span>
                             </Input>
                         </FormItem>
+                        <FormItem prop="verifyCode">
+                            <Input v-model="form.verifyCode" placeholder="请输入验证码" style="width: 120px;"></Input>
+                            <Avatar shape="square" style="width: 144px;" :src="verifyCodeImage" />
+                            <Button type="text" @click="handleRefreshVerifyCode" class="refresh-verify-code"></Button>
+                        </FormItem>
                         <FormItem>
                             <Button @click="handleSubmit" :loading="loading" type="primary" long>
                                 <span v-if="!loading">登录</span>
@@ -38,7 +43,6 @@
         </div>
     </div>
 </template>
-
 <script>
 import LoginAPI from '@js/api/login.js';
 import {setToken} from '@js/libs/util.js';
@@ -48,7 +52,8 @@ export default {
             loading: false,
             form: {
                 userName: '',
-                password: ''
+                password: '',
+                verifyCode: ''
             },
             rules: {
                 userName: [
@@ -56,9 +61,17 @@ export default {
                 ],
                 password: [
                     { required: true, whitespace: true, message: '密码不能为空', trigger: 'blur' }
+                ],
+                verifyCode: [
+                    { required: true, whitespace: true, message: '验证码不能为空', trigger: 'blur' }
                 ]
             }
         };
+    },
+    computed: {
+        verifyCodeImage() {
+            return this.$store.getters.getVerifyCode;
+        }
     },
     methods: {
         handleSubmit () {
@@ -102,10 +115,28 @@ export default {
                         });
                 }
             });
+        },
+        /**
+         * Refresh verify code.
+         */
+        handleRefreshVerifyCode() {
+            console.log('debug');
+            this.$store.dispatch('loadVerifyCode', { t: Date.now() });
         }
     },
     created() {
-        
+        this.$store.dispatch('loadVerifyCode', { t: Date.now() });
     }
 };
 </script>
+<style>
+    .refresh-verify-code { 
+        position: absolute; 
+        width: 144px; 
+        height: 32px;
+        top: 1px; 
+        right: -3px; 
+        background: transparent!important;
+    }
+</style>
+

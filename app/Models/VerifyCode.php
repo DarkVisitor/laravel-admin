@@ -1,18 +1,18 @@
 <?php
 /**
- * System module model
+ * System check code model.
  * User: YingQuan-han
- * Date: 2018/11/2
- * Time: 13:24
+ * Date: 2018/12/13
+ * Time: 15:31
  */
 
 namespace App\Models;
 
 use \Illuminate\Database\Eloquent\Model;
 
-class Module extends Model
+class VerifyCode extends Model
 {
-    protected $table = 'sys_modules';
+    protected $table = 'sys_verify_codes';
     protected $primaryKey = 'id';
 
 

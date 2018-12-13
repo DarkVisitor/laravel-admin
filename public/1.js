@@ -1,18 +1,64 @@
 webpackJsonp([1],{
 
+/***/ 154:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(155);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(11)("796ba4d3", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-83191bd8\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./login.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-83191bd8\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./login.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+
+/***/ 155:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(10)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.refresh-verify-code { \n    position: absolute; \n    width: 144px; \n    height: 32px;\n    top: 1px; \n    right: -3px; \n    background: transparent!important;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ 27:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(154)
+}
 var normalizeComponent = __webpack_require__(4)
 /* script */
-var __vue_script__ = __webpack_require__(96)
+var __vue_script__ = __webpack_require__(97)
 /* template */
 var __vue_template__ = __webpack_require__(98)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
-var __vue_styles__ = null
+var __vue_styles__ = injectStyle
 /* scopeId */
 var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
@@ -48,13 +94,17 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 96:
+/***/ 97:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_api_login_js__ = __webpack_require__(97);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_api_login_js__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__js_libs_util_js__ = __webpack_require__(1);
+//
+//
+//
+//
 //
 //
 //
@@ -105,15 +155,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             loading: false,
             form: {
                 userName: '',
-                password: ''
+                password: '',
+                verifyCode: ''
             },
             rules: {
                 userName: [{ required: true, whitespace: true, message: '用户名不能为空', trigger: 'blur' }],
-                password: [{ required: true, whitespace: true, message: '密码不能为空', trigger: 'blur' }]
+                password: [{ required: true, whitespace: true, message: '密码不能为空', trigger: 'blur' }],
+                verifyCode: [{ required: true, whitespace: true, message: '验证码不能为空', trigger: 'blur' }]
             }
         };
     },
 
+    computed: {
+        verifyCodeImage: function verifyCodeImage() {
+            return this.$store.getters.getVerifyCode;
+        }
+    },
     methods: {
         handleSubmit: function handleSubmit() {
             var _this = this;
@@ -156,27 +213,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     });
                 }
             });
+        },
+
+        /**
+         * Refresh verify code.
+         */
+        handleRefreshVerifyCode: function handleRefreshVerifyCode() {
+            console.log('debug');
+            this.$store.dispatch('loadVerifyCode', { t: Date.now() });
         }
     },
-    created: function created() {}
-});
-
-/***/ }),
-
-/***/ 97:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_libs_axios_js__ = __webpack_require__(5);
-/**
- * Imports the APP API URL from the config.
- */
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-
-    postAccessToken: function postAccessToken(data) {
-        return __WEBPACK_IMPORTED_MODULE_0__js_libs_axios_js__["a" /* default */].post('/login', data);
+    created: function created() {
+        this.$store.dispatch('loadVerifyCode', { t: Date.now() });
     }
 });
 
@@ -297,6 +345,36 @@ var render = function() {
                             )
                           ]
                         )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "FormItem",
+                      { attrs: { prop: "verifyCode" } },
+                      [
+                        _c("Input", {
+                          staticStyle: { width: "120px" },
+                          attrs: { placeholder: "请输入验证码" },
+                          model: {
+                            value: _vm.form.verifyCode,
+                            callback: function($$v) {
+                              _vm.$set(_vm.form, "verifyCode", $$v)
+                            },
+                            expression: "form.verifyCode"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("Avatar", {
+                          staticStyle: { width: "144px" },
+                          attrs: { shape: "square", src: _vm.verifyCodeImage }
+                        }),
+                        _vm._v(" "),
+                        _c("Button", {
+                          staticClass: "refresh-verify-code",
+                          attrs: { type: "text" },
+                          on: { click: _vm.handleRefreshVerifyCode }
+                        })
                       ],
                       1
                     ),

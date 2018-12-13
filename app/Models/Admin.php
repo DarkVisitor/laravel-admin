@@ -16,7 +16,7 @@ class Admin extends Authenticatable
 {
     use HasApiToKens, Notifiable;
 
-    protected $table = 'admins';
+    protected $table = 'sys_admins';
     protected $primaryKey = 'id';
 
     /**

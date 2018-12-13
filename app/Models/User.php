@@ -16,7 +16,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, Notifiable;
 
-    protected $table = 'users';
+    protected $table = 'sys_users';
     protected $primaryKey = 'id';
 
     /**

@@ -24,6 +24,7 @@
     </div>
 </template>
 <script>
+import RoleAPI from '@js/api/role.js';
 export default {
     name: 'editRole',
     data() {
@@ -44,23 +45,22 @@ export default {
         }
     },
     computed: {
-        roleInfo () {
+        roleInfo() {
             return this.$store.getters.getRoleInfo.data;
         }
     },
     watch: {
-
+        roleInfo(curVal, oldVal) {
+            this.spinShow = false;
+            this.roleGroupForm = curVal;
+        }
     },
     methods: {
         /** 
          * Admin group modal cancel event.
          */
         handleInfoCancel() {
-            // Reset from
-            this.$refs['roleGroupForm'].resetFields();
-            //this.resetRoleGroupFormFields();
-            // Hide modal
-            //this.isInfoModal= false;
+            this.$refs['roleGroupForm'].resetFields();  // Reset from
         },
         /** 
          * Administrator group form submission event.
@@ -72,14 +72,13 @@ export default {
                     that.loading = true;
                     RoleAPI.postRoleInfo(that.roleGroupForm)
                         .then(function(response){
+                            that.loading = false;
                             if(response.data.code){
                                 that.$Message.error(response.data.msg);
                             }else{
                                 that.$Message.success(response.data.msg);
-                                that.$store.dispatch('loadRoleList');
-                                that.isInfoModal = false;
-                            }
-                            that.loading = false;
+                                that.$router.go(-1); 
+                            }                            
                         })
                         .catch(function(){
                             that.$Message.info('系统繁忙，请稍后再试!');
@@ -90,7 +89,18 @@ export default {
         },
     },
     created() {
-
+        // 编辑模式
+        let params = this.$route.params;
+        let query = this.$route.query;
+        if ('id' in params){
+            this.activeStatus = '编辑';
+            this.spinShow = true;
+            this.$store.dispatch('loadRoleInfo', params.id);
+        }else if ('id' in query){
+            this.activeStatus = '编辑';
+            this.spinShow = true;
+            this.$store.dispatch('loadRoleInfo', query.id);
+        }
     },
     mounted() {
 
