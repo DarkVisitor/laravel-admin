@@ -9,39 +9,39 @@ webpackJsonp([0,1,2,3],[
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./views/admin/article/article": 102,
-	"./views/admin/article/article.vue": 102,
-	"./views/admin/essay/essay": 103,
-	"./views/admin/essay/essay.vue": 103,
-	"./views/admin/essay/write-essay": 104,
-	"./views/admin/essay/write-essay.vue": 104,
+	"./views/admin/article/article": 104,
+	"./views/admin/article/article.vue": 104,
+	"./views/admin/essay/essay": 105,
+	"./views/admin/essay/essay.vue": 105,
+	"./views/admin/essay/write-essay": 106,
+	"./views/admin/essay/write-essay.vue": 106,
 	"./views/admin/home/home": 90,
 	"./views/admin/home/home.vue": 90,
 	"./views/admin/login/login": 27,
 	"./views/admin/login/login.vue": 27,
 	"./views/admin/main": 12,
 	"./views/admin/main.vue": 12,
-	"./views/admin/module/components/edit/edit": 105,
-	"./views/admin/module/components/edit/edit.vue": 105,
-	"./views/admin/module/module": 106,
-	"./views/admin/module/module.vue": 106,
+	"./views/admin/module/components/edit/edit": 107,
+	"./views/admin/module/components/edit/edit.vue": 107,
+	"./views/admin/module/module": 108,
+	"./views/admin/module/module.vue": 108,
 	"./views/admin/role/components/auth-tree": 93,
 	"./views/admin/role/components/auth-tree/": 93,
-	"./views/admin/role/components/auth-tree/auth-tree": 99,
+	"./views/admin/role/components/auth-tree/auth-tree": 101,
 	"./views/admin/role/components/auth-tree/auth-tree-node": 94,
 	"./views/admin/role/components/auth-tree/auth-tree-node.vue": 94,
-	"./views/admin/role/components/auth-tree/auth-tree.vue": 99,
+	"./views/admin/role/components/auth-tree/auth-tree.vue": 101,
 	"./views/admin/role/components/auth-tree/index": 93,
 	"./views/admin/role/components/auth-tree/index.js": 93,
-	"./views/admin/role/components/auth-tree/index.scss": 107,
-	"./views/admin/role/components/edit/edit": 108,
-	"./views/admin/role/components/edit/edit.vue": 108,
-	"./views/admin/role/components/permission/permission": 109,
-	"./views/admin/role/components/permission/permission.vue": 109,
-	"./views/admin/role/role": 110,
-	"./views/admin/role/role.vue": 110,
-	"./views/admin/user/user": 111,
-	"./views/admin/user/user.vue": 111,
+	"./views/admin/role/components/auth-tree/index.scss": 109,
+	"./views/admin/role/components/edit/edit": 110,
+	"./views/admin/role/components/edit/edit.vue": 110,
+	"./views/admin/role/components/permission/permission": 111,
+	"./views/admin/role/components/permission/permission.vue": 111,
+	"./views/admin/role/role": 112,
+	"./views/admin/role/role.vue": 112,
+	"./views/admin/user/user": 113,
+	"./views/admin/user/user.vue": 113,
 	"./views/app": 29,
 	"./views/app.vue": 29,
 	"./views/errors/404": 91,
@@ -90,13 +90,13 @@ webpackContext.id = 6;
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(154)
+  __webpack_require__(97)
 }
 var normalizeComponent = __webpack_require__(4)
 /* script */
-var __vue_script__ = __webpack_require__(97)
+var __vue_script__ = __webpack_require__(99)
 /* template */
-var __vue_template__ = __webpack_require__(98)
+var __vue_template__ = __webpack_require__(100)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -344,9 +344,9 @@ module.exports = Component.exports
 var disposed = false
 var normalizeComponent = __webpack_require__(4)
 /* script */
-var __vue_script__ = __webpack_require__(100)
+var __vue_script__ = __webpack_require__(102)
 /* template */
-var __vue_template__ = __webpack_require__(101)
+var __vue_template__ = __webpack_require__(103)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -749,7 +749,7 @@ function updateLink (link, options, obj) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__auth_tree_vue__ = __webpack_require__(99);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__auth_tree_vue__ = __webpack_require__(101);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__auth_tree_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__auth_tree_vue__);
 
 /* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_0__auth_tree_vue___default.a);
@@ -761,13 +761,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(131)
+  __webpack_require__(133)
 }
 var normalizeComponent = __webpack_require__(4)
 /* script */
-var __vue_script__ = __webpack_require__(133)
+var __vue_script__ = __webpack_require__(135)
 /* template */
-var __vue_template__ = __webpack_require__(135)
+var __vue_template__ = __webpack_require__(137)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -858,6 +858,46 @@ if (false) {
 
 /***/ }),
 /* 97 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(98);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(11)("796ba4d3", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-83191bd8\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./login.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-83191bd8\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./login.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 98 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(10)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.refresh-verify-code { \n    position: absolute; \n    width: 144px; \n    height: 32px;\n    top: 1px; \n    right: -3px; \n    background: transparent!important;\n}\n.verify-code {\n    width: 110px;\n    margin-right: 0!important;\n}\n.switch-login-reset {\n    /* position: absolute;\n    top: 32px;\n    right: 0px; */\n    -webkit-user-select: none;\n       -moz-user-select: none;\n        -ms-user-select: none;\n            user-select: none;\n    line-height: 24px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 99 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -909,22 +949,67 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
+            title: '欢迎登录LaravelAdmin',
             loading: false,
+            loginReset: '忘记密码？',
+            isLoginOrReset: true,
+            t: 60,
+            isSend: false,
+            isCheck: false,
             form: {
                 userName: '',
                 password: '',
                 verifyCode: ''
             },
             rules: {
-                userName: [{ required: true, whitespace: true, message: '用户名不能为空', trigger: 'blur' }],
-                password: [{ required: true, whitespace: true, message: '密码不能为空', trigger: 'blur' }],
-                verifyCode: [{ required: true, whitespace: true, message: '验证码不能为空', trigger: 'blur' }]
+                userName: [{ required: true, whitespace: true, message: '请输入用户名或手机号或邮箱', trigger: 'blur' }],
+                password: [{ required: true, whitespace: true, message: '请输入登录密码', trigger: 'blur' }],
+                verifyCode: [{ required: true, whitespace: true, message: '请输入验证码', trigger: 'blur' }]
+            },
+            resetFrom: {
+                userName: '',
+                password: '',
+                verifyCode: '',
+                remoteVerifyCode: ''
+            },
+            resetRules: {
+                userName: [{ required: true, whitespace: true, message: '请输入手机号或邮箱', trigger: 'blur' }, { type: 'string', validator: function validator(rule, value, callback) {
+                        if (!/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(value) && !/^1\d{10}$/.test(value)) {
+                            callback('无效的手机号或邮箱');
+                        } else {
+                            callback();
+                        }
+                    }, trigger: 'blur' }],
+                password: [{ required: true, whitespace: true, message: '请输入登录密码', trigger: 'blur' }],
+                verifyCode: [{ required: true, whitespace: true, message: '请输入验证码', trigger: 'blur' }],
+                remoteVerifyCode: [{ required: true, whitespace: true, message: '请输入短信验证码或邮箱验证码', trigger: 'blur' }]
             }
         };
     },
@@ -934,15 +1019,68 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return this.$store.getters.getVerifyCode;
         }
     },
+    watch: {
+        'resetFrom.userName': function resetFromUserName(curVal) {
+            this.isCheck = true;
+        }
+    },
     methods: {
-        handleSubmit: function handleSubmit() {
+        /**
+         * Switch login or reset password.
+         */
+        switchLoginReset: function switchLoginReset() {
+            this.isLoginOrReset = !this.isLoginOrReset;
+            this.loginReset = this.isLoginOrReset ? '忘记密码？' : '立即登录';
+            this.title = this.isLoginOrReset ? '欢迎登录LaravelAdmin' : '重置密码';
+            this.handleRefreshVerifyCode();
+        },
+
+        /**
+         * Send verification code countdown timer.
+         */
+        countDown: function countDown() {
+            var that = this;
+            setTimeout(function () {
+                if (that.t) {
+                    that.countDown();
+                    that.t = that.t - 1;
+                } else {
+                    that.isSend = false;
+                    that.t = 60;
+                }
+            }, 1000);
+        },
+
+        /**
+         * Send SMS or email verification code.
+         */
+        sendVerifyCode: function sendVerifyCode() {
             var _this = this;
+
+            this.$refs.resetForm.validateField('userName', function (valid) {
+                if (!valid) {
+                    _this.$refs.resetForm.validateField('verifyCode', function (error) {
+                        if (!error) {
+                            _this.isSend = true;
+                            _this.countDown();
+                        }
+                    });
+                }
+            });
+        },
+
+        /**
+         * Submit login data.
+         */
+        handleLoginSubmit: function handleLoginSubmit() {
+            var _this2 = this;
 
             this.$refs.loginForm.validate(function (valid) {
                 if (valid) {
-                    var that = _this;
+                    var that = _this2;
                     that.loading = true; //设置登录按钮提交状态
-                    __WEBPACK_IMPORTED_MODULE_0__js_api_login_js__["a" /* default */].postAccessToken({ username: _this.form.userName, password: _this.form.password }).then(function (response) {
+                    console.log('debug');
+                    __WEBPACK_IMPORTED_MODULE_0__js_api_login_js__["a" /* default */].postAccessToken({ username: _this2.form.userName, password: _this2.form.password, verify_code: _this2.form.verifyCode }).then(function (response) {
                         //console.log(response.data);
                         var res = response.data;
                         if (res.code) {
@@ -979,10 +1117,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
 
         /**
+         * Submit reset password data.
+         */
+        handleResetSubmit: function handleResetSubmit() {},
+
+        /**
          * Refresh verify code.
          */
         handleRefreshVerifyCode: function handleRefreshVerifyCode() {
-            console.log('debug');
             this.$store.dispatch('loadVerifyCode', { t: Date.now() });
         }
     },
@@ -992,7 +1134,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 98 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -1026,7 +1168,9 @@ var render = function() {
               { attrs: { slot: "title" }, slot: "title" },
               [
                 _c("Icon", { attrs: { type: "log-in" } }),
-                _vm._v("\n                欢迎登录LaravelAdmin\n            ")
+                _vm._v(
+                  "\n                " + _vm._s(_vm.title) + "\n            "
+                )
               ],
               1
             ),
@@ -1038,6 +1182,14 @@ var render = function() {
                 _c(
                   "Form",
                   {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.isLoginOrReset,
+                        expression: "isLoginOrReset"
+                      }
+                    ],
                     ref: "loginForm",
                     attrs: { model: _vm.form, rules: _vm.rules }
                   },
@@ -1046,31 +1198,19 @@ var render = function() {
                       "FormItem",
                       { attrs: { prop: "userName" } },
                       [
-                        _c(
-                          "Input",
-                          {
-                            attrs: { placeholder: "请输入用户名" },
-                            model: {
-                              value: _vm.form.userName,
-                              callback: function($$v) {
-                                _vm.$set(_vm.form, "userName", $$v)
-                              },
-                              expression: "form.userName"
-                            }
+                        _c("Input", {
+                          attrs: {
+                            clearable: "",
+                            placeholder: "用户名/手机号/邮箱"
                           },
-                          [
-                            _c(
-                              "span",
-                              { attrs: { slot: "prepend" }, slot: "prepend" },
-                              [
-                                _c("Icon", {
-                                  attrs: { size: 16, type: "ios-person" }
-                                })
-                              ],
-                              1
-                            )
-                          ]
-                        )
+                          model: {
+                            value: _vm.form.userName,
+                            callback: function($$v) {
+                              _vm.$set(_vm.form, "userName", $$v)
+                            },
+                            expression: "form.userName"
+                          }
+                        })
                       ],
                       1
                     ),
@@ -1079,34 +1219,20 @@ var render = function() {
                       "FormItem",
                       { attrs: { prop: "password" } },
                       [
-                        _c(
-                          "Input",
-                          {
-                            attrs: {
-                              type: "password",
-                              placeholder: "请输入密码"
-                            },
-                            model: {
-                              value: _vm.form.password,
-                              callback: function($$v) {
-                                _vm.$set(_vm.form, "password", $$v)
-                              },
-                              expression: "form.password"
-                            }
+                        _c("Input", {
+                          attrs: {
+                            type: "password",
+                            clearable: "",
+                            placeholder: "登录密码"
                           },
-                          [
-                            _c(
-                              "span",
-                              { attrs: { slot: "prepend" }, slot: "prepend" },
-                              [
-                                _c("Icon", {
-                                  attrs: { size: 14, type: "md-lock" }
-                                })
-                              ],
-                              1
-                            )
-                          ]
-                        )
+                          model: {
+                            value: _vm.form.password,
+                            callback: function($$v) {
+                              _vm.$set(_vm.form, "password", $$v)
+                            },
+                            expression: "form.password"
+                          }
+                        })
                       ],
                       1
                     ),
@@ -1117,7 +1243,7 @@ var render = function() {
                       [
                         _c("Input", {
                           staticStyle: { width: "120px" },
-                          attrs: { placeholder: "请输入验证码" },
+                          attrs: { clearable: "", placeholder: "验证码" },
                           model: {
                             value: _vm.form.verifyCode,
                             callback: function($$v) {
@@ -1152,7 +1278,7 @@ var render = function() {
                               type: "primary",
                               long: ""
                             },
-                            on: { click: _vm.handleSubmit }
+                            on: { click: _vm.handleLoginSubmit }
                           },
                           [
                             !_vm.loading
@@ -1165,6 +1291,181 @@ var render = function() {
                     )
                   ],
                   1
+                ),
+                _vm._v(" "),
+                _c(
+                  "Form",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: !_vm.isLoginOrReset,
+                        expression: "!isLoginOrReset"
+                      }
+                    ],
+                    ref: "resetForm",
+                    attrs: { model: _vm.resetFrom, rules: _vm.resetRules }
+                  },
+                  [
+                    _c(
+                      "FormItem",
+                      { attrs: { prop: "userName" } },
+                      [
+                        _c("Input", {
+                          attrs: { placeholder: "手机号或邮箱" },
+                          model: {
+                            value: _vm.resetFrom.userName,
+                            callback: function($$v) {
+                              _vm.$set(_vm.resetFrom, "userName", $$v)
+                            },
+                            expression: "resetFrom.userName"
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "FormItem",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.isCheck,
+                            expression: "isCheck"
+                          }
+                        ],
+                        attrs: { prop: "verifyCode" }
+                      },
+                      [
+                        _c("Input", {
+                          staticStyle: { width: "120px" },
+                          attrs: { placeholder: "验证码" },
+                          model: {
+                            value: _vm.resetFrom.verifyCode,
+                            callback: function($$v) {
+                              _vm.$set(_vm.resetFrom, "verifyCode", $$v)
+                            },
+                            expression: "resetFrom.verifyCode"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("Avatar", {
+                          staticStyle: { width: "144px" },
+                          attrs: { shape: "square", src: _vm.verifyCodeImage }
+                        }),
+                        _vm._v(" "),
+                        _c("Button", {
+                          staticClass: "refresh-verify-code",
+                          attrs: { type: "text" },
+                          on: { click: _vm.handleRefreshVerifyCode }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "FormItem",
+                      { attrs: { prop: "remoteVerifyCode" } },
+                      [
+                        _c("Input", {
+                          staticStyle: { width: "150px" },
+                          attrs: { placeholder: "短信验证码/邮箱验证码" },
+                          model: {
+                            value: _vm.resetFrom.remoteVerifyCode,
+                            callback: function($$v) {
+                              _vm.$set(_vm.resetFrom, "remoteVerifyCode", $$v)
+                            },
+                            expression: "resetFrom.remoteVerifyCode"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _vm.isSend
+                          ? _c(
+                              "Button",
+                              {
+                                staticClass: "verify-code",
+                                attrs: { type: "default", disabled: "" }
+                              },
+                              [_vm._v(_vm._s(_vm.t) + " 秒后可重发")]
+                            )
+                          : _c(
+                              "Button",
+                              {
+                                staticClass: "verify-code",
+                                attrs: { type: "default" },
+                                on: { click: _vm.sendVerifyCode }
+                              },
+                              [_vm._v("获取验证码")]
+                            )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "FormItem",
+                      { attrs: { prop: "password" } },
+                      [
+                        _c("Input", {
+                          attrs: { type: "password", placeholder: "登录密码" },
+                          model: {
+                            value: _vm.resetFrom.password,
+                            callback: function($$v) {
+                              _vm.$set(_vm.resetFrom, "password", $$v)
+                            },
+                            expression: "resetFrom.password"
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "FormItem",
+                      [
+                        _c(
+                          "Button",
+                          {
+                            attrs: {
+                              loading: _vm.loading,
+                              type: "primary",
+                              long: ""
+                            },
+                            on: { click: _vm.handleResetSubmit }
+                          },
+                          [
+                            !_vm.loading
+                              ? _c("span", [_vm._v("重置密码")])
+                              : _c("span", [_vm._v("重置密码中")])
+                          ]
+                        )
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticStyle: {
+                      "text-align": "right",
+                      "margin-bottom": "20px"
+                    }
+                  },
+                  [
+                    _c(
+                      "a",
+                      {
+                        staticStyle: { "user-select": "none" },
+                        on: { click: _vm.switchLoginReset }
+                      },
+                      [_vm._v(_vm._s(_vm.loginReset))]
+                    )
+                  ]
                 ),
                 _vm._v(" "),
                 _c("p", { staticClass: "login-tip" }, [
@@ -1195,15 +1496,15 @@ if (false) {
 }
 
 /***/ }),
-/* 99 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(4)
 /* script */
-var __vue_script__ = __webpack_require__(130)
+var __vue_script__ = __webpack_require__(132)
 /* template */
-var __vue_template__ = __webpack_require__(137)
+var __vue_template__ = __webpack_require__(139)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -1242,7 +1543,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 100 */
+/* 102 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1276,7 +1577,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 101 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -1328,19 +1629,19 @@ if (false) {
 }
 
 /***/ }),
-/* 102 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(112)
+  __webpack_require__(114)
 }
 var normalizeComponent = __webpack_require__(4)
 /* script */
-var __vue_script__ = __webpack_require__(114)
+var __vue_script__ = __webpack_require__(116)
 /* template */
-var __vue_template__ = __webpack_require__(115)
+var __vue_template__ = __webpack_require__(117)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -1379,15 +1680,15 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 103 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(4)
 /* script */
-var __vue_script__ = __webpack_require__(116)
+var __vue_script__ = __webpack_require__(118)
 /* template */
-var __vue_template__ = __webpack_require__(117)
+var __vue_template__ = __webpack_require__(119)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -1426,15 +1727,15 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 104 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(4)
 /* script */
-var __vue_script__ = __webpack_require__(118)
+var __vue_script__ = __webpack_require__(120)
 /* template */
-var __vue_template__ = __webpack_require__(125)
+var __vue_template__ = __webpack_require__(127)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -1473,15 +1774,15 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 105 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(4)
 /* script */
-var __vue_script__ = __webpack_require__(126)
+var __vue_script__ = __webpack_require__(128)
 /* template */
-var __vue_template__ = __webpack_require__(127)
+var __vue_template__ = __webpack_require__(129)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -1520,15 +1821,15 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 106 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(4)
 /* script */
-var __vue_script__ = __webpack_require__(128)
+var __vue_script__ = __webpack_require__(130)
 /* template */
-var __vue_template__ = __webpack_require__(129)
+var __vue_template__ = __webpack_require__(131)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -1567,13 +1868,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 107 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(136);
+var content = __webpack_require__(138);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -1598,15 +1899,15 @@ if(false) {
 }
 
 /***/ }),
-/* 108 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(4)
 /* script */
-var __vue_script__ = __webpack_require__(138)
+var __vue_script__ = __webpack_require__(140)
 /* template */
-var __vue_template__ = __webpack_require__(139)
+var __vue_template__ = __webpack_require__(141)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -1645,15 +1946,15 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 109 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(4)
 /* script */
-var __vue_script__ = __webpack_require__(140)
+var __vue_script__ = __webpack_require__(142)
 /* template */
-var __vue_template__ = __webpack_require__(141)
+var __vue_template__ = __webpack_require__(143)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -1692,15 +1993,15 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 110 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(4)
 /* script */
-var __vue_script__ = __webpack_require__(142)
+var __vue_script__ = __webpack_require__(144)
 /* template */
-var __vue_template__ = __webpack_require__(143)
+var __vue_template__ = __webpack_require__(145)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -1739,15 +2040,15 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 111 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(4)
 /* script */
-var __vue_script__ = __webpack_require__(144)
+var __vue_script__ = __webpack_require__(146)
 /* template */
-var __vue_template__ = __webpack_require__(145)
+var __vue_template__ = __webpack_require__(147)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -1786,13 +2087,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 112 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(113);
+var content = __webpack_require__(115);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -1812,7 +2113,7 @@ if(false) {
 }
 
 /***/ }),
-/* 113 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(10)(false);
@@ -1826,7 +2127,7 @@ exports.push([module.i, "\n.ivu-layout-pages .ivu-layout-sider::after {\r\n    c
 
 
 /***/ }),
-/* 114 */
+/* 116 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1874,7 +2175,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 115 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -1899,7 +2200,7 @@ if (false) {
 }
 
 /***/ }),
-/* 116 */
+/* 118 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2173,7 +2474,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 117 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -2359,13 +2660,13 @@ if (false) {
 }
 
 /***/ }),
-/* 118 */
+/* 120 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_api_essay_js__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__js_components_upload_picture__ = __webpack_require__(119);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__js_components_upload_picture__ = __webpack_require__(121);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__js_config_js__ = __webpack_require__(13);
 //
 //
@@ -2526,29 +2827,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 119 */
+/* 121 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__upload_picture_vue__ = __webpack_require__(120);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__upload_picture_vue__ = __webpack_require__(122);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__upload_picture_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__upload_picture_vue__);
 
 /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__upload_picture_vue___default.a);
 
 /***/ }),
-/* 120 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(121)
+  __webpack_require__(123)
 }
 var normalizeComponent = __webpack_require__(4)
 /* script */
-var __vue_script__ = __webpack_require__(123)
+var __vue_script__ = __webpack_require__(125)
 /* template */
-var __vue_template__ = __webpack_require__(124)
+var __vue_template__ = __webpack_require__(126)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -2587,13 +2888,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 121 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(122);
+var content = __webpack_require__(124);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -2613,7 +2914,7 @@ if(false) {
 }
 
 /***/ }),
-/* 122 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(10)(false);
@@ -2627,7 +2928,7 @@ exports.push([module.i, "\n.upload-picture {\n    margin: 12px auto;\n}\n.upload
 
 
 /***/ }),
-/* 123 */
+/* 125 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2778,7 +3079,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 124 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -2860,7 +3161,7 @@ if (false) {
 }
 
 /***/ }),
-/* 125 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -3078,7 +3379,7 @@ if (false) {
 }
 
 /***/ }),
-/* 126 */
+/* 128 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3250,7 +3551,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 127 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -3593,7 +3894,7 @@ if (false) {
 }
 
 /***/ }),
-/* 128 */
+/* 130 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3827,7 +4128,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 129 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -3893,14 +4194,14 @@ if (false) {
 }
 
 /***/ }),
-/* 130 */
+/* 132 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__auth_tree_node_vue__ = __webpack_require__(94);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__auth_tree_node_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__auth_tree_node_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index_scss__ = __webpack_require__(107);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index_scss__ = __webpack_require__(109);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index_scss___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__index_scss__);
 //
 //
@@ -4043,13 +4344,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 131 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(132);
+var content = __webpack_require__(134);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -4069,7 +4370,7 @@ if(false) {
 }
 
 /***/ }),
-/* 132 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(10)(false);
@@ -4083,14 +4384,14 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 
 /***/ }),
-/* 133 */
+/* 135 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__auth_tree_node_vue__ = __webpack_require__(94);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__auth_tree_node_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__auth_tree_node_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_iview_src_mixins_emitter_js__ = __webpack_require__(134);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_iview_src_mixins_emitter_js__ = __webpack_require__(136);
 //
 //
 //
@@ -4136,7 +4437,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 134 */
+/* 136 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4176,7 +4477,7 @@ function broadcast(componentName, eventName, params) {
 });
 
 /***/ }),
-/* 135 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -4234,7 +4535,7 @@ if (false) {
 }
 
 /***/ }),
-/* 136 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(10)(false);
@@ -4248,7 +4549,7 @@ exports.push([module.i, ".role-author-tree ul {\n  list-style-type: none; }\n\n.
 
 
 /***/ }),
-/* 137 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -4279,7 +4580,7 @@ if (false) {
 }
 
 /***/ }),
-/* 138 */
+/* 140 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4393,7 +4694,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 139 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -4533,7 +4834,7 @@ if (false) {
 }
 
 /***/ }),
-/* 140 */
+/* 142 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4641,7 +4942,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 141 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -4728,7 +5029,7 @@ if (false) {
 }
 
 /***/ }),
-/* 142 */
+/* 144 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5028,7 +5329,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 143 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -5165,7 +5466,7 @@ if (false) {
 }
 
 /***/ }),
-/* 144 */
+/* 146 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5405,7 +5706,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 145 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -5609,54 +5910,6 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-0ee24ca0", module.exports)
   }
 }
-
-/***/ }),
-/* 146 */,
-/* 147 */,
-/* 148 */,
-/* 149 */,
-/* 150 */,
-/* 151 */,
-/* 152 */,
-/* 153 */,
-/* 154 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(155);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(11)("796ba4d3", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-83191bd8\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./login.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-83191bd8\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./login.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 155 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(10)(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n.refresh-verify-code { \n    position: absolute; \n    width: 144px; \n    height: 32px;\n    top: 1px; \n    right: -3px; \n    background: transparent!important;\n}\n", ""]);
-
-// exports
-
 
 /***/ })
 ]);

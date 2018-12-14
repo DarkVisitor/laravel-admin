@@ -27,6 +27,7 @@ class AdminLoginPost extends FormRequest
             //验证规则
             'username' => 'bail|required',
             'password' => 'required',
+            'verify_code' => 'required',
         ];
     }
 
@@ -39,8 +40,9 @@ class AdminLoginPost extends FormRequest
     public function messages()
     {
         return [
-            'username.required' => '请输入用户名!',
-            'password.required' => '请输入密码!'
+            'username.required' => '请输入用户名/手机号/邮箱!',
+            'password.required' => '请输入登录密码!',
+            'verify_code.required' => '请输入验证码!',
         ];
     }
 }

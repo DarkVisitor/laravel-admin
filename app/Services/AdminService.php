@@ -40,7 +40,9 @@ class AdminService
     public function loginBackendSystem($request)
     {
         $validated = $request->validated();
-
+        if (strtolower($validated['verify_code']) !== $request->session()->get('verify_code')){
+            return response()->json(['code' => 54001, 'msg' => '验证码不正确']);
+        }
         $admins = $this->adminRepository->findByAdminLogin($validated['username']);
 
         if ($admins){

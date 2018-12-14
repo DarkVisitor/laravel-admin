@@ -4,36 +4,57 @@
             <Card :bordered="false">
                 <p slot="title">
                     <Icon type="log-in"></Icon>
-                    欢迎登录LaravelAdmin
+                    {{ title }}
                 </p>
                 <div class="form-con">
-                    <Form ref="loginForm" :model="form" :rules="rules">
+                    <Form v-show="isLoginOrReset" ref="loginForm" :model="form" :rules="rules">
                         <FormItem prop="userName">
-                            <Input v-model="form.userName" placeholder="请输入用户名">
-                                <span slot="prepend">
-                                    <Icon :size="16" type="ios-person"></Icon>
-                                </span>
-                            </Input>
+                            <Input v-model="form.userName" clearable placeholder="用户名/手机号/邮箱"></Input>
                         </FormItem>
                         <FormItem prop="password">
-                            <Input type="password" v-model="form.password" placeholder="请输入密码">
-                                <span slot="prepend">
-                                    <Icon :size="14" type="md-lock"></Icon>
-                                </span>
-                            </Input>
+                            <Input type="password" v-model="form.password" clearable placeholder="登录密码"></Input>
                         </FormItem>
                         <FormItem prop="verifyCode">
-                            <Input v-model="form.verifyCode" placeholder="请输入验证码" style="width: 120px;"></Input>
+                            <Input v-model="form.verifyCode" clearable placeholder="验证码" style="width: 120px;"></Input>
                             <Avatar shape="square" style="width: 144px;" :src="verifyCodeImage" />
                             <Button type="text" @click="handleRefreshVerifyCode" class="refresh-verify-code"></Button>
                         </FormItem>
                         <FormItem>
-                            <Button @click="handleSubmit" :loading="loading" type="primary" long>
+                            <Button @click="handleLoginSubmit" :loading="loading" type="primary" long>
                                 <span v-if="!loading">登录</span>
                                 <span v-else>登录中</span>
                             </Button>
                         </FormItem>
                     </Form>
+
+                    <!-- Reset password -->
+                    <Form v-show="!isLoginOrReset" ref="resetForm" :model="resetFrom" :rules="resetRules">
+                        <FormItem prop="userName">
+                            <Input v-model="resetFrom.userName" placeholder="手机号或邮箱"></Input>
+                        </FormItem>
+                        <FormItem prop="verifyCode" v-show="isCheck">
+                            <Input v-model="resetFrom.verifyCode" placeholder="验证码" style="width: 120px;"></Input>
+                            <Avatar shape="square" style="width: 144px;" :src="verifyCodeImage" />
+                            <Button type="text" @click="handleRefreshVerifyCode" class="refresh-verify-code"></Button>
+                        </FormItem>
+                        <FormItem prop="remoteVerifyCode">
+                            <Input v-model="resetFrom.remoteVerifyCode" placeholder="短信验证码/邮箱验证码" style="width: 150px;"></Input>
+                            <Button v-if="isSend" type="default" disabled class="verify-code">{{ t }} 秒后可重发</Button>
+                            <Button v-else type="default" @click="sendVerifyCode" class="verify-code">获取验证码</Button>
+                        </FormItem>
+                        <FormItem prop="password">
+                            <Input type="password" v-model="resetFrom.password" placeholder="登录密码"></Input>
+                        </FormItem>
+                        <FormItem>
+                            <Button @click="handleResetSubmit" :loading="loading" type="primary" long>
+                                <span v-if="!loading">重置密码</span>
+                                <span v-else>重置密码中</span>
+                            </Button>
+                        </FormItem>
+                    </Form>
+                    <div style="text-align: right;margin-bottom: 20px;">
+                        <a style="user-select: none;" @click="switchLoginReset">{{ loginReset }}</a>
+                    </div>
                     <p class="login-tip">
                         输入任意用户名和密码即可<br>
                         ©版权所有：xxx
@@ -49,7 +70,13 @@ import {setToken} from '@js/libs/util.js';
 export default {
     data () {
         return {
+            title: '欢迎登录LaravelAdmin',
             loading: false,
+            loginReset: '忘记密码？',
+            isLoginOrReset: true,
+            t: 60,
+            isSend: false,
+            isCheck: false,
             form: {
                 userName: '',
                 password: '',
@@ -57,13 +84,40 @@ export default {
             },
             rules: {
                 userName: [
-                    { required: true, whitespace: true, message: '用户名不能为空', trigger: 'blur' }
+                    { required: true, whitespace: true, message: '请输入用户名或手机号或邮箱', trigger: 'blur' }
                 ],
                 password: [
-                    { required: true, whitespace: true, message: '密码不能为空', trigger: 'blur' }
+                    { required: true, whitespace: true, message: '请输入登录密码', trigger: 'blur' }
                 ],
                 verifyCode: [
-                    { required: true, whitespace: true, message: '验证码不能为空', trigger: 'blur' }
+                    { required: true, whitespace: true, message: '请输入验证码', trigger: 'blur' }
+                ]
+            },
+            resetFrom: {
+                userName: '',
+                password: '',
+                verifyCode: '',
+                remoteVerifyCode: ''
+            },
+            resetRules: {
+                userName: [
+                    { required: true, whitespace: true, message: '请输入手机号或邮箱', trigger: 'blur' },
+                    { type: 'string', validator: (rule, value, callback) => {
+                        if (!/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(value) && !/^1\d{10}$/.test(value)){
+                            callback('无效的手机号或邮箱');
+                        }else{
+                            callback();
+                        }
+                    }, trigger: 'blur' }
+                ],
+                password: [
+                    { required: true, whitespace: true, message: '请输入登录密码', trigger: 'blur' }
+                ],
+                verifyCode: [
+                    { required: true, whitespace: true, message: '请输入验证码', trigger: 'blur' }
+                ],
+                remoteVerifyCode: [
+                    { required: true, whitespace: true, message: '请输入短信验证码或邮箱验证码', trigger: 'blur' }
                 ]
             }
         };
@@ -73,13 +127,61 @@ export default {
             return this.$store.getters.getVerifyCode;
         }
     },
+    watch: {
+        'resetFrom.userName'(curVal) {
+            this.isCheck = true;
+        }
+    },
     methods: {
-        handleSubmit () {
+        /**
+         * Switch login or reset password.
+         */
+        switchLoginReset() {
+            this.isLoginOrReset = !this.isLoginOrReset;
+            this.loginReset = this.isLoginOrReset ? '忘记密码？' : '立即登录';
+            this.title = this.isLoginOrReset ? '欢迎登录LaravelAdmin' : '重置密码';
+            this.handleRefreshVerifyCode();
+        },
+        /**
+         * Send verification code countdown timer.
+         */
+        countDown() {
+            let that = this;
+            setTimeout(() => {
+                if (that.t){
+                    that.countDown();
+                    that.t = that.t - 1;
+                }else{
+                    that.isSend = false;
+                    that.t = 60;
+                }
+            }, 1000);
+        },
+        /**
+         * Send SMS or email verification code.
+         */
+        sendVerifyCode() {
+            this.$refs.resetForm.validateField('userName', (valid) => {
+                if (!valid){
+                    this.$refs.resetForm.validateField('verifyCode', (error) => {
+                        if (!error){
+                            this.isSend = true;
+                            this.countDown();
+                        }
+                    });
+                }
+            });
+        },
+        /**
+         * Submit login data.
+         */
+        handleLoginSubmit() {
             this.$refs.loginForm.validate((valid) => {
                 if (valid) {
                     let that = this;
                     that.loading = true;    //设置登录按钮提交状态
-                    LoginAPI.postAccessToken({username:this.form.userName,password:this.form.password})
+                    console.log('debug');
+                    LoginAPI.postAccessToken({username: this.form.userName,password: this.form.password,verify_code: this.form.verifyCode})
                         .then(function(response){
                             //console.log(response.data);
                             let res = response.data;
@@ -117,10 +219,15 @@ export default {
             });
         },
         /**
+         * Submit reset password data.
+         */
+        handleResetSubmit() {
+
+        },
+        /**
          * Refresh verify code.
          */
         handleRefreshVerifyCode() {
-            console.log('debug');
             this.$store.dispatch('loadVerifyCode', { t: Date.now() });
         }
     },
@@ -137,6 +244,17 @@ export default {
         top: 1px; 
         right: -3px; 
         background: transparent!important;
+    }
+    .verify-code {
+        width: 110px;
+        margin-right: 0!important;
+    }
+    .switch-login-reset {
+        /* position: absolute;
+        top: 32px;
+        right: 0px; */
+        user-select: none;
+        line-height: 24px;
     }
 </style>
 

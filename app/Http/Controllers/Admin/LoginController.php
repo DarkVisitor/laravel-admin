@@ -13,6 +13,7 @@ use App\Http\Requests\AdminLoginPost;
 use App\Services\AdminService;
 use Gregwar\Captcha\CaptchaBuilder;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
@@ -35,6 +36,23 @@ class LoginController extends Controller
         return $this->adminService->loginBackendSystem($request);
     }
 
+    /**
+     * Get verify code.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getVerifyCode()
+    {
+        $builder = new CaptchaBuilder();
+        $builder->build($width = 144, $height = 32, $font = null);
+        $phrase = $builder->getPhrase();
+
+        // 将验证码内容存储在一次性 session 中
+        Session::flush('verify_code', $phrase);
+
+        return response()->json(['code' => 0, 'msg' => 'success', 'verify_code' => 'data:image/jpeg;base64,' . base64_encode($builder->get())]);
+    }
+
 
     public function userToken()
     {
@@ -55,18 +73,6 @@ class LoginController extends Controller
 
         $response = json_decode((string) $response->getBody(), true);
         return response()->json(["code" => 0, "msg" => "success", "data" => $response]);
-    }
-
-
-    public function getVerifyCode()
-    {
-        $builder = new CaptchaBuilder();
-        $builder->build($width = 144, $height = 32, $font = null);
-        $phrase = $builder->getPhrase();
-
-        //Session::flash('verifyCode', $phrase);
-
-        return response()->json(['code' => 0, 'msg' => 'success', 'verify_code' => 'data:image/jpeg;base64,' . base64_encode($builder->get())]);
     }
 
 }
