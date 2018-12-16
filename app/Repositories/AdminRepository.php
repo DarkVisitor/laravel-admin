@@ -34,7 +34,14 @@ class AdminRepository extends Repository
      */
     public function findByAdminLogin($username)
     {
-        return $this->model->orWhere('name', trim($username))->orWhere('email', trim($username))->first();
+        return $this->model
+            ->with([
+                'hasOnePassword'
+            ])
+            ->orWhere('name', trim($username))
+            ->orWhere('email', trim($username))
+            ->orWhere('mobile', trim($username))
+            ->first();
     }
 
 

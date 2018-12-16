@@ -48,7 +48,7 @@ class LoginController extends Controller
         $phrase = $builder->getPhrase();
 
         // 将验证码内容存储在一次性 session 中
-        Session::flush('verify_code', $phrase);
+        Session::put('verify_code', $phrase);
 
         return response()->json(['code' => 0, 'msg' => 'success', 'verify_code' => 'data:image/jpeg;base64,' . base64_encode($builder->get())]);
     }

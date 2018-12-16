@@ -26,7 +26,7 @@ class Admin extends Authenticatable
      */
     public static function findForPassport($username)
     {
-        return Admin::orWhere('email', $username)->orWhere('name', $username)->first();
+        return Admin::orWhere('email', $username)->orWhere('name', $username)->orWhere('mobile', $username)->first();
     }
 
 
@@ -38,5 +38,16 @@ class Admin extends Authenticatable
     public function belongsToManyRole()
     {
         return $this->belongsToMany('App\Models\Role', 'role_admins');
+    }
+
+
+    /**
+     * Relation administrator login error password logging model.
+     *
+     * @return mixed
+     */
+    public function hasOnePassword()
+    {
+        return $this->hasOne('App\Models\AdminErrorPasswd', 'admin_id', $this->primaryKey);
     }
 }

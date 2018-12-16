@@ -192,6 +192,7 @@ export default {
                                     duration: 3
                                 });
                                 that.loading = false;   //修改为可提交状态
+                                that.handleRefreshVerifyCode();     //刷新验证码
                             }else{
                                 that.$Notice.success({
                                     title: '登录成功',
