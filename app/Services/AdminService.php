@@ -53,7 +53,6 @@ class AdminService
         $admins = $this->adminRepository->findByAdminLogin($validated['username']);
         if ($admins){
             $admins = $admins->toArray();
-            info($admins);
             if ($admins['status']){
                 if ($admins['has_one_password'] && $admins['has_one_password']['error_num'] >= 5){
                     return response()->json(['code' => 54002, 'msg' => '密码错误已达 5 次，请一天后再试!']);

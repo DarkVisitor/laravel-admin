@@ -45,6 +45,8 @@ Route::group(['middleware' => 'web', 'prefix' => 'backend', 'namespace' => 'Admi
     // Get verify code.
     Route::get('/getVerifyCode', 'LoginController@getVerifyCode');
 
+    Route::post('/sendVerifyCode', 'SystemController@sendVerifyCode');
+
 
     Route::group(['middleware' => 'auth:admin'], function (){
         /**

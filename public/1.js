@@ -171,21 +171,21 @@ var render = function() {
                       }
                     ],
                     ref: "resetForm",
-                    attrs: { model: _vm.resetFrom, rules: _vm.resetRules }
+                    attrs: { model: _vm.resetForm, rules: _vm.resetRules }
                   },
                   [
                     _c(
                       "FormItem",
-                      { attrs: { prop: "userName" } },
+                      { attrs: { prop: "account" } },
                       [
                         _c("Input", {
                           attrs: { placeholder: "手机号或邮箱" },
                           model: {
-                            value: _vm.resetFrom.userName,
+                            value: _vm.resetForm.account,
                             callback: function($$v) {
-                              _vm.$set(_vm.resetFrom, "userName", $$v)
+                              _vm.$set(_vm.resetForm, "account", $$v)
                             },
-                            expression: "resetFrom.userName"
+                            expression: "resetForm.account"
                           }
                         })
                       ],
@@ -210,11 +210,11 @@ var render = function() {
                           staticStyle: { width: "120px" },
                           attrs: { placeholder: "验证码" },
                           model: {
-                            value: _vm.resetFrom.verifyCode,
+                            value: _vm.resetForm.verifyCode,
                             callback: function($$v) {
-                              _vm.$set(_vm.resetFrom, "verifyCode", $$v)
+                              _vm.$set(_vm.resetForm, "verifyCode", $$v)
                             },
-                            expression: "resetFrom.verifyCode"
+                            expression: "resetForm.verifyCode"
                           }
                         }),
                         _vm._v(" "),
@@ -240,11 +240,11 @@ var render = function() {
                           staticStyle: { width: "150px" },
                           attrs: { placeholder: "短信验证码/邮箱验证码" },
                           model: {
-                            value: _vm.resetFrom.remoteVerifyCode,
+                            value: _vm.resetForm.remoteVerifyCode,
                             callback: function($$v) {
-                              _vm.$set(_vm.resetFrom, "remoteVerifyCode", $$v)
+                              _vm.$set(_vm.resetForm, "remoteVerifyCode", $$v)
                             },
-                            expression: "resetFrom.remoteVerifyCode"
+                            expression: "resetForm.remoteVerifyCode"
                           }
                         }),
                         _vm._v(" "),
@@ -277,11 +277,11 @@ var render = function() {
                         _c("Input", {
                           attrs: { type: "password", placeholder: "登录密码" },
                           model: {
-                            value: _vm.resetFrom.password,
+                            value: _vm.resetForm.password,
                             callback: function($$v) {
-                              _vm.$set(_vm.resetFrom, "password", $$v)
+                              _vm.$set(_vm.resetForm, "password", $$v)
                             },
-                            expression: "resetFrom.password"
+                            expression: "resetForm.password"
                           }
                         })
                       ],
@@ -463,7 +463,8 @@ exports.push([module.i, "\n.refresh-verify-code { \n    position: absolute; \n  
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_api_login_js__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__js_libs_util_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__js_api_system_js__ = __webpack_require__(87);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__js_libs_util_js__ = __webpack_require__(1);
 //
 //
 //
@@ -530,6 +531,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
 
 
 
@@ -553,14 +555,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 password: [{ required: true, whitespace: true, message: '请输入登录密码', trigger: 'blur' }],
                 verifyCode: [{ required: true, whitespace: true, message: '请输入验证码', trigger: 'blur' }]
             },
-            resetFrom: {
-                userName: '',
+            resetForm: {
+                account: '',
                 password: '',
                 verifyCode: '',
                 remoteVerifyCode: ''
             },
             resetRules: {
-                userName: [{ required: true, whitespace: true, message: '请输入手机号或邮箱', trigger: 'blur' }, { type: 'string', validator: function validator(rule, value, callback) {
+                account: [{ required: true, whitespace: true, message: '请输入手机号或邮箱', trigger: 'blur' }, { type: 'string', validator: function validator(rule, value, callback) {
                         if (!/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(value) && !/^1\d{10}$/.test(value)) {
                             callback('无效的手机号或邮箱');
                         } else {
@@ -580,7 +582,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     watch: {
-        'resetFrom.userName': function resetFromUserName(curVal) {
+        'resetForm.account': function resetFormAccount(curVal) {
             this.isCheck = true;
         }
     },
@@ -615,14 +617,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
          * Send SMS or email verification code.
          */
         sendVerifyCode: function sendVerifyCode() {
-            var _this = this;
-
-            this.$refs.resetForm.validateField('userName', function (valid) {
+            var that = this;
+            that.$refs.resetForm.validateField('account', function (valid) {
                 if (!valid) {
-                    _this.$refs.resetForm.validateField('verifyCode', function (error) {
+                    that.$refs.resetForm.validateField('verifyCode', function (error) {
                         if (!error) {
-                            _this.isSend = true;
-                            _this.countDown();
+                            __WEBPACK_IMPORTED_MODULE_1__js_api_system_js__["a" /* default */].sendVerifyCode({ account: that.resetForm.account, verify_code: that.resetForm.verifyCode }).then(function (res) {
+                                if (res.data.code) {
+                                    that.$Notice.error({
+                                        title: '系统提示',
+                                        desc: res.data.msg,
+                                        duration: 3
+                                    });
+                                    that.handleRefreshVerifyCode(); //刷新验证码
+                                } else {
+                                    that.$Notice.success({
+                                        title: '系统提示',
+                                        desc: res.data.msg,
+                                        duration: 3
+                                    });
+                                    that.isSend = true;
+                                    that.countDown();
+                                }
+                            }).catch(function (err) {
+                                that.$Message.info('系统繁忙，请稍后再试!');
+                                that.handleRefreshVerifyCode(); //刷新验证码
+                            });
                         }
                     });
                 }
@@ -633,14 +653,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
          * Submit login data.
          */
         handleLoginSubmit: function handleLoginSubmit() {
-            var _this2 = this;
+            var _this = this;
 
             this.$refs.loginForm.validate(function (valid) {
                 if (valid) {
-                    var that = _this2;
+                    var that = _this;
                     that.loading = true; //设置登录按钮提交状态
                     console.log('debug');
-                    __WEBPACK_IMPORTED_MODULE_0__js_api_login_js__["a" /* default */].postAccessToken({ username: _this2.form.userName, password: _this2.form.password, verify_code: _this2.form.verifyCode }).then(function (response) {
+                    __WEBPACK_IMPORTED_MODULE_0__js_api_login_js__["a" /* default */].postAccessToken({ username: _this.form.userName, password: _this.form.password, verify_code: _this.form.verifyCode }).then(function (response) {
                         //console.log(response.data);
                         var res = response.data;
                         if (res.code) {
@@ -657,7 +677,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                                 desc: res.msg,
                                 duration: 3
                             });
-                            Object(__WEBPACK_IMPORTED_MODULE_1__js_libs_util_js__["e" /* setToken */])(res.data);
+                            Object(__WEBPACK_IMPORTED_MODULE_2__js_libs_util_js__["e" /* setToken */])(res.data);
                             //移除所有本地存储信息
                             localStorage.clear();
                             that.loading = false; //修改为可提交状态
@@ -672,6 +692,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     }).catch(function (e) {
                         that.$Message.info('系统繁忙，请稍后再试!');
                         that.loading = false; //修改为可提交状态
+                        that.handleRefreshVerifyCode(); //刷新验证码
                     });
                 }
             });

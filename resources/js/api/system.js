@@ -1,23 +1,24 @@
 
 
 import axios from '@js/libs/axios';
-import {getToken} from '@js/libs/util.js';
 
 export default {
     /**
      * 初始化应用后台菜单
      * @param {id:id} params 
      */
-    initAppAdminMenu (params) {
-        const token = getToken();
-
-        return axios({
-            url: '/initMenu',
-            method: 'get',
-            headers: {
-                'Authorization': 'Bearer ' + token
-            },
+    initAppAdminMenu(params) {
+        return axios.get('/initMenu', {
             params: params
         });
+    },
+
+    /**
+     * Send SMS or Email verify code.
+     * 
+     * @param {account: account, verify_code: verify_code} data 
+     */
+    sendVerifyCode(data) {
+        return axios.post('/sendVerifyCode', data);
     }
 }

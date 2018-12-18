@@ -97044,8 +97044,6 @@ var system = {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_libs_axios__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__js_libs_util_js__ = __webpack_require__(1);
-
 
 
 
@@ -97056,16 +97054,19 @@ var system = {
      * @param {id:id} params 
      */
     initAppAdminMenu: function initAppAdminMenu(params) {
-        var token = Object(__WEBPACK_IMPORTED_MODULE_1__js_libs_util_js__["a" /* getToken */])();
-
-        return Object(__WEBPACK_IMPORTED_MODULE_0__js_libs_axios__["a" /* default */])({
-            url: '/initMenu',
-            method: 'get',
-            headers: {
-                'Authorization': 'Bearer ' + token
-            },
+        return __WEBPACK_IMPORTED_MODULE_0__js_libs_axios__["a" /* default */].get('/initMenu', {
             params: params
         });
+    },
+
+
+    /**
+     * Send SMS or Email verify code.
+     * 
+     * @param {account: account, verify_code: verify_code} data 
+     */
+    sendVerifyCode: function sendVerifyCode(data) {
+        return __WEBPACK_IMPORTED_MODULE_0__js_libs_axios__["a" /* default */].post('/sendVerifyCode', data);
     }
 });
 

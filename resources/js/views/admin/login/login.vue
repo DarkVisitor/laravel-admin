@@ -28,22 +28,22 @@
                     </Form>
 
                     <!-- Reset password -->
-                    <Form v-show="!isLoginOrReset" ref="resetForm" :model="resetFrom" :rules="resetRules">
-                        <FormItem prop="userName">
-                            <Input v-model="resetFrom.userName" placeholder="手机号或邮箱"></Input>
+                    <Form v-show="!isLoginOrReset" ref="resetForm" :model="resetForm" :rules="resetRules">
+                        <FormItem prop="account">
+                            <Input v-model="resetForm.account" placeholder="手机号或邮箱"></Input>
                         </FormItem>
                         <FormItem prop="verifyCode" v-show="isCheck">
-                            <Input v-model="resetFrom.verifyCode" placeholder="验证码" style="width: 120px;"></Input>
+                            <Input v-model="resetForm.verifyCode" placeholder="验证码" style="width: 120px;"></Input>
                             <Avatar shape="square" style="width: 144px;" :src="verifyCodeImage" />
                             <Button type="text" @click="handleRefreshVerifyCode" class="refresh-verify-code"></Button>
                         </FormItem>
                         <FormItem prop="remoteVerifyCode">
-                            <Input v-model="resetFrom.remoteVerifyCode" placeholder="短信验证码/邮箱验证码" style="width: 150px;"></Input>
+                            <Input v-model="resetForm.remoteVerifyCode" placeholder="短信验证码/邮箱验证码" style="width: 150px;"></Input>
                             <Button v-if="isSend" type="default" disabled class="verify-code">{{ t }} 秒后可重发</Button>
                             <Button v-else type="default" @click="sendVerifyCode" class="verify-code">获取验证码</Button>
                         </FormItem>
                         <FormItem prop="password">
-                            <Input type="password" v-model="resetFrom.password" placeholder="登录密码"></Input>
+                            <Input type="password" v-model="resetForm.password" placeholder="登录密码"></Input>
                         </FormItem>
                         <FormItem>
                             <Button @click="handleResetSubmit" :loading="loading" type="primary" long>
@@ -66,6 +66,7 @@
 </template>
 <script>
 import LoginAPI from '@js/api/login.js';
+import SystemAPI from '@js/api/system.js';
 import {setToken} from '@js/libs/util.js';
 export default {
     data () {
@@ -93,14 +94,14 @@ export default {
                     { required: true, whitespace: true, message: '请输入验证码', trigger: 'blur' }
                 ]
             },
-            resetFrom: {
-                userName: '',
+            resetForm: {
+                account: '',
                 password: '',
                 verifyCode: '',
                 remoteVerifyCode: ''
             },
             resetRules: {
-                userName: [
+                account: [
                     { required: true, whitespace: true, message: '请输入手机号或邮箱', trigger: 'blur' },
                     { type: 'string', validator: (rule, value, callback) => {
                         if (!/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(value) && !/^1\d{10}$/.test(value)){
@@ -128,7 +129,7 @@ export default {
         }
     },
     watch: {
-        'resetFrom.userName'(curVal) {
+        'resetForm.account'(curVal) {
             this.isCheck = true;
         }
     },
@@ -161,12 +162,34 @@ export default {
          * Send SMS or email verification code.
          */
         sendVerifyCode() {
-            this.$refs.resetForm.validateField('userName', (valid) => {
+            let that = this;
+            that.$refs.resetForm.validateField('account', (valid) => {
                 if (!valid){
-                    this.$refs.resetForm.validateField('verifyCode', (error) => {
+                    that.$refs.resetForm.validateField('verifyCode', (error) => {
                         if (!error){
-                            this.isSend = true;
-                            this.countDown();
+                            SystemAPI.sendVerifyCode({account: that.resetForm.account, verify_code: that.resetForm.verifyCode})
+                                .then((res) => {
+                                    if (res.data.code){
+                                        that.$Notice.error({
+                                            title: '系统提示',
+                                            desc: res.data.msg,
+                                            duration: 3
+                                        });
+                                        that.handleRefreshVerifyCode();     //刷新验证码
+                                    }else{
+                                        that.$Notice.success({
+                                            title: '系统提示',
+                                            desc: res.data.msg,
+                                            duration: 3
+                                        });
+                                        that.isSend = true;
+                                        that.countDown();
+                                    }
+                                })
+                                .catch((err) => {
+                                    that.$Message.info('系统繁忙，请稍后再试!');
+                                    that.handleRefreshVerifyCode();     //刷新验证码
+                                });
                         }
                     });
                 }
@@ -215,6 +238,7 @@ export default {
                         .catch(function(e){
                             that.$Message.info('系统繁忙，请稍后再试!');
                             that.loading = false;   //修改为可提交状态
+                            that.handleRefreshVerifyCode();     //刷新验证码
                         });
                 }
             });
