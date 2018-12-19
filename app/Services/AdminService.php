@@ -9,13 +9,17 @@
 namespace App\Services;
 
 
+use App\Repositories\AdminLoginLoggingRepository;
 use App\Repositories\AdminPasswordRepository;
 use App\Repositories\AdminRepository;
 use App\Repositories\ModuleRepository;
 use App\Repositories\RoleRepository;
+use App\Repositories\VerifyCodeRepository;
 use App\Traits\ModuleTrait;
 use App\Traits\PassportTrait;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class AdminService
 {
@@ -25,17 +29,23 @@ class AdminService
     protected $roleRepository;
     protected $moduleRepository;
     protected $adminPasswordRepository;
+    protected $verifyCodeRepository;
+    protected $adminLoginLogginRepository;
 
     public function __construct(
         AdminRepository $adminRepository,
         RoleRepository $roleRepository,
         ModuleRepository $moduleRepository,
-        AdminPasswordRepository $adminPasswordRepository)
+        AdminPasswordRepository $adminPasswordRepository,
+        VerifyCodeRepository $codeRepository,
+        AdminLoginLoggingRepository $adminLoginLoggingRepository)
     {
         $this->adminRepository = $adminRepository;
         $this->roleRepository = $roleRepository;
         $this->moduleRepository = $moduleRepository;
         $this->adminPasswordRepository = $adminPasswordRepository;
+        $this->verifyCodeRepository = $codeRepository;
+        $this->adminLoginLogginRepository = $adminLoginLoggingRepository;
     }
 
     /**
@@ -67,6 +77,21 @@ class AdminService
                         if (!$response){
                             return response()->json(['code' => 50001, 'msg' => '登录失败']);
                         }
+
+                        // Update administrator login info.
+                        $this->adminRepository->update($admins['id'], [
+                            'cur_login_ip' => ip2long($request->ip()),
+                            'last_login_ip' => ip2long($admins['cur_login_ip']),
+                            'cur_login_datetime' => date('Y-m-d H:i:s'),
+                            'last_login_datetime' => $admins['cur_login_datetime']
+                        ]);
+
+                        // Create login logging.
+                        $this->adminLoginLogginRepository->createLoginLogging([
+                            'admin_id' => $admins['id'],
+                            'login_ip' => ip2long($request->ip()),
+                            'login_address' => '中国 上海市'
+                        ]);
 
                         return response()->json(["code" => 0, "msg" => "success", "data" => $response]);
                     }else{
@@ -133,6 +158,50 @@ class AdminService
             return response()->json(['code' => 0, 'msg' => 'success', 'data' => $admins]);
         }else{
             return response()->json(['code' => 44001, 'msg' => '暂无数据']);
+        }
+    }
+
+
+    public function resetPassword($request)
+    {
+        $validated = $request->validated();
+
+        // Find SMS or Email verify code record.
+        $codes = $this->verifyCodeRepository->findByNewCode($validated['account']);
+        if (is_null($codes)){
+            return response()->json(['code' => 42001, 'msg' => '验证码不存在']);
+        }elseif ($codes['is_check']){
+            return response()->json(['code' => 30001, 'msg' => '验证码已使用']);
+        }elseif (time() - strtotime($codes['created_at']) > 600){
+            return response()->json(['code' => 30001, 'msg' => '验证码已过期']);
+        }elseif ($codes['code'] != $validated['verify_code']){
+            return response()->json(['code' => 30001, 'msg' => '验证码不正确']);
+        }
+
+        DB::beginTransaction();
+        try{
+            // Update verify code status.
+            $this->verifyCodeRepository->update($codes['id'], ['is_check' => 1]);
+
+            // Update account password.
+            $admins = $this->adminRepository->findByAdminLogin($validated['account']);
+            if (is_null($admins)){
+                DB::rollBack();
+                return response()->json(['code' => 44004, 'msg' => '账号不存在']);
+            }
+            $this->adminRepository->update($admins['id'], ['password' => Hash::make($validated['password'])]);
+
+            // Delete error password logging.
+            $this->adminPasswordRepository->delete($admins['id']);
+
+            DB::commit();
+
+            return response()->json(['code' => 0, 'msg' => '登录密码已重置']);
+        }catch (\Exception $exception){
+            DB::rollBack();
+            Log::error($exception);
+
+            return response()->json(['code' => 54001, 'msg' => '重置密码失败']);
         }
     }
 }

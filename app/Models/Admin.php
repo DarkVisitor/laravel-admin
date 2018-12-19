@@ -31,6 +31,52 @@ class Admin extends Authenticatable
 
 
     /**
+     * Accessor to field cur_login_ip
+     *
+     * @param $value
+     * @return string
+     */
+    public function getCurLoginIpAttribute($value)
+    {
+        return long2ip($value);
+    }
+
+
+    /**
+     * Accessor to field last_login_ip
+     *
+     * @param $value
+     * @return string
+     */
+    public function getLastLoginIpAttribute($value)
+    {
+        return long2ip($value);
+    }
+
+
+    /**
+     * Mutator to field cur_login_ip
+     *
+     * @param $value
+     */
+    public function setCurLoginIpAttribute($value)
+    {
+        $this->attributes['cur_login_ip'] = ip2long($value);
+    }
+
+
+    /**
+     * Mutator to field last_login_ip
+     *
+     * @param $value
+     */
+    public function setLastLoginIpAttribute($value)
+    {
+        $this->attributes['last_login_ip'] = ip2long($value);
+    }
+
+
+    /**
      * Relation role model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

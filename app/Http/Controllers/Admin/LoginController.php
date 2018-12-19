@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Admin;
 
 
 use App\Http\Requests\AdminLoginPost;
+use App\Http\Requests\ResetPassword;
 use App\Services\AdminService;
 use Gregwar\Captcha\CaptchaBuilder;
 use Illuminate\Routing\Controller;
@@ -52,6 +53,21 @@ class LoginController extends Controller
 
         return response()->json(['code' => 0, 'msg' => 'success', 'verify_code' => 'data:image/jpeg;base64,' . base64_encode($builder->get())]);
     }
+
+
+    /**
+     * Forget passwords and reset them.
+     *
+     * @param ResetPassword $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function forget(ResetPassword $request)
+    {
+        return $this->adminService->resetPassword($request);
+    }
+
+
+
 
 
     public function userToken()

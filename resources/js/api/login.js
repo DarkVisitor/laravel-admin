@@ -20,5 +20,14 @@ export default {
      */
     getVerifyCode(params) {
         return axios.get('/getVerifyCode', { params: params });
+    },
+
+    /**
+     * Forget passwords and reset them.
+     * 
+     * @param {account: acctount, verify_code: verify_code, password: password} data 
+     */
+    forgetPassword(data) {
+        return axios.post('/forget', data);
     }
 }

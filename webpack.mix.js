@@ -12,6 +12,9 @@ let mix = require('laravel-mix');
  */
 
 mix.webpackConfig({
+        output: {
+            chunkFilename: 'js/[name].js'     // 设置 vue-router 懒加载分块打包文件生成路径
+        },
         resolve: {
             /* 配置路径别名 */
             alias: {
@@ -21,6 +24,18 @@ mix.webpackConfig({
         }
     })
     .js('resources/js/app.js', 'public/js')
+    .extract([
+        'vue', 
+        'vue-router', 
+        'vuex', 
+        'iview', 
+        'js-cookie', 
+        'es6-promise', 
+        'axios', 
+        'jquery',
+        'popper.js',
+        'lodash'
+    ])
     .sass('resources/sass/app.scss', 'public/css');
 
 if (mix.inProduction()){

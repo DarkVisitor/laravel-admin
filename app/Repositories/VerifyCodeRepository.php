@@ -34,4 +34,20 @@ class VerifyCodeRepository extends Repository
 
         return $this->model->save();
     }
+
+
+    /**
+     * Find account to code record.
+     *
+     * @param $account
+     * @return mixed
+     */
+    public function findByNewCode($account)
+    {
+        return $this->model
+            ->orWhere('mobile', trim($account))
+            ->orWhere('email', trim($account))
+            ->orderBy('created_at', 'desc')
+            ->first();
+    }
 }

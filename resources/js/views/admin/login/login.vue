@@ -247,7 +247,36 @@ export default {
          * Submit reset password data.
          */
         handleResetSubmit() {
-
+            let that = this;
+            that.loading = true;
+            LoginAPI.forgetPassword({
+                    account: that.resetForm.account, 
+                    verify_code: that.resetForm.remoteVerifyCode, 
+                    password: that.resetForm.password
+                })
+                .then((res) => {
+                    if (res.data.code){
+                        that.$Notice.error({
+                            title: '系统提示',
+                            desc: res.data.msg,
+                            duration: 3
+                        });
+                        that.loading = false;
+                        that.handleRefreshVerifyCode();
+                    }else{
+                        that.$Notice.success({
+                            title: '系统提示',
+                            desc: res.data.msg,
+                            duration: 3
+                        });
+                        that.loading = false;
+                    }
+                })
+                .catch((err) => {
+                    that.$Message.info('系统繁忙，请稍后再试!');
+                    that.loading = false;
+                    that.handleRefreshVerifyCode();
+                });
         },
         /**
          * Refresh verify code.

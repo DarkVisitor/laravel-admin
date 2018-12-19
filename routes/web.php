@@ -42,10 +42,13 @@ Route::group(['middleware' => 'web', 'prefix' => 'backend', 'namespace' => 'Admi
     Route::post('/login', 'LoginController@token');
 
     Route::get('/signin', 'LoginController@userToken');
+
     // Get verify code.
     Route::get('/getVerifyCode', 'LoginController@getVerifyCode');
 
     Route::post('/sendVerifyCode', 'SystemController@sendVerifyCode');
+
+    Route::post('/forget', 'LoginController@forget');
 
 
     Route::group(['middleware' => 'auth:admin'], function (){

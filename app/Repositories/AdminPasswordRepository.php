@@ -44,10 +44,21 @@ class AdminPasswordRepository extends Repository
         if ($findLoginByLog){
             return $this->model->where('admin_id', $adminId)->increment('error_num');
         }else{
-            info($adminId);
             $this->model->admin_id = $adminId;
             $this->model->error_num = 1;
             return $this->model->save();
         }
+    }
+
+
+    /**
+     * Delete administrator error login password logging.
+     *
+     * @param $id
+     * @return mixed
+     */
+    public function delete($id)
+    {
+        return $this->model->where('id', $id)->delete();
     }
 }
