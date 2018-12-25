@@ -155,7 +155,7 @@ class AdminService
                 $admins[$key]['key'] = $key;
                 $admins[$key]['label'] = $item['name'];
             }
-            return response()->json(['code' => 0, 'msg' => 'success', 'data' => $admins]);
+            return response()->json(['code' => 0, 'msg' => 'success', 'list' => $admins]);
         }else{
             return response()->json(['code' => 44001, 'msg' => '暂无数据']);
         }

@@ -83,7 +83,7 @@ class Admin extends Authenticatable
      */
     public function belongsToManyRole()
     {
-        return $this->belongsToMany('App\Models\Role', 'role_admins');
+        return $this->belongsToMany('App\Models\Role', 'sys_role_admins');
     }
 
 

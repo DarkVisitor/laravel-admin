@@ -202,7 +202,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 if (valid) {
                     var that = _this;
                     that.loading = true; //设置登录按钮提交状态
-                    console.log('debug');
                     __WEBPACK_IMPORTED_MODULE_0__js_api_login_js__["a" /* default */].postAccessToken({ username: _this.form.userName, password: _this.form.password, verify_code: _this.form.verifyCode }).then(function (response) {
                         //console.log(response.data);
                         var res = response.data;

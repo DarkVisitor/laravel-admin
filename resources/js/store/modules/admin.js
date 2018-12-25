@@ -64,7 +64,7 @@ export const admin = {
         loadAdminList ({commit}) {
             AdminAPI.getAdminList()
                 .then((response) => {
-                    commit('setAdminList', response.data);
+                    commit('setAdminList', response.data.list);
                 })
                 .catch((error) => {
                     commit('setAdminList', []);

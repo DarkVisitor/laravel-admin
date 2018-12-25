@@ -6159,8 +6159,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     Object(__WEBPACK_IMPORTED_MODULE_2__js_libs_util_js__["b" /* removeMenuTree */])();
                     //清除所有本地存储信息
                     localStorage.clear();
+                    // Refresh page
+                    window.location.reload();
                     //redirect to login page.
-                    this.$router.push({ name: 'login' });
+                    //this.$router.push({name: 'login'});
                     break;
             }
         }
@@ -7957,7 +7959,7 @@ var admin = {
             var commit = _ref2.commit;
 
             __WEBPACK_IMPORTED_MODULE_0__js_api_admin_js__["a" /* default */].getAdminList().then(function (response) {
-                commit('setAdminList', response.data);
+                commit('setAdminList', response.data.list);
             }).catch(function (error) {
                 commit('setAdminList', []);
             });

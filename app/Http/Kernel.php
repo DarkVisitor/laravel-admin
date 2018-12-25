@@ -17,7 +17,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
-        \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        //\Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,  // 数据规范化中间件 - 将空字符串转为 null
         \App\Http\Middleware\TrustProxies::class,
     ];
 

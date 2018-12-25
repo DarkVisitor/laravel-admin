@@ -199,8 +199,10 @@ export default {
                     removeMenuTree();
                     //清除所有本地存储信息
                     localStorage.clear();
+                    // Refresh page
+                    window.location.reload();
                     //redirect to login page.
-                    this.$router.push({name: 'login'});
+                    //this.$router.push({name: 'login'});
                     break;
             }
         }

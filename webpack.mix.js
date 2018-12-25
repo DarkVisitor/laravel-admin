@@ -13,7 +13,7 @@ let mix = require('laravel-mix');
 
 mix.webpackConfig({
         output: {
-            chunkFilename: 'js/[name].js'     // 设置 vue-router 懒加载分块打包文件生成路径
+            chunkFilename: 'js/[name].js'     // 设置 vue-router 懒加载分块打包文件生成路径 chunkhash:5 生成文件hash解决浏览器本地缓存
         },
         resolve: {
             /* 配置路径别名 */

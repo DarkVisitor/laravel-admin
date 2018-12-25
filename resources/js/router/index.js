@@ -45,7 +45,7 @@ router.beforeEach((to, from, next) => {
                             title: 'Home',
                             isMenu: 1
                         },
-                        component: (resolve) => require(['@js/views/admin/home/home.vue'], resolve)
+                        component: (resolve) => require(['@js/views/admin/home/index.vue'], resolve)
                     });
                     let adminObj = {
                         path: '/admin',

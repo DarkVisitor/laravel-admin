@@ -1,8 +1,7 @@
 <template>
     <div class="laradmin-main">
-        <Breadcrumb separator=">">
-            <BreadcrumbItem :to="{name: 'module'}">模块配置</BreadcrumbItem>
-            <BreadcrumbItem>新增模块配置</BreadcrumbItem>
+        <Breadcrumb>
+            <BreadcrumbItem>成员信息</BreadcrumbItem>
         </Breadcrumb>
         <div class="content-header">
             <Form ref="formSearchData" :model="formSearchData" inline>

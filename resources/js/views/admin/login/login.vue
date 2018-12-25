@@ -203,7 +203,6 @@ export default {
                 if (valid) {
                     let that = this;
                     that.loading = true;    //设置登录按钮提交状态
-                    console.log('debug');
                     LoginAPI.postAccessToken({username: this.form.userName,password: this.form.password,verify_code: this.form.verifyCode})
                         .then(function(response){
                             //console.log(response.data);

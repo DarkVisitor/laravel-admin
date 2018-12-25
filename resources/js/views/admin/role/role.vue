@@ -90,7 +90,7 @@ export default {
                 {
                     title: '操作',
                     key: 'action',
-                    width: 200,
+                    width: 215,
                     align: 'center',
                     render: (h, params) => {
                         return h('div', [
@@ -99,7 +99,7 @@ export default {
                                     type: 'info',
                                     size: 'small',
                                     icon: 'md-lock',
-                                    disabled: params.row.id == '1' ? true : false
+                                    //disabled: params.row.id == '1' ? true : false
                                 },
                                 on: {
                                     click: () => {
