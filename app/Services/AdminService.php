@@ -20,6 +20,7 @@ use App\Traits\PassportTrait;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Intervention\Image\Facades\Image;
 
 class AdminService
 {
@@ -146,14 +147,14 @@ class AdminService
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getAdminList()
+    public function getAdminList($request)
     {
-        $admins = $this->adminRepository->allByAdmin();
+        $admins = $this->adminRepository->paginateFindByAdmin($request->limit, $request);
 
         if ($admins){
-            foreach ($admins as $key=>$item){
-                $admins[$key]['key'] = $key;
-                $admins[$key]['label'] = $item['name'];
+            foreach ($admins['data'] as $key=>$item){
+                $admins['data'][$key]['index'] = $key;
+                $admins['data'][$key]['loading'] = false;
             }
             return response()->json(['code' => 0, 'msg' => 'success', 'list' => $admins]);
         }else{
@@ -162,6 +163,12 @@ class AdminService
     }
 
 
+    /**
+     * Forget password to reset account password.
+     *
+     * @param $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function resetPassword($request)
     {
         $validated = $request->validated();
@@ -202,6 +209,111 @@ class AdminService
             Log::error($exception);
 
             return response()->json(['code' => 54001, 'msg' => '重置密码失败']);
+        }
+    }
+
+
+    /**
+     * Update account status.
+     *
+     * @param $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateAccountStatus($request)
+    {
+        if (!$request->filled('id')){
+            return response()->json(['code' => 44001, 'msg' => 'Invalid parameter id']);
+        }
+        if (!$request->filled('status')){
+            return response()->json(['code' => 44001, 'msg' => 'Invalid parameter status']);
+        }
+
+        $boole = $this->adminRepository->update($request->id, ['status' => $request->status]);
+        if ($boole){
+            return response()->json(['code' => 0, 'msg' => '已更新']);
+        }else{
+            return response()->json(['code' => 54001, 'msg' => '操作失败']);
+        }
+    }
+
+
+    /**
+     * Delete account info.
+     *
+     * @param $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function delete($request)
+    {
+        if (!$request->filled('id')){
+            return response()->json(['code' => 44001, 'Invalid parameter id']);
+        }
+
+        DB::beginTransaction();
+        try{
+            $admins = $this->adminRepository->find($request->id);
+            $admins->belongsToManyRole()->detach();     // 从指定用户移除所有角色
+
+            $this->adminRepository->delete($request->id);
+
+            DB::commit();
+
+            return response()->json(['code' => 0, 'msg' => '已删除']);
+        }catch (\Exception $exception){
+            DB::rollBack();
+            Log::error($exception);
+
+            return response()->json(['code' => 54001, 'msg' => '操作失败']);
+        }
+    }
+
+
+    /**
+     * Find admin first record.
+     *
+     * @param $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function findAdminFirst($request)
+    {
+        if (!$request->filled('id')){
+            return response()->json(['code' => 44001, 'msg' => 'Invalid parameter id']);
+        }
+
+        $admins = $this->adminRepository->findBy($request->id);
+        if ($admins){
+            return response()->json(['code' => 0, 'msg' => 'success', 'info' => [
+                'id' => $admins['id'],
+                'name' => $admins['name'],
+                'mobile' => $admins['mobile'],
+                'email' => $admins['email']
+            ]]);
+        }else{
+            return response()->json(['code' => 44001, 'msg' => 'fail', 'info' => []]);
+        }
+    }
+
+
+    public function save($request)
+    {
+        if ($request->filled('id')){
+            $admins = $this->adminRepository->find($request->id);
+        }else{
+            $admins = app($this->adminRepository->model());
+            //$avatar = Image::canvas(180, 180);    // 随机生成头像
+        }
+
+        $admins->name = trim($request->name);
+        $admins->mobile = $request->mobile;
+        $admins->email = $request->email;
+        if ($request->filled('password')){
+            $admins->password = Hash::make($request->password);
+        }
+        $boole = $admins->save();
+        if ($boole){
+            return response()->json(['code' => 0, 'msg' => '已保存']);
+        }else{
+            return response()->json(['code' => 54001, 'msg' => '操作失败']);
         }
     }
 }

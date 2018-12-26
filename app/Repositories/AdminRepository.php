@@ -10,6 +10,7 @@ namespace App\Repositories;
 
 
 use App\Models\Admin;
+use Illuminate\Support\Facades\DB;
 
 class AdminRepository extends Repository
 {
@@ -60,6 +61,36 @@ class AdminRepository extends Repository
 
 
     /**
+     * Paginate find administrators list data.
+     *
+     * @param int $limit
+     * @param null $params
+     * @return mixed
+     */
+    public function paginateFindByAdmin($limit = 10, $params = null)
+    {
+        return $this->model
+            ->where(function ($query) use ($params){
+                if (!is_null($params) && isset($params['keyword']) && $params['keyword']){
+                    $query->orWhere('name', 'like', trim($params['keyword']).'%')
+                        ->orWhere('mobile', 'like', trim($params['keyword']).'%')
+                        ->orWhere('email', 'like', trim($params['keyword']).'%');
+                }
+            })
+            ->where(function ($query) use ($params){
+                if (!is_null($params) && isset($params['datetime']) && $params['datetime']){
+                    $datetime = explode(',', $params['datetime']);
+                    $query->where('created_at', '>=', daily_start_datetime($datetime[0]))
+                        ->where('created_at', '<=', daily_end_datetime($datetime[1]));
+                }
+            })
+            ->orderBy('created_at', 'asc')
+            ->paginate($limit)
+            ->toArray();
+    }
+
+
+    /**
      * Find members associated with roles.
      *
      * @param $roleId
@@ -74,5 +105,17 @@ class AdminRepository extends Repository
             ->orderBy('created_at', 'asc')
             ->get()
             ->toArray();
+    }
+
+
+    /**
+     * Delete account info.
+     *
+     * @param $id
+     * @return mixed
+     */
+    public function delete($id)
+    {
+        return $this->model->where('id', $id)->delete();
     }
 }

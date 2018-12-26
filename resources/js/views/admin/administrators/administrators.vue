@@ -11,41 +11,39 @@
                 <FormItem prop="keyword" label='关键字' :label-width="75">
                     <Input type="text" clearable v-model="formSearchData.keyword" placeholder="请输入账户/手机号码/邮箱" class="header-form-search"></Input>
                 </FormItem>
-                <FormItem prop="typeid" label='所属成员组' :label-width="75">
-                    <Select v-model="formSearchData.typeid" clearable class="header-form-search">
-                        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                    </Select>
-                </FormItem>
                 <FormItem prop="datetime" label="注册时间" :label-width="75">
                     <DatePicker @on-change="changeDateTime" v-model="searchDateTime" type="daterange" format="yyyy-MM-dd" :options="options2" placement="bottom-end" placeholder="请选择日期" class="header-form-search"></DatePicker>
                 </FormItem>
                 <FormItem>
-                    <Button type="primary" icon="ios-search" @click="handleSubmit('formSearchData')">搜索</Button>
-                    <Button type="default" @click="handleReset('formSearchData')">重置</Button>
+                    <Button type="primary" icon="ios-search" @click="handleSubmit">搜索</Button>
+                    <Button type="default" @click="handleReset">重置</Button>
                 </FormItem>
             </Form>
-            
         </div>
         <div style="margin-bottom: 20px;">
             <!-- Mumber list. -->
-            <Table ref="selection" :columns="tableColumns" :data="adminList" :loading="loading"></Table>
+            <Table ref="selection" :columns="tableColumns" :data="adminListData" :loading="loading"></Table>
         </div>
-        <div>
-            <Page :total="100" show-elevator show-total show-sizer></Page>
+        <div v-show="total">
+            <Page :total="total" show-elevator show-total show-sizer @on-change="changePage" @on-page-size-change="changePageSize"></Page>
         </div>
     </div>
 </template>
 <script>
+import AdminAPI from '@js/api/admin.js';
 export default {
     name: 'administrators',
     data() {
         return {
             loading: false,
             searchDateTime: '',
+            adminListData: [],
+            total: 0,
             formSearchData: {
                 keyword: '',
-                typeid: '',
-                datetime: ''
+                datetime: '',
+                page: 1,
+                limit: 10
             },
             tableColumns: [
                 {
@@ -86,11 +84,6 @@ export default {
                     minWidth: 180
                 },
                 {
-                    title: '所属成员组',
-                    key: 'mobile',
-                    width: 100
-                },
-                {
                     title: '状态',
                     width: 100,
                     align: 'center',
@@ -100,11 +93,13 @@ export default {
                                 value: params.row.status,
                                 size: 'large',
                                 trueValue: 1,
-                                falseValue: 0
+                                falseValue: 0,
+                                loading: params.row.loading,
+                                //disabled: true
                             },
                             on: {
                                 'on-change': (value) => {
-                                    
+                                    this.changeAccountStatus(params.index, params.row.id, value);
                                 }
                             }
                         }, [
@@ -144,6 +139,16 @@ export default {
                                 },
                                 attrs: {
                                     title: '编辑'
+                                },
+                                on: {
+                                    click: () => {
+                                        this.$router.push({
+                                            name: 'editAdministrators',
+                                            params: {
+                                                id: params.row.id
+                                            }
+                                        });
+                                    }
                                 }
                             }),
                             h('Poptip', {
@@ -158,7 +163,7 @@ export default {
                                 },
                                 on: {
                                     'on-ok': () => {
-                                        //this.deleteModule(params.row.id);
+                                        this.deleteAccountInfo(params.row.id);
                                     }
                                 }
                             }, [
@@ -177,33 +182,6 @@ export default {
                     }
                 }
             ],
-            cityList: [
-                {
-                    value: 'New York',
-                    label: 'New York'
-                },
-                {
-                    value: 'London',
-                    label: 'London'
-                },
-                {
-                    value: 'Sydney',
-                    label: 'Sydney'
-                },
-                {
-                    value: 'Ottawa',
-                    label: 'Ottawa'
-                },
-                {
-                    value: 'Paris',
-                    label: 'Paris'
-                },
-                {
-                    value: 'Canberra',
-                    label: 'Canberra'
-                }
-            ],
-            model1: '',
             options2: {
                 shortcuts: [
                     {
@@ -244,36 +222,103 @@ export default {
         }
     },
     watch: {
-
+        adminList(curVal, oldVal) {
+            this.adminListData = curVal.data;
+            this.total = curVal.total;
+        }
     },
     methods: {
-        handleSubmit (name) {
-            console.log(this.formSearchData);
+        /**
+         * 查询筛选
+         */
+        handleSubmit () {
+            this.formSearchData.page = 1;
+            this.$store.dispatch('loadAdminList', this.formSearchData);
         },
-        handleSelectAll (name) {
-            this.$refs.selection.selectAll(status);
-        },
-        handleReset (name) {
-            this.$refs[name].resetFields();
+        /**
+         * 重置筛选条件
+         */
+        handleReset () {
+            this.$refs['formSearchData'].resetFields();
             //重置时清除时间组件数据
             this.searchDateTime = '';
+            this.formSearchData.page = 1;
+            this.$store.dispatch('loadAdminList', this.formSearchData);
         },
-        selectedSecond:function(index){
-
-            this.$router.push({path:index})
+        /**
+         * 切换时间范围选择
+         */
+        changeDateTime(datetime) {
+            datetime = datetime.filter(Boolean);    // 剔除空元素
+            if (datetime.length){
+                this.$set(this.formSearchData, 'datetime', datetime.join(','));
+            }else{
+                this.$set(this.formSearchData, 'datetime', '');
+            }            
         },
-        changeDateTime: function(datetime){
-            this.$set(this.formSearchData, 'datetime', datetime.join(','));
+        /**
+         * 切换页码
+         */
+        changePage(offset) {
+            this.formSearchData.page = offset;
+            this.$store.dispatch('loadAdminList', this.formSearchData);
+        },
+        /**
+         * 切换每页条数
+         */
+        changePageSize(limit) {
+            this.formSearchData.page = 1;
+            this.formSearchData.limit = limit;
+            this.$store.dispatch('loadAdminList', this.formSearchData);
+        },
+        /**
+         * 切换账号状态
+         */
+        changeAccountStatus(index, id, status) {
+            let that = this;
+            that.adminListData[index].loading = true;   // 切换加载状态
+            AdminAPI.updateAccountStatus({id: id, status: status})
+                .then((res) => {
+                    if(res.data.code){
+                        that.$Message.error(res.data.msg);
+                    }else{
+                        that.$Message.success(res.data.msg);
+                    }
+                    that.adminListData[index].loading = false;
+                    that.adminListData[index].status = status;
+                })
+                .catch((err) => {
+                    that.$Message.info('系统繁忙，请稍后再试!');
+                    that.adminListData[index].loading = false;
+                });
+        },
+        /**
+         * 删除账号信息
+         */
+        deleteAccountInfo(id) {
+            let that = this;
+            AdminAPI.deleteAdminInfo({id: id})
+                .then((res) => {
+                    if (res.data.code){
+                        that.$Message.error(res.data.msg);
+                    }else{
+                        that.$Message.success(res.data.msg);
+                        that.$store.dispatch('loadAdminList', this.formSearchData);
+                    }
+                })
+                .catch((err) => {
+                    that.$Message.info('系统繁忙，请稍后再试!');
+                });
         }
     },
     created() {
-        if (this.adminList == undefined || !this.adminList.length){
+        if (!Object.keys(this.adminList).length){
             this.loading = true;
         }
     },
     mounted() {
         // Initialize table data.
-        this.$store.dispatch('loadAdminList');
+        this.$store.dispatch('loadAdminList', this.formSearchData);
     }
 }
 </script>

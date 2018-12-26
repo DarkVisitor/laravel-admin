@@ -14,8 +14,9 @@ export const admin = {
      */
     state: {
         adminInfo: [],
-        adminList: [],
-        permission: []
+        adminList: {},
+        permission: [],
+        adminFirst: []
     },
     /**
      * Defines the getters used by the module.
@@ -29,6 +30,9 @@ export const admin = {
         },
         getPermission (state) {
             return state.permission;
+        },
+        getAdminFirst(state) {
+            return state.adminFirst;
         }
     },
     /**
@@ -43,6 +47,9 @@ export const admin = {
         },
         setPermission (state, permission) {
             state.permission = permission;
+        },
+        setAdminFirst(state, adminFirst) {
+            state.adminFirst = adminFirst;
         }
     },
     /**
@@ -61,13 +68,22 @@ export const admin = {
                     commit('setPermission', []);
                 });
         },
-        loadAdminList ({commit}) {
-            AdminAPI.getAdminList()
+        loadAdminList ({commit}, params) {
+            AdminAPI.getAdminList(params)
                 .then((response) => {
                     commit('setAdminList', response.data.list);
                 })
                 .catch((error) => {
                     commit('setAdminList', []);
+                });
+        },
+        findAdminList({commit}, params) {
+            AdminAPI.findAdminFirst(params)
+                .then((res) => {
+                    commit('setAdminFirst', res.data.info);
+                })
+                .catch((err) => {
+                    commit('setAdminFirst', []);
                 });
         }
     }

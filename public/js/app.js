@@ -1085,7 +1085,7 @@ router.beforeEach(function (to, from, next) {
                         isMenu: 1
                     },
                     component: function component(resolve) {
-                        return __webpack_require__.e/* require */(3).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(91)]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe);
+                        return __webpack_require__.e/* require */(2).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(91)]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe);
                     }
                 });
                 var adminObj = {
@@ -1173,7 +1173,7 @@ router.afterEach(function (to) {
     path: '/admin/404',
     name: '404',
     component: function component(resolve) {
-        return __webpack_require__.e/* require */(2).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(92)]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe);
+        return __webpack_require__.e/* require */(3).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(92)]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe);
     }
 }]);
 
@@ -1275,8 +1275,44 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
     /**
      * 获取管理员列表
      */
-    getAdminList: function getAdminList() {
-        return __WEBPACK_IMPORTED_MODULE_0__js_libs_axios_js__["a" /* default */].get('/getAdminList');
+    getAdminList: function getAdminList(params) {
+        return __WEBPACK_IMPORTED_MODULE_0__js_libs_axios_js__["a" /* default */].get('/getAdminList', { params: params });
+    },
+
+
+    /**
+     * 保存管理员信息
+     * @param {*} data 
+     */
+    postAdminInfo: function postAdminInfo(data) {
+        return __WEBPACK_IMPORTED_MODULE_0__js_libs_axios_js__["a" /* default */].post('/saveAdmin', data);
+    },
+
+
+    /**
+     * 更新管理员账号状态
+     * @param {id: id, status: status} data 
+     */
+    updateAccountStatus: function updateAccountStatus(data) {
+        return __WEBPACK_IMPORTED_MODULE_0__js_libs_axios_js__["a" /* default */].post('/updateAdminStatus', data);
+    },
+
+
+    /**
+     * 删除管理员信息
+     * @param {id: id} data 
+     */
+    deleteAdminInfo: function deleteAdminInfo(data) {
+        return __WEBPACK_IMPORTED_MODULE_0__js_libs_axios_js__["a" /* default */].post('/delAdmin', data);
+    },
+
+
+    /**
+     * 查找指定的管理员信息
+     * @param {id: id} params 
+     */
+    findAdminFirst: function findAdminFirst(params) {
+        return __WEBPACK_IMPORTED_MODULE_0__js_libs_axios_js__["a" /* default */].get('/findAdminFirst', { params: params });
     }
 });
 
@@ -7908,8 +7944,9 @@ var admin = {
      */
     state: {
         adminInfo: [],
-        adminList: [],
-        permission: []
+        adminList: {},
+        permission: [],
+        adminFirst: []
     },
     /**
      * Defines the getters used by the module.
@@ -7923,6 +7960,9 @@ var admin = {
         },
         getPermission: function getPermission(state) {
             return state.permission;
+        },
+        getAdminFirst: function getAdminFirst(state) {
+            return state.adminFirst;
         }
     },
     /**
@@ -7937,6 +7977,9 @@ var admin = {
         },
         setPermission: function setPermission(state, permission) {
             state.permission = permission;
+        },
+        setAdminFirst: function setAdminFirst(state, adminFirst) {
+            state.adminFirst = adminFirst;
         }
     },
     /**
@@ -7955,13 +7998,22 @@ var admin = {
                 commit('setPermission', []);
             });
         },
-        loadAdminList: function loadAdminList(_ref2) {
+        loadAdminList: function loadAdminList(_ref2, params) {
             var commit = _ref2.commit;
 
-            __WEBPACK_IMPORTED_MODULE_0__js_api_admin_js__["a" /* default */].getAdminList().then(function (response) {
+            __WEBPACK_IMPORTED_MODULE_0__js_api_admin_js__["a" /* default */].getAdminList(params).then(function (response) {
                 commit('setAdminList', response.data.list);
             }).catch(function (error) {
                 commit('setAdminList', []);
+            });
+        },
+        findAdminList: function findAdminList(_ref3, params) {
+            var commit = _ref3.commit;
+
+            __WEBPACK_IMPORTED_MODULE_0__js_api_admin_js__["a" /* default */].findAdminFirst(params).then(function (res) {
+                commit('setAdminFirst', res.data.info);
+            }).catch(function (err) {
+                commit('setAdminFirst', []);
             });
         }
     }

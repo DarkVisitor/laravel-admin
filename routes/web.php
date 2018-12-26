@@ -64,6 +64,10 @@ Route::group(['middleware' => 'web', 'prefix' => 'backend', 'namespace' => 'Admi
          */
         Route::get('/getAdminInfo', 'AdminController@getAdminInfo');
         Route::get('/getAdminList', 'AdminController@getAdminList');
+        Route::get('/findAdminFirst', 'AdminController@findAdminFirst');
+        Route::post('/saveAdmin', 'AdminController@save');
+        Route::post('/delAdmin', 'AdminController@deleteAccountInfo');
+        Route::post('/updateAdminStatus', 'AdminController@updateAccountStatus');
 
 
         /**

@@ -9,7 +9,9 @@
 namespace App\Http\Controllers\Admin;
 
 
+use App\Http\Requests\AdminPost;
 use App\Services\AdminService;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
 class AdminController extends Controller
@@ -38,8 +40,51 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getAdminList()
+    public function getAdminList(Request $request)
     {
-        return $this->adminService->getAdminList();
+        return $this->adminService->getAdminList($request);
+    }
+
+
+    /**
+     * Find admin first record.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function findAdminFirst(Request $request)
+    {
+        return $this->adminService->findAdminFirst($request);
+    }
+
+
+
+    public function save(AdminPost $request)
+    {
+        return $this->adminService->save($request);
+    }
+
+
+    /**
+     * Update account status.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateAccountStatus(Request $request)
+    {
+        return $this->adminService->updateAccountStatus($request);
+    }
+
+
+    /**
+     * Delete account info.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deleteAccountInfo(Request $request)
+    {
+        return $this->adminService->delete($request);
     }
 }
