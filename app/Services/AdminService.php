@@ -300,7 +300,16 @@ class AdminService
             $admins = $this->adminRepository->find($request->id);
         }else{
             $admins = app($this->adminRepository->model());
-            //$avatar = Image::canvas(180, 180);    // 随机生成头像
+            $avatar = Image::canvas(180, 180);
+            //mb_convert_encoding('我', 'HTML-ENTITIES', 'UTF-8')
+            $avatar->text('R', 48, 138, function ($font){
+                $font->file(public_path('fonts/FangzhengLishu.ttf'));
+                $font->size(180);
+                $font->color('#444');
+            });
+            $path = storage_path('app/public/avatars/'.md5(time()).'.jpg');
+            $avatar->save($path);
+            $admins->avatar = strstr($path, 'public');
         }
 
         $admins->name = trim($request->name);
