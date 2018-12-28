@@ -1,5 +1,5 @@
 <template>
-    <div class="login" @keydown.enter="handleSubmit">
+    <div class="login">
         <div class="login-con">
             <Card :bordered="false">
                 <p slot="title">
@@ -9,13 +9,13 @@
                 <div class="form-con">
                     <Form v-show="isLoginOrReset" ref="loginForm" :model="form" :rules="rules">
                         <FormItem prop="userName">
-                            <Input v-model="form.userName" clearable placeholder="用户名/手机号/邮箱"></Input>
+                            <Input v-model="form.userName" clearable @on-enter="handleLoginSubmit" placeholder="用户名/手机号/邮箱"></Input>
                         </FormItem>
                         <FormItem prop="password">
-                            <Input type="password" v-model="form.password" clearable placeholder="登录密码"></Input>
+                            <Input type="password" v-model="form.password" @on-enter="handleLoginSubmit" clearable placeholder="登录密码"></Input>
                         </FormItem>
                         <FormItem prop="verifyCode">
-                            <Input v-model="form.verifyCode" clearable placeholder="验证码" style="width: 120px;"></Input>
+                            <Input v-model="form.verifyCode" clearable @on-enter="handleLoginSubmit" placeholder="验证码" style="width: 120px;"></Input>
                             <Avatar shape="square" style="width: 144px;" :src="verifyCodeImage" />
                             <Button type="text" @click="handleRefreshVerifyCode" class="refresh-verify-code"></Button>
                         </FormItem>
@@ -30,20 +30,20 @@
                     <!-- Reset password -->
                     <Form v-show="!isLoginOrReset" ref="resetForm" :model="resetForm" :rules="resetRules">
                         <FormItem prop="account">
-                            <Input v-model="resetForm.account" placeholder="手机号或邮箱"></Input>
+                            <Input v-model="resetForm.account" @on-enter="handleResetSubmit" placeholder="手机号或邮箱"></Input>
                         </FormItem>
                         <FormItem prop="verifyCode" v-show="isCheck">
-                            <Input v-model="resetForm.verifyCode" placeholder="验证码" style="width: 120px;"></Input>
+                            <Input v-model="resetForm.verifyCode" @on-enter="handleResetSubmit" placeholder="验证码" style="width: 120px;"></Input>
                             <Avatar shape="square" style="width: 144px;" :src="verifyCodeImage" />
                             <Button type="text" @click="handleRefreshVerifyCode" class="refresh-verify-code"></Button>
                         </FormItem>
                         <FormItem prop="remoteVerifyCode">
-                            <Input v-model="resetForm.remoteVerifyCode" placeholder="短信验证码/邮箱验证码" style="width: 150px;"></Input>
+                            <Input v-model="resetForm.remoteVerifyCode" @on-enter="handleResetSubmit" placeholder="短信验证码/邮箱验证码" style="width: 150px;"></Input>
                             <Button v-if="isSend" type="default" disabled class="verify-code">{{ t }} 秒后可重发</Button>
                             <Button v-else type="default" @click="sendVerifyCode" class="verify-code">获取验证码</Button>
                         </FormItem>
                         <FormItem prop="password">
-                            <Input type="password" v-model="resetForm.password" placeholder="登录密码"></Input>
+                            <Input type="password" v-model="resetForm.password" @on-enter="handleResetSubmit" placeholder="登录密码"></Input>
                         </FormItem>
                         <FormItem>
                             <Button @click="handleResetSubmit" :loading="loading" type="primary" long>

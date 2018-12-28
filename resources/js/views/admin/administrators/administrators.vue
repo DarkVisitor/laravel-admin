@@ -3,9 +3,9 @@
         <Breadcrumb>
             <BreadcrumbItem>成员信息</BreadcrumbItem>
         </Breadcrumb>
-        <div class="content-header">
+        <div class="content-header" @keydown.enter="handleSubmit">
             <div class="header-action">
-                <Button type="success" icon="md-add" shape="circle" :to="{name: 'createAdministrators'}">新增成员</Button>
+                <Button v-has-permit:createAdministrators type="success" icon="md-add" shape="circle" :to="{name: 'createAdministrators'}">新增成员</Button>
             </div>
             <Form ref="formSearchData" :model="formSearchData" inline>
                 <FormItem prop="keyword" label='关键字' :label-width="75">
@@ -135,7 +135,8 @@ export default {
                                 props: {
                                     type: 'info',
                                     size: 'small',
-                                    icon: 'ios-create-outline'
+                                    icon: 'ios-create-outline',
+                                    disabled: !this.hasPermit('editAdministrators')
                                 },
                                 attrs: {
                                     title: '编辑'
@@ -171,7 +172,8 @@ export default {
                                     props: {
                                         type: 'error',
                                         size: 'small',
-                                        icon: 'md-trash'
+                                        icon: 'md-trash',
+                                        disabled: !this.hasPermit('deleteAdministrator')
                                     },
                                     attrs: {
                                         title: '删除成员'
@@ -297,8 +299,13 @@ export default {
          */
         deleteAccountInfo(id) {
             let that = this;
+            that.$Message.loading({
+                content: '删除中...',
+                duration: 0
+            });
             AdminAPI.deleteAdminInfo({id: id})
                 .then((res) => {
+                    that.$Message.destroy();    // 销毁加载中提示
                     if (res.data.code){
                         that.$Message.error(res.data.msg);
                     }else{
@@ -307,6 +314,7 @@ export default {
                     }
                 })
                 .catch((err) => {
+                    that.$Message.destroy();    // 销毁加载中提示
                     that.$Message.info('系统繁忙，请稍后再试!');
                 });
         }

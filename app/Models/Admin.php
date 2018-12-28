@@ -8,6 +8,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Storage;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -43,7 +44,7 @@ class Admin extends Authenticatable
 
 
     /**
-     * Accessor to field last_login_ip
+     * Accessor to field last_login_ip.
      *
      * @param $value
      * @return string
@@ -51,6 +52,18 @@ class Admin extends Authenticatable
     public function getLastLoginIpAttribute($value)
     {
         return long2ip($value);
+    }
+
+
+    /**
+     * Accessor to field avatar.
+     *
+     * @param $value
+     * @return mixed
+     */
+    public function getAvatarAttribute($value)
+    {
+        return $value ? Storage::url($value) : $value;
     }
 
 

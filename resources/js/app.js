@@ -19,8 +19,11 @@ import App from '@js/views/app.vue';
 import router from '@js/router';
 import store from '@js/store';
 import iView from 'iview';
+import Permission from '@js/plugins/permission.js';
 
 Vue.use(iView);
+Vue.use(Permission);
+
 const app = new Vue({
     el: '#app',
     router,

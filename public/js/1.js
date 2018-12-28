@@ -337,349 +337,337 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    {
-      staticClass: "login",
-      on: {
-        keydown: function($event) {
-          if (
-            !("button" in $event) &&
-            _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-          ) {
-            return null
-          }
-          return _vm.handleSubmit($event)
-        }
-      }
-    },
-    [
-      _c(
-        "div",
-        { staticClass: "login-con" },
-        [
-          _c("Card", { attrs: { bordered: false } }, [
-            _c(
-              "p",
-              { attrs: { slot: "title" }, slot: "title" },
-              [
-                _c("Icon", { attrs: { type: "log-in" } }),
-                _vm._v(
-                  "\n                " + _vm._s(_vm.title) + "\n            "
-                )
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "form-con" },
-              [
-                _c(
-                  "Form",
-                  {
-                    directives: [
-                      {
-                        name: "show",
-                        rawName: "v-show",
-                        value: _vm.isLoginOrReset,
-                        expression: "isLoginOrReset"
-                      }
-                    ],
-                    ref: "loginForm",
-                    attrs: { model: _vm.form, rules: _vm.rules }
-                  },
-                  [
-                    _c(
-                      "FormItem",
-                      { attrs: { prop: "userName" } },
-                      [
-                        _c("Input", {
-                          attrs: {
-                            clearable: "",
-                            placeholder: "用户名/手机号/邮箱"
-                          },
-                          model: {
-                            value: _vm.form.userName,
-                            callback: function($$v) {
-                              _vm.$set(_vm.form, "userName", $$v)
-                            },
-                            expression: "form.userName"
-                          }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "FormItem",
-                      { attrs: { prop: "password" } },
-                      [
-                        _c("Input", {
-                          attrs: {
-                            type: "password",
-                            clearable: "",
-                            placeholder: "登录密码"
-                          },
-                          model: {
-                            value: _vm.form.password,
-                            callback: function($$v) {
-                              _vm.$set(_vm.form, "password", $$v)
-                            },
-                            expression: "form.password"
-                          }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "FormItem",
-                      { attrs: { prop: "verifyCode" } },
-                      [
-                        _c("Input", {
-                          staticStyle: { width: "120px" },
-                          attrs: { clearable: "", placeholder: "验证码" },
-                          model: {
-                            value: _vm.form.verifyCode,
-                            callback: function($$v) {
-                              _vm.$set(_vm.form, "verifyCode", $$v)
-                            },
-                            expression: "form.verifyCode"
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("Avatar", {
-                          staticStyle: { width: "144px" },
-                          attrs: { shape: "square", src: _vm.verifyCodeImage }
-                        }),
-                        _vm._v(" "),
-                        _c("Button", {
-                          staticClass: "refresh-verify-code",
-                          attrs: { type: "text" },
-                          on: { click: _vm.handleRefreshVerifyCode }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "FormItem",
-                      [
-                        _c(
-                          "Button",
-                          {
-                            attrs: {
-                              loading: _vm.loading,
-                              type: "primary",
-                              long: ""
-                            },
-                            on: { click: _vm.handleLoginSubmit }
-                          },
-                          [
-                            !_vm.loading
-                              ? _c("span", [_vm._v("登录")])
-                              : _c("span", [_vm._v("登录中")])
-                          ]
-                        )
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "Form",
-                  {
-                    directives: [
-                      {
-                        name: "show",
-                        rawName: "v-show",
-                        value: !_vm.isLoginOrReset,
-                        expression: "!isLoginOrReset"
-                      }
-                    ],
-                    ref: "resetForm",
-                    attrs: { model: _vm.resetForm, rules: _vm.resetRules }
-                  },
-                  [
-                    _c(
-                      "FormItem",
-                      { attrs: { prop: "account" } },
-                      [
-                        _c("Input", {
-                          attrs: { placeholder: "手机号或邮箱" },
-                          model: {
-                            value: _vm.resetForm.account,
-                            callback: function($$v) {
-                              _vm.$set(_vm.resetForm, "account", $$v)
-                            },
-                            expression: "resetForm.account"
-                          }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "FormItem",
-                      {
-                        directives: [
-                          {
-                            name: "show",
-                            rawName: "v-show",
-                            value: _vm.isCheck,
-                            expression: "isCheck"
-                          }
-                        ],
-                        attrs: { prop: "verifyCode" }
-                      },
-                      [
-                        _c("Input", {
-                          staticStyle: { width: "120px" },
-                          attrs: { placeholder: "验证码" },
-                          model: {
-                            value: _vm.resetForm.verifyCode,
-                            callback: function($$v) {
-                              _vm.$set(_vm.resetForm, "verifyCode", $$v)
-                            },
-                            expression: "resetForm.verifyCode"
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("Avatar", {
-                          staticStyle: { width: "144px" },
-                          attrs: { shape: "square", src: _vm.verifyCodeImage }
-                        }),
-                        _vm._v(" "),
-                        _c("Button", {
-                          staticClass: "refresh-verify-code",
-                          attrs: { type: "text" },
-                          on: { click: _vm.handleRefreshVerifyCode }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "FormItem",
-                      { attrs: { prop: "remoteVerifyCode" } },
-                      [
-                        _c("Input", {
-                          staticStyle: { width: "150px" },
-                          attrs: { placeholder: "短信验证码/邮箱验证码" },
-                          model: {
-                            value: _vm.resetForm.remoteVerifyCode,
-                            callback: function($$v) {
-                              _vm.$set(_vm.resetForm, "remoteVerifyCode", $$v)
-                            },
-                            expression: "resetForm.remoteVerifyCode"
-                          }
-                        }),
-                        _vm._v(" "),
-                        _vm.isSend
-                          ? _c(
-                              "Button",
-                              {
-                                staticClass: "verify-code",
-                                attrs: { type: "default", disabled: "" }
-                              },
-                              [_vm._v(_vm._s(_vm.t) + " 秒后可重发")]
-                            )
-                          : _c(
-                              "Button",
-                              {
-                                staticClass: "verify-code",
-                                attrs: { type: "default" },
-                                on: { click: _vm.sendVerifyCode }
-                              },
-                              [_vm._v("获取验证码")]
-                            )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "FormItem",
-                      { attrs: { prop: "password" } },
-                      [
-                        _c("Input", {
-                          attrs: { type: "password", placeholder: "登录密码" },
-                          model: {
-                            value: _vm.resetForm.password,
-                            callback: function($$v) {
-                              _vm.$set(_vm.resetForm, "password", $$v)
-                            },
-                            expression: "resetForm.password"
-                          }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "FormItem",
-                      [
-                        _c(
-                          "Button",
-                          {
-                            attrs: {
-                              loading: _vm.loading,
-                              type: "primary",
-                              long: ""
-                            },
-                            on: { click: _vm.handleResetSubmit }
-                          },
-                          [
-                            !_vm.loading
-                              ? _c("span", [_vm._v("重置密码")])
-                              : _c("span", [_vm._v("重置密码中")])
-                          ]
-                        )
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticStyle: {
-                      "text-align": "right",
-                      "margin-bottom": "20px"
+  return _c("div", { staticClass: "login" }, [
+    _c(
+      "div",
+      { staticClass: "login-con" },
+      [
+        _c("Card", { attrs: { bordered: false } }, [
+          _c(
+            "p",
+            { attrs: { slot: "title" }, slot: "title" },
+            [
+              _c("Icon", { attrs: { type: "log-in" } }),
+              _vm._v(
+                "\n                " + _vm._s(_vm.title) + "\n            "
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "form-con" },
+            [
+              _c(
+                "Form",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.isLoginOrReset,
+                      expression: "isLoginOrReset"
                     }
-                  },
-                  [
-                    _c(
-                      "a",
-                      {
-                        staticStyle: { "user-select": "none" },
-                        on: { click: _vm.switchLoginReset }
-                      },
-                      [_vm._v(_vm._s(_vm.loginReset))]
-                    )
-                  ]
-                ),
-                _vm._v(" "),
-                _c("p", { staticClass: "login-tip" }, [
-                  _vm._v("\n                    输入任意用户名和密码即可"),
-                  _c("br"),
-                  _vm._v(
-                    "\n                    ©版权所有：xxx\n                "
+                  ],
+                  ref: "loginForm",
+                  attrs: { model: _vm.form, rules: _vm.rules }
+                },
+                [
+                  _c(
+                    "FormItem",
+                    { attrs: { prop: "userName" } },
+                    [
+                      _c("Input", {
+                        attrs: {
+                          clearable: "",
+                          placeholder: "用户名/手机号/邮箱"
+                        },
+                        on: { "on-enter": _vm.handleLoginSubmit },
+                        model: {
+                          value: _vm.form.userName,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form, "userName", $$v)
+                          },
+                          expression: "form.userName"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "FormItem",
+                    { attrs: { prop: "password" } },
+                    [
+                      _c("Input", {
+                        attrs: {
+                          type: "password",
+                          clearable: "",
+                          placeholder: "登录密码"
+                        },
+                        on: { "on-enter": _vm.handleLoginSubmit },
+                        model: {
+                          value: _vm.form.password,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form, "password", $$v)
+                          },
+                          expression: "form.password"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "FormItem",
+                    { attrs: { prop: "verifyCode" } },
+                    [
+                      _c("Input", {
+                        staticStyle: { width: "120px" },
+                        attrs: { clearable: "", placeholder: "验证码" },
+                        on: { "on-enter": _vm.handleLoginSubmit },
+                        model: {
+                          value: _vm.form.verifyCode,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form, "verifyCode", $$v)
+                          },
+                          expression: "form.verifyCode"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("Avatar", {
+                        staticStyle: { width: "144px" },
+                        attrs: { shape: "square", src: _vm.verifyCodeImage }
+                      }),
+                      _vm._v(" "),
+                      _c("Button", {
+                        staticClass: "refresh-verify-code",
+                        attrs: { type: "text" },
+                        on: { click: _vm.handleRefreshVerifyCode }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "FormItem",
+                    [
+                      _c(
+                        "Button",
+                        {
+                          attrs: {
+                            loading: _vm.loading,
+                            type: "primary",
+                            long: ""
+                          },
+                          on: { click: _vm.handleLoginSubmit }
+                        },
+                        [
+                          !_vm.loading
+                            ? _c("span", [_vm._v("登录")])
+                            : _c("span", [_vm._v("登录中")])
+                        ]
+                      )
+                    ],
+                    1
                   )
-                ])
-              ],
-              1
-            )
-          ])
-        ],
-        1
-      )
-    ]
-  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "Form",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: !_vm.isLoginOrReset,
+                      expression: "!isLoginOrReset"
+                    }
+                  ],
+                  ref: "resetForm",
+                  attrs: { model: _vm.resetForm, rules: _vm.resetRules }
+                },
+                [
+                  _c(
+                    "FormItem",
+                    { attrs: { prop: "account" } },
+                    [
+                      _c("Input", {
+                        attrs: { placeholder: "手机号或邮箱" },
+                        on: { "on-enter": _vm.handleResetSubmit },
+                        model: {
+                          value: _vm.resetForm.account,
+                          callback: function($$v) {
+                            _vm.$set(_vm.resetForm, "account", $$v)
+                          },
+                          expression: "resetForm.account"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "FormItem",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.isCheck,
+                          expression: "isCheck"
+                        }
+                      ],
+                      attrs: { prop: "verifyCode" }
+                    },
+                    [
+                      _c("Input", {
+                        staticStyle: { width: "120px" },
+                        attrs: { placeholder: "验证码" },
+                        on: { "on-enter": _vm.handleResetSubmit },
+                        model: {
+                          value: _vm.resetForm.verifyCode,
+                          callback: function($$v) {
+                            _vm.$set(_vm.resetForm, "verifyCode", $$v)
+                          },
+                          expression: "resetForm.verifyCode"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("Avatar", {
+                        staticStyle: { width: "144px" },
+                        attrs: { shape: "square", src: _vm.verifyCodeImage }
+                      }),
+                      _vm._v(" "),
+                      _c("Button", {
+                        staticClass: "refresh-verify-code",
+                        attrs: { type: "text" },
+                        on: { click: _vm.handleRefreshVerifyCode }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "FormItem",
+                    { attrs: { prop: "remoteVerifyCode" } },
+                    [
+                      _c("Input", {
+                        staticStyle: { width: "150px" },
+                        attrs: { placeholder: "短信验证码/邮箱验证码" },
+                        on: { "on-enter": _vm.handleResetSubmit },
+                        model: {
+                          value: _vm.resetForm.remoteVerifyCode,
+                          callback: function($$v) {
+                            _vm.$set(_vm.resetForm, "remoteVerifyCode", $$v)
+                          },
+                          expression: "resetForm.remoteVerifyCode"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.isSend
+                        ? _c(
+                            "Button",
+                            {
+                              staticClass: "verify-code",
+                              attrs: { type: "default", disabled: "" }
+                            },
+                            [_vm._v(_vm._s(_vm.t) + " 秒后可重发")]
+                          )
+                        : _c(
+                            "Button",
+                            {
+                              staticClass: "verify-code",
+                              attrs: { type: "default" },
+                              on: { click: _vm.sendVerifyCode }
+                            },
+                            [_vm._v("获取验证码")]
+                          )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "FormItem",
+                    { attrs: { prop: "password" } },
+                    [
+                      _c("Input", {
+                        attrs: { type: "password", placeholder: "登录密码" },
+                        on: { "on-enter": _vm.handleResetSubmit },
+                        model: {
+                          value: _vm.resetForm.password,
+                          callback: function($$v) {
+                            _vm.$set(_vm.resetForm, "password", $$v)
+                          },
+                          expression: "resetForm.password"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "FormItem",
+                    [
+                      _c(
+                        "Button",
+                        {
+                          attrs: {
+                            loading: _vm.loading,
+                            type: "primary",
+                            long: ""
+                          },
+                          on: { click: _vm.handleResetSubmit }
+                        },
+                        [
+                          !_vm.loading
+                            ? _c("span", [_vm._v("重置密码")])
+                            : _c("span", [_vm._v("重置密码中")])
+                        ]
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticStyle: {
+                    "text-align": "right",
+                    "margin-bottom": "20px"
+                  }
+                },
+                [
+                  _c(
+                    "a",
+                    {
+                      staticStyle: { "user-select": "none" },
+                      on: { click: _vm.switchLoginReset }
+                    },
+                    [_vm._v(_vm._s(_vm.loginReset))]
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c("p", { staticClass: "login-tip" }, [
+                _vm._v("\n                    输入任意用户名和密码即可"),
+                _c("br"),
+                _vm._v("\n                    ©版权所有：xxx\n                ")
+              ])
+            ],
+            1
+          )
+        ])
+      ],
+      1
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

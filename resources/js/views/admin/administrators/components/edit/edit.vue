@@ -10,7 +10,7 @@
             </Spin>
             <Form ref="adminsForm" :model="adminsForm" :rules="ruleValidate" :label-width="100" style="width: 420px;"> 
                 <FormItem label="账户" prop="name">
-                    <Input class="modal-form-item" clearable placeholder="请输入成员账户" v-model="adminsForm.name"></Input>
+                    <Input class="modal-form-item" :clearable="!isDisabled" :disabled="isDisabled" placeholder="请输入成员账户" v-model="adminsForm.name"></Input>
                 </FormItem>
                 <FormItem label="手机号码" prop="mobile">
                     <Input class="modal-form-item" clearable placeholder="请输入成员手机号码" v-model="adminsForm.mobile"></Input>
@@ -38,6 +38,7 @@ export default {
             spinShow: false,
             loading: false,
             activeStatus: '新增',
+            isDisabled: false,
             labelPassword: '初始密码',
             isRequired: true,
             inputType: 'password',
@@ -143,6 +144,7 @@ export default {
             this.labelPassword = '重置密码';
             this.isRequired = false;
             this.spinShow = true;
+            this.isDisabled = true;
             if ('id' in params){
                 this.$store.dispatch('findAdminList', {id: params.id});
             }else if ('id' in query){

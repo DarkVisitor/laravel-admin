@@ -142,3 +142,24 @@ if (!function_exists('rand_numeric'))
         return implode($output);
     }
 }
+
+
+if (!function_exists('rand_color'))
+{
+    /**
+     * Random Generation of RBG Hexadecimal Colors.
+     *
+     * @param int $min
+     * @param int $max
+     * @return string
+     */
+    function rand_color($min = 0, $max = 255)
+    {
+        $red = str_pad(dechex(mt_rand($min, $max)), 2, '0', STR_PAD_LEFT );
+        $green = str_pad(dechex(mt_rand($min, $max)), 2, '0', STR_PAD_LEFT );
+        $blue = str_pad(dechex(mt_rand($min, $max)), 2, '0', STR_PAD_LEFT );
+        $rgba = '#' . $red . $green . $blue;
+
+        return $rgba;
+    }
+}

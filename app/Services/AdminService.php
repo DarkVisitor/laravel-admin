@@ -15,16 +15,16 @@ use App\Repositories\AdminRepository;
 use App\Repositories\ModuleRepository;
 use App\Repositories\RoleRepository;
 use App\Repositories\VerifyCodeRepository;
+use App\Traits\ImageTrait;
 use App\Traits\ModuleTrait;
 use App\Traits\PassportTrait;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
-use Intervention\Image\Facades\Image;
 
 class AdminService
 {
-    use PassportTrait, ModuleTrait;
+    use PassportTrait, ModuleTrait, ImageTrait;
 
     protected $adminRepository;
     protected $roleRepository;
@@ -296,20 +296,46 @@ class AdminService
 
     public function save($request)
     {
+        if ($request->filled('name') && !$request->filled('id')){
+            $firstInfo = app($this->adminRepository->model())
+                ->where('name', $request->name)
+                ->first();
+            if ($firstInfo){
+                return response()->json(['code' => 31001, 'msg' => '账户已存在']);
+            }
+        }
+        if ($request->filled('mobile')){
+            $firstInfo = app($this->adminRepository->model())
+                ->where('mobile', $request->mobile)
+                ->where(function ($query) use ($request){
+                    if ($request->filled('id')){
+                        $query->where('id', '<>', $request->id);
+                    }
+                })
+                ->first();
+            if ($firstInfo){
+                return response()->json(['code' => 31001, 'msg' => '手机号码已存在']);
+            }
+        }
+        if ($request->filled('email')){
+            $firstInfo = app($this->adminRepository->model())
+                ->where('email', $request->email)
+                ->where(function ($query) use ($request){
+                    if ($request->filled('id')){
+                        $query->where('id', '<>', $request->id);
+                    }
+                })
+                ->first();
+            if ($firstInfo){
+                return response()->json(['code' => 31001, 'msg' => '电子邮箱已存在']);
+            }
+        }
+
         if ($request->filled('id')){
             $admins = $this->adminRepository->find($request->id);
         }else{
             $admins = app($this->adminRepository->model());
-            $avatar = Image::canvas(180, 180);
-            //mb_convert_encoding('我', 'HTML-ENTITIES', 'UTF-8')
-            $avatar->text('R', 48, 138, function ($font){
-                $font->file(public_path('fonts/FangzhengLishu.ttf'));
-                $font->size(180);
-                $font->color('#444');
-            });
-            $path = storage_path('app/public/avatars/'.md5(time()).'.jpg');
-            $avatar->save($path);
-            $admins->avatar = strstr($path, 'public');
+            $admins->avatar = $this->createAvatarImage($request->name);
         }
 
         $admins->name = trim($request->name);
