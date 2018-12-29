@@ -102,7 +102,7 @@ export default {
             that.$refs['adminsForm'].validate((valid) => {
                 if (valid){
                     that.loading = true;
-                    AdminAPI.postAdminInfo(that.adminsForm)
+                    that.postAdminInfo(that.adminsForm)
                         .then((res) => {
                             that.loading = false;
                             if (res.data.code){
@@ -132,6 +132,13 @@ export default {
             }else {
                 this.inputType = 'password';
                 this.lookPassword = 'ios-eye';
+            }
+        },
+        postAdminInfo(data) {
+            if (data.id == ''){
+                return AdminAPI.createAdminInfo(data);
+            }else{
+                return AdminAPI.editAdminInfo(data);
             }
         }
     },

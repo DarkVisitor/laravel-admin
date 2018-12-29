@@ -16,40 +16,47 @@ export const admin = {
         adminInfo: [],
         adminList: {},
         permission: [],
+        smallsPermit: [],
         adminFirst: []
     },
     /**
      * Defines the getters used by the module.
      */
     getters: {
-        getAdminInfo (state) {
+        getAdminInfo(state) {
             return state.adminInfo;
         },
-        getAdminList (state) {
+        getAdminList(state) {
             return state.adminList;
         },
-        getPermission (state) {
+        getPermission(state) {
             return state.permission;
         },
         getAdminFirst(state) {
             return state.adminFirst;
+        },
+        getSmallsPermit(state) {
+            return state.smallsPermit;
         }
     },
     /**
      * Defines the mutations used.
      */
     mutations: {
-        setAdminInfo (state, adminInfo) {
+        setAdminInfo(state, adminInfo) {
             state.adminInfo = adminInfo;
         },
-        setAdminList (state, adminList) {
+        setAdminList(state, adminList) {
             state.adminList = adminList;
         },
-        setPermission (state, permission) {
+        setPermission(state, permission) {
             state.permission = permission;
         },
         setAdminFirst(state, adminFirst) {
             state.adminFirst = adminFirst;
+        },
+        setSmallsPermit(state, smalls) {
+            state.smallsPermit = smalls;
         }
     },
     /**
@@ -62,10 +69,12 @@ export const admin = {
                     setMenuTree(response.data.menuTree);
                     commit('setAdminInfo', response.data.admins);
                     commit('setPermission', response.data.menuTree);
+                    commit('setSmallsPermit', response.data.smalls);
                 })
                 .catch((error) => {
                     commit('setAdminInfo', []);
                     commit('setPermission', []);
+                    commit('setSmallsPermit', []);
                 });
         },
         loadAdminList ({commit}, params) {

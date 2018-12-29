@@ -30,7 +30,25 @@ class ModuleRepository extends Repository
     {
         return $this->model
             ->whereIn('id', $authority)
+            ->where('vue_router_path', '<>', '')
             ->orderBy("sort", "desc")
+            ->get()
+            ->toArray();
+    }
+
+
+    /**
+     * Get role granularization permissions.
+     *
+     * @param array $authority
+     * @return mixed
+     */
+    public function findSmallsPermit(array $authority)
+    {
+        return $this->model
+            ->whereIn('id', $authority)
+            ->where('is_menu', 0)
+            ->select('laravel_router_path')
             ->get()
             ->toArray();
     }

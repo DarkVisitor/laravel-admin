@@ -26,6 +26,12 @@ if (!function_exists('str_preg_chinese'))
 
 if (!function_exists('str_preg_all_blank'))
 {
+    /**
+     * Replace all spaces and carriage returns in the string.
+     *
+     * @param $str
+     * @return mixed
+     */
     function str_preg_all_blank($str)
     {
         $search = array(" ","　","\n","\r","\t");

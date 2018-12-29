@@ -17,11 +17,20 @@ export default {
     },
 
     /**
-     * 保存管理员信息
+     * 新增管理员信息
      * @param {*} data 
      */
-    postAdminInfo(data) {
-        return axios.post('/saveAdmin', data);
+    createAdminInfo(data) {
+        return axios.post('/createAdmin', data);
+    },
+
+
+    /**
+     * 编辑管理员信息
+     * @param {*} data 
+     */
+    editAdminInfo(data) {
+        return axios.post('/editAdmin', data);
     },
 
     /**

@@ -33,20 +33,13 @@ router.beforeEach((to, from, next) => {
         //获取当前用户信息
         AdminAPI.getAdminInfo()
             .then((response) => {
-                if (!response.data.code){
+                if (!response.data.code){                
                     store.commit('setAdminInfo', response.data.admins);
                     store.commit('setPermission', response.data.menuTree);
+                    store.commit('setSmallsPermit', response.data.smalls);
                     let permission = store.state.admin.permission;
                     let adminRoutes = transferByRouteArray(permission);
-                    adminRoutes.push({
-                        path: 'home',
-                        name: 'home',
-                        meta: {
-                            title: 'Home',
-                            isMenu: 1
-                        },
-                        component: (resolve) => require(['@js/views/admin/home/index.vue'], resolve)
-                    });
+
                     let adminObj = {
                         path: '/admin',
                         name: 'admin',

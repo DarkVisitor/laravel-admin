@@ -58,8 +58,25 @@ class AdminController extends Controller
     }
 
 
+    /**
+     * Create administrator information.
+     *
+     * @param AdminPost $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function create(AdminPost $request)
+    {
+        return $this->adminService->save($request);
+    }
 
-    public function save(AdminPost $request)
+
+    /**
+     * Edit administrator information.
+     *
+     * @param AdminPost $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function edit(AdminPost $request)
     {
         return $this->adminService->save($request);
     }

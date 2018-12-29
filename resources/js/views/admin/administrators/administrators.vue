@@ -5,7 +5,7 @@
         </Breadcrumb>
         <div class="content-header" @keydown.enter="handleSubmit">
             <div class="header-action">
-                <Button v-has-permit:createAdministrators type="success" icon="md-add" shape="circle" :to="{name: 'createAdministrators'}">新增成员</Button>
+                <Button v-has-permit:createAdministrator type="success" icon="md-add" shape="circle" :to="{name: 'createAdministrators'}">新增成员</Button>
             </div>
             <Form ref="formSearchData" :model="formSearchData" inline>
                 <FormItem prop="keyword" label='关键字' :label-width="75">
@@ -95,7 +95,7 @@ export default {
                                 trueValue: 1,
                                 falseValue: 0,
                                 loading: params.row.loading,
-                                //disabled: true
+                                disabled: (!this.hasPermit('updateAdministratorStatus') || params.row.id == 1) ? true : false
                             },
                             on: {
                                 'on-change': (value) => {
@@ -136,7 +136,7 @@ export default {
                                     type: 'info',
                                     size: 'small',
                                     icon: 'ios-create-outline',
-                                    disabled: !this.hasPermit('editAdministrators')
+                                    disabled: (!this.hasPermit('editAdministrator') || params.row.id == 1) ? true : false
                                 },
                                 attrs: {
                                     title: '编辑'
@@ -173,7 +173,7 @@ export default {
                                         type: 'error',
                                         size: 'small',
                                         icon: 'md-trash',
-                                        disabled: !this.hasPermit('deleteAdministrator')
+                                        disabled: (!this.hasPermit('delAdministrator') || params.row.id == 1) ? true : false
                                     },
                                     attrs: {
                                         title: '删除成员'

@@ -130,15 +130,43 @@ class AdminService
             }
         }
         $menuTree = array();
+        $smalls = array();
         if ($authority){
             $modules = $this->moduleRepository->getRoleByModule($authority);
 
             if ($modules){
                 $menuTree = $this->authorityTree($modules);
             }
+
+            $smallsPermit = $this->moduleRepository->findSmallsPermit($authority);
+            if ($smallsPermit){
+                $smallsPermit = array_unique(array_column($smallsPermit, 'laravel_router_path'));
+                foreach ($smallsPermit as $value){
+                    if (trim($value)){
+                        $smalls[] = $value;
+                    }
+                }
+            }
         }
 
-        return response()->json(['code' => 0, 'msg' => 'success', 'admins' => $admins, 'menuTree' => $menuTree]);
+        $menuTree[] = [
+            'id' => 0,
+            'parent_id' => 0,
+            'title' => 'Home',
+            'vue_router_path' => 'home',
+            'vue_router_name' => 'home',
+            'vue_file_path' => '/admin/home/index.vue',
+            'laravel_router_path' => '',
+            'is_menu' => 0,
+            'icon' => '',
+            'status' => 1,
+            'sort' => 0,
+            'created_at' => '2018-09-03 13:45:01',
+            'updated_at' => '2018-09-03 13:45:01',
+            'children' => []
+        ];
+
+        return response()->json(['code' => 0, 'msg' => 'success', 'admins' => $admins, 'menuTree' => $menuTree, 'smalls' => $smalls]);
     }
 
 

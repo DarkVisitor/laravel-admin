@@ -39,8 +39,8 @@
                     </div>
                 </Menu>
             </Header>
-            <Layout v-if="topNavMenuList.length">
-                <Sider hide-trigger>
+            <Layout>
+                <Sider hide-trigger v-show="siderNavMenuList.length">
                     <Menu ref="siderMenu" :active-name="siderActiveName" theme="light" width="auto" :open-names="[siderOpenNames]" @on-select="handleSelectMenu">
                         <Submenu v-for="(item, index) in siderNavMenuList" :key="index" :name="item.vue_router_name">
                             <template slot="title">

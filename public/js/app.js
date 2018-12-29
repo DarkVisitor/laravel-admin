@@ -1015,11 +1015,20 @@ module.exports = Component.exports
 
 
     /**
-     * 保存管理员信息
+     * 新增管理员信息
      * @param {*} data 
      */
-    postAdminInfo: function postAdminInfo(data) {
-        return __WEBPACK_IMPORTED_MODULE_0__js_libs_axios_js__["a" /* default */].post('/saveAdmin', data);
+    createAdminInfo: function createAdminInfo(data) {
+        return __WEBPACK_IMPORTED_MODULE_0__js_libs_axios_js__["a" /* default */].post('/createAdmin', data);
+    },
+
+
+    /**
+     * 编辑管理员信息
+     * @param {*} data 
+     */
+    editAdminInfo: function editAdminInfo(data) {
+        return __WEBPACK_IMPORTED_MODULE_0__js_libs_axios_js__["a" /* default */].post('/editAdmin', data);
     },
 
 
@@ -1137,19 +1146,10 @@ router.beforeEach(function (to, from, next) {
             if (!response.data.code) {
                 __WEBPACK_IMPORTED_MODULE_3__store__["a" /* default */].commit('setAdminInfo', response.data.admins);
                 __WEBPACK_IMPORTED_MODULE_3__store__["a" /* default */].commit('setPermission', response.data.menuTree);
+                __WEBPACK_IMPORTED_MODULE_3__store__["a" /* default */].commit('setSmallsPermit', response.data.smalls);
                 var permission = __WEBPACK_IMPORTED_MODULE_3__store__["a" /* default */].state.admin.permission;
                 var adminRoutes = Object(__WEBPACK_IMPORTED_MODULE_5__js_libs_util_js__["f" /* transferByRouteArray */])(permission);
-                adminRoutes.push({
-                    path: 'home',
-                    name: 'home',
-                    meta: {
-                        title: 'Home',
-                        isMenu: 1
-                    },
-                    component: function component(resolve) {
-                        return __webpack_require__.e/* require */(2).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(91)]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe);
-                    }
-                });
+
                 var adminObj = {
                     path: '/admin',
                     name: 'admin',
@@ -1235,7 +1235,7 @@ router.afterEach(function (to) {
     path: '/admin/404',
     name: '404',
     component: function component(resolve) {
-        return __webpack_require__.e/* require */(3).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(92)]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe);
+        return __webpack_require__.e/* require */(3).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(93)]; ((resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__));}.bind(this)).catch(__webpack_require__.oe);
     }
 }]);
 
@@ -1770,7 +1770,7 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(41);
-module.exports = __webpack_require__(89);
+module.exports = __webpack_require__(90);
 
 
 /***/ }),
@@ -1785,7 +1785,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__js_store__ = __webpack_require__(29);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_iview__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_iview___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_iview__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__js_plugins_permission_js__ = __webpack_require__(163);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__js_plugins_permission_js__ = __webpack_require__(89);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -7296,98 +7296,103 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _vm.topNavMenuList.length
-            ? _c(
-                "Layout",
+          _c(
+            "Layout",
+            [
+              _c(
+                "Sider",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.siderNavMenuList.length,
+                      expression: "siderNavMenuList.length"
+                    }
+                  ],
+                  attrs: { "hide-trigger": "" }
+                },
                 [
                   _c(
-                    "Sider",
-                    { attrs: { "hide-trigger": "" } },
-                    [
-                      _c(
-                        "Menu",
-                        {
-                          ref: "siderMenu",
-                          attrs: {
-                            "active-name": _vm.siderActiveName,
-                            theme: "light",
-                            width: "auto",
-                            "open-names": [_vm.siderOpenNames]
-                          },
-                          on: { "on-select": _vm.handleSelectMenu }
-                        },
-                        _vm._l(_vm.siderNavMenuList, function(item, index) {
-                          return _c(
-                            "Submenu",
-                            {
-                              key: index,
-                              attrs: { name: item.vue_router_name }
-                            },
+                    "Menu",
+                    {
+                      ref: "siderMenu",
+                      attrs: {
+                        "active-name": _vm.siderActiveName,
+                        theme: "light",
+                        width: "auto",
+                        "open-names": [_vm.siderOpenNames]
+                      },
+                      on: { "on-select": _vm.handleSelectMenu }
+                    },
+                    _vm._l(_vm.siderNavMenuList, function(item, index) {
+                      return _c(
+                        "Submenu",
+                        { key: index, attrs: { name: item.vue_router_name } },
+                        [
+                          _c(
+                            "template",
+                            { slot: "title" },
                             [
-                              _c(
-                                "template",
-                                { slot: "title" },
-                                [
-                                  _c("Icon", { attrs: { type: item.icon } }),
-                                  _vm._v(
-                                    "\n                            " +
-                                      _vm._s(item.title) +
-                                      "\n                        "
-                                  )
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _vm._l(item.children, function(menu, menuIndex) {
-                                return _c(
-                                  "MenuItem",
-                                  {
-                                    key: menuIndex,
-                                    attrs: { name: menu.vue_router_name }
-                                  },
-                                  [_vm._v(_vm._s(menu.title))]
-                                )
-                              })
+                              _c("Icon", { attrs: { type: item.icon } }),
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(item.title) +
+                                  "\n                        "
+                              )
                             ],
-                            2
-                          )
-                        })
+                            1
+                          ),
+                          _vm._v(" "),
+                          _vm._l(item.children, function(menu, menuIndex) {
+                            return _c(
+                              "MenuItem",
+                              {
+                                key: menuIndex,
+                                attrs: { name: menu.vue_router_name }
+                              },
+                              [_vm._v(_vm._s(menu.title))]
+                            )
+                          })
+                        ],
+                        2
                       )
-                    ],
+                    })
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "Layout",
+                { staticStyle: { "overflow-y": "hidden" } },
+                [
+                  _c(
+                    "div",
+                    {
+                      staticClass: "tag-nav-wrapper",
+                      staticStyle: {
+                        background: "#f0f0f0",
+                        height: "40px",
+                        padding: "0"
+                      }
+                    },
+                    [_c("tags-nav", { attrs: { value: _vm.$route } })],
                     1
                   ),
                   _vm._v(" "),
                   _c(
-                    "Layout",
-                    { staticStyle: { "overflow-y": "hidden" } },
-                    [
-                      _c(
-                        "div",
-                        {
-                          staticClass: "tag-nav-wrapper",
-                          staticStyle: {
-                            background: "#f0f0f0",
-                            height: "40px",
-                            padding: "0"
-                          }
-                        },
-                        [_c("tags-nav", { attrs: { value: _vm.$route } })],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "Content",
-                        { staticClass: "laradmin" },
-                        [_c("router-view")],
-                        1
-                      )
-                    ],
+                    "Content",
+                    { staticClass: "laradmin" },
+                    [_c("router-view")],
                     1
                   )
                 ],
                 1
               )
-            : _vm._e()
+            ],
+            1
+          )
         ],
         1
       )
@@ -7950,6 +7955,7 @@ var admin = {
         adminInfo: [],
         adminList: {},
         permission: [],
+        smallsPermit: [],
         adminFirst: []
     },
     /**
@@ -7967,6 +7973,9 @@ var admin = {
         },
         getAdminFirst: function getAdminFirst(state) {
             return state.adminFirst;
+        },
+        getSmallsPermit: function getSmallsPermit(state) {
+            return state.smallsPermit;
         }
     },
     /**
@@ -7984,6 +7993,9 @@ var admin = {
         },
         setAdminFirst: function setAdminFirst(state, adminFirst) {
             state.adminFirst = adminFirst;
+        },
+        setSmallsPermit: function setSmallsPermit(state, smalls) {
+            state.smallsPermit = smalls;
         }
     },
     /**
@@ -7997,9 +8009,11 @@ var admin = {
                 Object(__WEBPACK_IMPORTED_MODULE_1__js_libs_util_js__["d" /* setMenuTree */])(response.data.menuTree);
                 commit('setAdminInfo', response.data.admins);
                 commit('setPermission', response.data.menuTree);
+                commit('setSmallsPermit', response.data.smalls);
             }).catch(function (error) {
                 commit('setAdminInfo', []);
                 commit('setPermission', []);
+                commit('setSmallsPermit', []);
             });
         },
         loadAdminList: function loadAdminList(_ref2, params) {
@@ -8026,91 +8040,15 @@ var admin = {
 
 /***/ }),
 /* 89 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 90 */,
-/* 91 */,
-/* 92 */,
-/* 93 */,
-/* 94 */,
-/* 95 */,
-/* 96 */,
-/* 97 */,
-/* 98 */,
-/* 99 */,
-/* 100 */,
-/* 101 */,
-/* 102 */,
-/* 103 */,
-/* 104 */,
-/* 105 */,
-/* 106 */,
-/* 107 */,
-/* 108 */,
-/* 109 */,
-/* 110 */,
-/* 111 */,
-/* 112 */,
-/* 113 */,
-/* 114 */,
-/* 115 */,
-/* 116 */,
-/* 117 */,
-/* 118 */,
-/* 119 */,
-/* 120 */,
-/* 121 */,
-/* 122 */,
-/* 123 */,
-/* 124 */,
-/* 125 */,
-/* 126 */,
-/* 127 */,
-/* 128 */,
-/* 129 */,
-/* 130 */,
-/* 131 */,
-/* 132 */,
-/* 133 */,
-/* 134 */,
-/* 135 */,
-/* 136 */,
-/* 137 */,
-/* 138 */,
-/* 139 */,
-/* 140 */,
-/* 141 */,
-/* 142 */,
-/* 143 */,
-/* 144 */,
-/* 145 */,
-/* 146 */,
-/* 147 */,
-/* 148 */,
-/* 149 */,
-/* 150 */,
-/* 151 */,
-/* 152 */,
-/* 153 */,
-/* 154 */,
-/* 155 */,
-/* 156 */,
-/* 157 */,
-/* 158 */,
-/* 159 */,
-/* 160 */,
-/* 161 */,
-/* 162 */,
-/* 163 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__store__ = __webpack_require__(29);
 /**
  * Laravel - Admin system permission plugin.
  */
+
+
 
 var permission = {
     install: function install(Vue, options) {
@@ -8126,17 +8064,25 @@ var permission = {
 
         // 全局实例 - 自定义函数 hasPermit
         Vue.prototype.hasPermit = function (arg) {
-            var smalls = ['createAdministrators', 'editAdministrators'];
-            if (smalls.indexOf(arg) < 0) {
-                return false;
-            } else {
-                return true;
+            var smalls = __WEBPACK_IMPORTED_MODULE_0__store__["a" /* default */].state.admin.smallsPermit;
+            console.log(__WEBPACK_IMPORTED_MODULE_0__store__["a" /* default */].state.admin.smallsPermit);
+            for (var i = 0; i < smalls.length; i++) {
+                if (smalls[i] === arg) {
+                    return true;
+                }
             }
+            return false;
         };
     }
 };
 
 /* harmony default export */ __webpack_exports__["a"] = (permission);
+
+/***/ }),
+/* 90 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 ],[40]);
