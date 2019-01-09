@@ -8,57 +8,24 @@ export default {
     /**
      *获取角色组数据
      */
-    getRoleList () {
-        
+    getRoleList() {
         return axios.get('/roles');
     },
-
-    /**
-     * 提交数据
-     * @param {id:id,title:title,remarks:remarks} data 
-     */
-    postRoleInfo (data) {
-        return axios.post('/saveRole', data);
-    },
-
 
     /**
      * 获取用户组数据
      * @param {id:id} params 
      */
-    getRoleInfo (params) {
-        return axios.get('/editRole', {params: params});
-    },
-
-
-    /**
-     * 删除用户组信息
-     * @param {id:id} data 
-     */
-    delRoleInfo (data) {
-        return axios.post('/delRole', data);
+    getRoleInfo(params) {
+        return axios.get('/findRole', {params: params});
     },
 
     /**
      * 获取用户组权限
      * @param {id:id} params 
      */
-    getRoleAuth (params) {
+    getRoleAuth(params) {
         return axios.get('/roleAuth', {params: params});
-    },
-
-
-    /**
-     * 保存用户组权限数据
-     * @param {id:id,authority:authority} data 
-     */
-    postRoleAuth (data) {
-        
-        return axios({
-            url: '/allotAuth',
-            method: 'post',
-            data: data
-        });
     },
 
     /**
@@ -66,8 +33,43 @@ export default {
      * 
      * @param {id:id} params 
      */
-    findRoleByMember (params) {
+    findRoleByMember(params) {
         return axios.get('/roleMember', {params:params});
+    },
+
+    /**
+     * 创建用户组信息
+     * @param {id:id,title:title,remarks:remarks} data 
+     */
+    createRoleInfo(data) {
+        return axios.post('/createRole', data);
+    },
+
+
+    /**
+     * 编辑用户组信息
+     * @param {*} data 
+     */
+    eidtRoleInfo(data) {
+        return axios.post('/editRole', data);
+    },
+
+
+    /**
+     * 删除用户组信息
+     * @param {id:id} data 
+     */
+    delRoleInfo(data) {
+        return axios.post('/delRole', data);
+    },
+
+
+    /**
+     * 保存用户组权限数据
+     * @param {id:id,authority:authority} data 
+     */
+    postRoleAuth(data) {
+        return axios.post('/allotAuth', data);
     },
 
     /**
@@ -75,7 +77,7 @@ export default {
      * 
      * @param {id:id, member:member} data 
      */
-    postAllotMember (data) {
+    postAllotMember(data) {
         return axios.post('/allotMember', data);
     }
 }

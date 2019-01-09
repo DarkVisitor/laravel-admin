@@ -24,29 +24,35 @@ class RoleController extends Controller
     }
 
 
+    public function findRole(Request $request)
+    {
+        $data = $this->roleService->getRoleInfo($request);
+
+        return response()->json(["code" => 0, "msg" => "success", "data" => $data]);
+    }
+
+
     /**
-     * Save role data.
+     * Create role information.
      *
      * @param RolePost $request
-     * @return \Illuminate\Http\JsonResponse|void
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function save(RolePost $request)
+    public function create(RolePost $request)
     {
         return $this->roleService->save($request);
     }
 
 
     /**
-     * Edit user group information.
+     * Edit role information.
      *
-     * @param Request $request
+     * @param RolePost $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function edit(Request $request)
+    public function edit(RolePost $request)
     {
-        $data = $this->roleService->getRoleInfo($request);
-
-        return response()->json(["code" => 0, "msg" => "success", "data" => $data]);
+        return $this->roleService->save($request);
     }
 
 

@@ -70,7 +70,7 @@ export default {
                 if (valid) {
                     let that = this;
                     that.loading = true;
-                    RoleAPI.postRoleInfo(that.roleGroupForm)
+                    this.postRoleInfo(that.roleGroupForm)
                         .then(function(response){
                             that.loading = false;
                             if(response.data.code){
@@ -87,6 +87,16 @@ export default {
                 }
             });
         },
+        /**
+         * Submit user group information.
+         */
+        postRoleInfo(data) {
+            if (data.id == ''){
+                return RoleAPI.createRoleInfo(data);
+            }else{
+                return RoleAPI.editRoleInfo(data);
+            }
+        }
     },
     created() {
         // 编辑模式

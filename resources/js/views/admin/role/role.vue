@@ -5,7 +5,7 @@
         </Breadcrumb>
         <div class="content-header">
             <div class="header-action">
-                <Button type="success" icon="md-add" shape="circle" :to="{name: 'createRole'}">新增角色分组</Button>
+                <Button v-has-permit:createRole type="success" icon="md-add" shape="circle" :to="{name: 'createRole'}">新增角色分组</Button>
             </div>
         </div>
         <div style="margin-bottom: 20px;">
@@ -45,6 +45,7 @@ export default {
             loading: false,
             spinShow: false,
             isMemberModal: false,
+            adminInfo: {},
             memberList: [],
             allotMemberList: [],
             transferTitle: ['未分配成员', '已分配成员'],
@@ -99,7 +100,7 @@ export default {
                                     type: 'info',
                                     size: 'small',
                                     icon: 'md-lock',
-                                    //disabled: params.row.id == '1' ? true : false
+                                    disabled: ((!this.hasPermit('allotAuth') || params.row.id == 1) && this.adminInfo.id != 1) ? true : false
                                 },
                                 on: {
                                     click: () => {
@@ -119,7 +120,8 @@ export default {
                                 props: {
                                     type: 'success',
                                     size: 'small',
-                                    icon: 'md-person-add'
+                                    icon: 'md-person-add',
+                                    disabled: ((!this.hasPermit('allotMember') || params.row.id == 1) && this.adminInfo.id != 1) ? true : false
                                 },
                                 attrs: {
                                     title: '成员分配'
@@ -135,7 +137,7 @@ export default {
                                     type: 'primary',
                                     size: 'small',
                                     icon: 'ios-create-outline',
-                                    disabled: params.row.id == '1' ? true : false
+                                    disabled: (!this.hasPermit('editRole') || params.row.id == 1) ? true : false
                                 },
                                 attrs: {
                                     title: '编辑分组'
@@ -172,7 +174,7 @@ export default {
                                         type: 'error',
                                         size: 'small',
                                         icon: 'md-trash',
-                                        disabled: params.row.id == '1' ? true : false
+                                        disabled: (!this.hasPermit('delRole') || params.row.id == 1) ? true : false
                                     },
                                     attrs: {
                                         title: '删除分组'
@@ -304,6 +306,7 @@ export default {
     mounted () {
         // Initialize table data.
         this.$store.dispatch('loadRoleList');
+        this.adminInfo = this.$store.state.admin.adminInfo;
     }
     
 }

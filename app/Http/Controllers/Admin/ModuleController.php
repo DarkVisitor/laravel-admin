@@ -40,11 +40,12 @@ class ModuleController extends Controller
 
 
     /**
-     * 编辑数据
+     * Find module first information.
+     *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function edit(Request $request)
+    public function findModule(Request $request)
     {
         $data = $this->moduleService->getInfo($request);
 
@@ -53,11 +54,24 @@ class ModuleController extends Controller
 
 
     /**
-     * save data
-     * @param Request $request
+     * Create system module.
+     *
+     * @param ModulePost $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function save(ModulePost $request)
+    public function create(ModulePost $request)
+    {
+        return $this->moduleService->save($request);
+    }
+
+
+    /**
+     * Edit system module.
+     *
+     * @param ModulePost $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function edit(ModulePost $request)
     {
         return $this->moduleService->save($request);
     }

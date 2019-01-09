@@ -1,7 +1,7 @@
 <template>
     <div class="laradmin-main">
         <Card style="width:320px">
-            <p slot="title">欢迎您</p>
+            <p slot="title">欢迎登录</p>
             <div style="text-align:center">
                 <Avatar class="admin-avatar" icon="ios-person" size="large" :src="admins.avatar"/>
                 <h3>{{ admins.name }}</h3>

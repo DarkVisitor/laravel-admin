@@ -15,14 +15,18 @@
     return view('welcome');
 })->where('query', '^((?!auth|api|web|backend).)*$');*/
 
-Route::get('/admin/{query}', function ($query) {
-    info($query);
+Route::get('/admin/{query}', function () {
     return view('welcome');
 })->where('query', '.*');
 
 Route::get('/admin', function () {
     return response()->redirectTo('/admin/home');
 });
+
+
+/*Route::get('/', function (){
+    throw new Exception('哎呀，出错了！');
+});*/
 
 /**
  * Web端路由组
@@ -76,23 +80,25 @@ Route::group(['middleware' => 'web', 'prefix' => 'backend', 'namespace' => 'Admi
          */
         Route::get('/modules', 'ModuleController@index');
         Route::get('/navMenu', 'ModuleController@navMenuModule');
-        Route::get('/editModule', 'ModuleController@edit');
-        Route::post('/saveModule', 'ModuleController@save');
-        Route::post('/delModule', 'ModuleController@delete');
-        Route::post('/updateModuleStatus', 'ModuleController@updateStatus');
+        Route::get('/findModule', 'ModuleController@findModule');
+        Route::post('/createModule', 'ModuleController@create')->name('createModule');
+        Route::post('/editModule', 'ModuleController@edit')->name('editModule');
+        Route::post('/delModule', 'ModuleController@delete')->name('delModule');
+        Route::post('/updateModuleStatus', 'ModuleController@updateStatus')->name('upModuleStatus');
 
 
         /**
          * Composite - system - roles
          */
         Route::get('/roles', 'RoleController@index');
-        Route::get('/editRole', 'RoleController@edit');
-        Route::post('/saveRole', 'RoleController@save');
-        Route::post('/delRole', 'RoleController@delete');
+        Route::get('/findRole', 'RoleController@findRole');
         Route::get('/roleMember', 'RoleController@roleMember');
-        Route::post('/allotMember', 'RoleController@allotMember');
         Route::get('/roleAuth', 'RoleController@allotAuthority');
-        Route::post('/allotAuth', 'RoleController@saveRoleAuth');
+        Route::post('/createRole', 'RoleController@create')->name('createRole');
+        Route::post('/editRole', 'RoleController@edit')->name('editRole');
+        Route::post('/delRole', 'RoleController@delete')->name('delRole');
+        Route::post('/allotMember', 'RoleController@allotMember')->name('allotMember');
+        Route::post('/allotAuth', 'RoleController@saveRoleAuth')->name('allotAuth');
 
     });
 });

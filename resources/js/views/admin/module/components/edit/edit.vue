@@ -126,7 +126,7 @@ export default {
                 if (valid) {
                     let that = this;
                     that.loading = true;
-                    ModuleAPI.saveFromModule(this.moduleData)
+                    this.postModuleInfo(this.moduleData)
                         .then(function(response){
                             that.loading = false;
                             if(response.data.code){
@@ -142,6 +142,16 @@ export default {
                         });
                 }
             });
+        },
+        /**
+         * Submit system module information.
+         */
+        postModuleInfo(data) {
+            if (data.id == ''){
+                return ModuleAPI.createModuleInfo(data);
+            }else{
+                return ModuleAPI.editModuleInfo(data);
+            }
         }
     },
     created() {

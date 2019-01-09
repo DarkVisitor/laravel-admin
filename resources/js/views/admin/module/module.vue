@@ -5,7 +5,7 @@
         </Breadcrumb>
         <div class="content-header">
             <div class="header-action">
-                <Button type="success" shape="circle" icon="md-add" :to="{ name: 'createModule' }">新增配置</Button>
+                <Button v-has-permit:createModule type="success" shape="circle" icon="md-add" :to="{ name: 'createModule' }">新增配置</Button>
             </div>
         </div>
         <div style="margin-bottom: 20px;">
@@ -100,7 +100,8 @@ export default {
                                 size: 'large',
                                 trueValue: 1,
                                 falseValue: 0,
-                                loading: params.row.loading
+                                loading: params.row.loading,
+                                disabled: !this.hasPermit('upModuleStatus') ? true : false
                             },
                             on: {
                                 'on-change': (value) => {
@@ -129,7 +130,8 @@ export default {
                                 props: {
                                     type: 'primary',
                                     size: 'small',
-                                    icon: 'ios-create-outline'
+                                    icon: 'ios-create-outline',
+                                    disabled: !this.hasPermit('editModule') ? true : false
                                 },
                                 attrs: {
                                     title: '编辑模块'
@@ -165,7 +167,8 @@ export default {
                                     props: {
                                         type: 'error',
                                         size: 'small',
-                                        icon: 'md-trash'
+                                        icon: 'md-trash',
+                                        disabled: !this.hasPermit('delModule') ? true : false
                                     },
                                     attrs: {
                                         title: '删除模块'

@@ -37,6 +37,7 @@ export default {
         return {
             loading: false,
             searchDateTime: '',
+            adminInfo: {},
             adminListData: [],
             total: 0,
             formSearchData: {
@@ -136,7 +137,7 @@ export default {
                                     type: 'info',
                                     size: 'small',
                                     icon: 'ios-create-outline',
-                                    disabled: (!this.hasPermit('editAdministrator') || params.row.id == 1) ? true : false
+                                    disabled: ((!this.hasPermit('editAdministrator') || params.row.id == 1) && this.adminInfo.id != 1) ? true : false
                                 },
                                 attrs: {
                                     title: '编辑'
@@ -327,6 +328,7 @@ export default {
     mounted() {
         // Initialize table data.
         this.$store.dispatch('loadAdminList', this.formSearchData);
+        this.adminInfo = this.$store.state.admin.adminInfo;
     }
 }
 </script>
