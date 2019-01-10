@@ -311,6 +311,58 @@ html .ivu-btn {
           animation: ani-demo-spin 1s linear infinite;
 }
 
+.error-page {
+  width: 100%;
+  height: 100%;
+}
+
+.error-page .container {
+  width: 700px;
+  height: 600px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -60%);
+  transform: translate(-50%, -60%);
+}
+
+.error-page .container img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.error-page .container .text-con {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+
+.error-page .container .text-con h4 {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 80px;
+  font-weight: 700;
+  color: #348EED;
+}
+
+.error-page .container .text-con h5 {
+  position: absolute;
+  width: 700px;
+  left: 0;
+  top: 100px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #67647D;
+}
+
+.error-page .back-btn-group {
+  position: absolute;
+  right: 0;
+  bottom: 20px;
+}
+
 .login {
   width: 100%;
   height: 100%;

@@ -1,14 +1,14 @@
-webpackJsonp([2],{
+webpackJsonp([6],{
 
-/***/ 165:
+/***/ 164:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(4)
 /* script */
-var __vue_script__ = __webpack_require__(166)
+var __vue_script__ = __webpack_require__(168)
 /* template */
-var __vue_template__ = __webpack_require__(167)
+var __vue_template__ = __webpack_require__(169)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -25,7 +25,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/js/views/errors/500.vue"
+Component.options.__file = "resources/js/views/errors/419.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -34,9 +34,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6f0a4e10", Component.options)
+    hotAPI.createRecord("data-v-3c57bef7", Component.options)
   } else {
-    hotAPI.reload("data-v-6f0a4e10", Component.options)
+    hotAPI.reload("data-v-3c57bef7", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -48,7 +48,7 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 166:
+/***/ 168:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -88,7 +88,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 167:
+/***/ 169:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -97,7 +97,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "error-page" }, [
     _c("div", { staticClass: "container" }, [
-      _c("img", { attrs: { src: "/svg/error-500.svg" } }),
+      _c("img", { attrs: { src: "/svg/error-401.svg" } }),
       _vm._v(" "),
       _vm._m(0),
       _vm._v(" "),
@@ -136,7 +136,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "text-con" }, [
       _c("h4", [_vm._v("404")]),
       _vm._v(" "),
-      _c("h5", [_vm._v("Oh~~鬼知道服务器经历了什么~")])
+      _c("h5", [_vm._v("Oh~~您没有浏览这个页面的权限~")])
     ])
   }
 ]
@@ -145,7 +145,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-6f0a4e10", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-3c57bef7", module.exports)
   }
 }
 

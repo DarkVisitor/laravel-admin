@@ -25,6 +25,7 @@ Route::get('/admin', function () {
 
 
 /*Route::get('/', function (){
+    \Illuminate\Support\Facades\Log::emergency('哎呀，出错了！');
     throw new Exception('哎呀，出错了！');
 });*/
 

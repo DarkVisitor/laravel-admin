@@ -3,55 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Page not found</title>
-    <style>
-        html, body, .error-page{
-            width: 100%;
-            height: 100%;
-        }
-        html, body, h4, h5 {margin: 0;}
-        .container {
-            width: 700px;
-            height: 600px;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            -webkit-transform: translate(-50%,-60%);
-            transform: translate(-50%,-60%);
-        }
-        .container img {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-        .text-con {
-            position: absolute;
-            left: 0px;
-            top: 0px;
-        }
-        h4{
-            position: absolute;
-            left: 0px;
-            top: 0px;
-            font-size: 80px;
-            font-weight: 700;
-            color: #348EED;
-        }
-        h5{
-            position: absolute;
-            width: 700px;
-            left: 0px;
-            top: 100px;
-            font-size: 20px;
-            font-weight: 700;
-            color: #67647D;
-        }
-        .back-btn-group{
-            position: absolute;
-            right: 0px;
-            bottom: 20px;
-        }
-
-    </style>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/error.css">
 </head>
 <body>
     <div class="error-page">
@@ -62,8 +16,8 @@
                 <h5>Oh~~您的页面好像飞走了~</h5>
             </div>
             <div class="back-btn-group">
-                <a href="#">返回首页</a>
-                <a href="#">返回上一页</a>
+                <a href="/">返回首页</a>
+                <a href="javascript:history.back(-1);">返回上一页</a>
             </div>
         </div>
     </div>

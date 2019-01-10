@@ -35,7 +35,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single'],
+            'channels' => ['syslog'],
         ],
 
         'single' => [
@@ -49,6 +49,14 @@ return [
             'path' => storage_path('logs/laravel.log'),
             'level' => 'debug',
             'days' => 7,
+            'handler' => Monolog\Handler\NativeMailerHandler::class,
+            'handler_with' => [
+                'to' => [
+                    '472458908@qq.com'
+                ],
+                'subject' => '系统日志提醒',
+                'from' => 'han_darkvisitor@163.com',
+            ],
         ],
 
         'slack' => [
