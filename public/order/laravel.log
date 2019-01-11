@@ -1,0 +1,6 @@
+[2019-01-11 13:34:06] local.EMERGENCY: 哎呀，出错了！ [] []
+[2019-01-11 13:34:06] local.ERROR: 哎呀，出错了！ {"exception":"[object] (Exception(code: 0): 哎呀，出错了！ at D:\\www\\php_project\\laravel-admin\\routes\\web.php:29)"} []
+[2019-01-11 13:42:28] local.EMERGENCY: 哎呀，出错了！ [] []
+[2019-01-11 13:42:28] local.ERROR: 哎呀，出错了！ {"exception":"[object] (Exception(code: 0): 哎呀，出错了！ at D:\\www\\php_project\\laravel-admin\\routes\\web.php:29)"} []
+[2019-01-11 13:42:58] local.EMERGENCY: 哎呀，出错了！ [] []
+[2019-01-11 13:42:58] local.ERROR: 哎呀，出错了！ {"exception":"[object] (Exception(code: 0): 哎呀，出错了！ at D:\\www\\php_project\\laravel-admin\\routes\\web.php:29)"} []

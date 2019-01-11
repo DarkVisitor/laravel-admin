@@ -36,7 +36,6 @@ class VerifyCode extends Mailable
      */
     public function build()
     {
-        info($this->code);
         return $this->subject('Laravel-Admin')
                     ->view('emails.verify_code')
                     ->with([

@@ -46,17 +46,10 @@ return [
 
         'daily' => [
             'driver' => 'daily',
+            'tap' => [App\Logging\CustomizeFormatter::class],
             'path' => storage_path('logs/laravel.log'),
             'level' => 'debug',
             'days' => 7,
-            'handler' => Monolog\Handler\NativeMailerHandler::class,
-            'handler_with' => [
-                'to' => [
-                    '472458908@qq.com'
-                ],
-                'subject' => '系统日志提醒',
-                'from' => 'han_darkvisitor@163.com',
-            ],
         ],
 
         'slack' => [
@@ -83,6 +76,29 @@ return [
         'errorlog' => [
             'driver' => 'errorlog',
             'level' => 'debug',
+        ],
+        'logentries' => [
+            'driver' => 'monolog',
+            'handler' => Monolog\Handler\NativeMailerHandler::class,
+            'handler_with' => [
+                'to' => [
+                    '472458908@qq.com'
+                ],
+                'subject' => '系统日志提醒',
+                'from' => 'han_darkvisitor@163.com',
+            ],
+        ],
+        'custom' => [
+            'driver' => 'custom',
+            'via' => App\Logging\CreateCustomLogger::class,
+            'handler' => Monolog\Handler\NativeMailerHandler::class,
+            'handler_with' => [
+                'to' => [
+                    '472458908@qq.com'
+                ],
+                'subject' => '系统日志提醒',
+                'from' => 'han_darkvisitor@163.com',
+            ],
         ],
     ],
 

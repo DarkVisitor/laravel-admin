@@ -24,10 +24,10 @@ Route::get('/admin', function () {
 });
 
 
-/*Route::get('/', function (){
-    \Illuminate\Support\Facades\Log::emergency('哎呀，出错了！');
+Route::get('/', function (){
+    //\Illuminate\Support\Facades\Log::emergency('糟糕，系统崩溃了！');
     throw new Exception('哎呀，出错了！');
-});*/
+});
 
 /**
  * Web端路由组
