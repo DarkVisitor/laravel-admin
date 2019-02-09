@@ -1,6 +1,6 @@
-webpackJsonp([7],{
+webpackJsonp([3],{
 
-/***/ 102:
+/***/ 106:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -40,7 +40,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 103:
+/***/ 107:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -49,7 +49,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "error-page" }, [
     _c("div", { staticClass: "container" }, [
-      _c("img", { attrs: { src: "/svg/error-404.svg" } }),
+      _c("img", { attrs: { src: "/svg/error-401.svg" } }),
       _vm._v(" "),
       _vm._m(0),
       _vm._v(" "),
@@ -88,7 +88,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "text-con" }, [
       _c("h4", [_vm._v("404")]),
       _vm._v(" "),
-      _c("h5", [_vm._v("Oh~~您的页面好像飞走了~")])
+      _c("h5", [_vm._v("Oh~~您没有浏览这个页面的权限~")])
     ])
   }
 ]
@@ -97,21 +97,21 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-3a5c70d3", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-3c57bef7", module.exports)
   }
 }
 
 /***/ }),
 
-/***/ 92:
+/***/ 93:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(4)
 /* script */
-var __vue_script__ = __webpack_require__(102)
+var __vue_script__ = __webpack_require__(106)
 /* template */
-var __vue_template__ = __webpack_require__(103)
+var __vue_template__ = __webpack_require__(107)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -128,7 +128,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/js/views/errors/404.vue"
+Component.options.__file = "resources/js/views/errors/419.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -137,9 +137,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-3a5c70d3", Component.options)
+    hotAPI.createRecord("data-v-3c57bef7", Component.options)
   } else {
-    hotAPI.reload("data-v-3a5c70d3", Component.options)
+    hotAPI.reload("data-v-3c57bef7", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true

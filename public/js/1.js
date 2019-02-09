@@ -3,6 +3,309 @@ webpackJsonp([1],{
 /***/ 100:
 /***/ (function(module, exports, __webpack_require__) {
 
+exports = module.exports = __webpack_require__(14)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.refresh-verify-code { \n    position: absolute; \n    width: 144px; \n    height: 32px;\n    top: 1px; \n    right: -3px; \n    background: transparent!important;\n}\n.verify-code {\n    width: 110px;\n    margin-right: 0!important;\n}\n.switch-login-reset {\n    /* position: absolute;\n    top: 32px;\n    right: 0px; */\n    -webkit-user-select: none;\n       -moz-user-select: none;\n        -ms-user-select: none;\n            user-select: none;\n    line-height: 24px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ 101:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_api_login_js__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__js_api_system_js__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__js_libs_util_js__ = __webpack_require__(1);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            title: '欢迎登录LaravelAdmin',
+            loading: false,
+            loginReset: '忘记密码？',
+            isLoginOrReset: true,
+            t: 60,
+            isSend: false,
+            isCheck: false,
+            form: {
+                userName: '',
+                password: '',
+                verifyCode: ''
+            },
+            rules: {
+                userName: [{ required: true, whitespace: true, message: '请输入用户名或手机号或邮箱', trigger: 'blur' }],
+                password: [{ required: true, whitespace: true, message: '请输入登录密码', trigger: 'blur' }],
+                verifyCode: [{ required: true, whitespace: true, message: '请输入验证码', trigger: 'blur' }]
+            },
+            resetForm: {
+                account: '',
+                password: '',
+                verifyCode: '',
+                remoteVerifyCode: ''
+            },
+            resetRules: {
+                account: [{ required: true, whitespace: true, message: '请输入手机号或邮箱', trigger: 'blur' }, { type: 'string', validator: function validator(rule, value, callback) {
+                        if (!/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(value) && !/^1\d{10}$/.test(value)) {
+                            callback('无效的手机号或邮箱');
+                        } else {
+                            callback();
+                        }
+                    }, trigger: 'blur' }],
+                password: [{ required: true, whitespace: true, message: '请输入登录密码', trigger: 'blur' }],
+                verifyCode: [{ required: true, whitespace: true, message: '请输入验证码', trigger: 'blur' }],
+                remoteVerifyCode: [{ required: true, whitespace: true, message: '请输入短信验证码或邮箱验证码', trigger: 'blur' }]
+            }
+        };
+    },
+
+    computed: {
+        verifyCodeImage: function verifyCodeImage() {
+            return this.$store.getters.getVerifyCode;
+        }
+    },
+    watch: {
+        'resetForm.account': function resetFormAccount(curVal) {
+            this.isCheck = true;
+        }
+    },
+    methods: {
+        /**
+         * Switch login or reset password.
+         */
+        switchLoginReset: function switchLoginReset() {
+            this.isLoginOrReset = !this.isLoginOrReset;
+            this.loginReset = this.isLoginOrReset ? '忘记密码？' : '立即登录';
+            this.title = this.isLoginOrReset ? '欢迎登录LaravelAdmin' : '重置密码';
+            this.handleRefreshVerifyCode();
+        },
+
+        /**
+         * Send verification code countdown timer.
+         */
+        countDown: function countDown() {
+            var that = this;
+            setTimeout(function () {
+                if (that.t) {
+                    that.countDown();
+                    that.t = that.t - 1;
+                } else {
+                    that.isSend = false;
+                    that.t = 60;
+                }
+            }, 1000);
+        },
+
+        /**
+         * Send SMS or email verification code.
+         */
+        sendVerifyCode: function sendVerifyCode() {
+            var that = this;
+            that.$refs.resetForm.validateField('account', function (valid) {
+                if (!valid) {
+                    that.$refs.resetForm.validateField('verifyCode', function (error) {
+                        if (!error) {
+                            __WEBPACK_IMPORTED_MODULE_1__js_api_system_js__["a" /* default */].sendVerifyCode({ account: that.resetForm.account, verify_code: that.resetForm.verifyCode }).then(function (res) {
+                                if (res.data.code) {
+                                    that.$Notice.error({
+                                        title: '系统提示',
+                                        desc: res.data.msg,
+                                        duration: 3
+                                    });
+                                    that.handleRefreshVerifyCode(); //刷新验证码
+                                } else {
+                                    that.$Notice.success({
+                                        title: '系统提示',
+                                        desc: res.data.msg,
+                                        duration: 3
+                                    });
+                                    that.isSend = true;
+                                    that.countDown();
+                                }
+                            }).catch(function (err) {
+                                that.$Message.info('系统繁忙，请稍后再试!');
+                                that.handleRefreshVerifyCode(); //刷新验证码
+                            });
+                        }
+                    });
+                }
+            });
+        },
+
+        /**
+         * Submit login data.
+         */
+        handleLoginSubmit: function handleLoginSubmit() {
+            var _this = this;
+
+            this.$refs.loginForm.validate(function (valid) {
+                if (valid) {
+                    var that = _this;
+                    that.loading = true; //设置登录按钮提交状态
+                    __WEBPACK_IMPORTED_MODULE_0__js_api_login_js__["a" /* default */].postAccessToken({ username: _this.form.userName, password: _this.form.password, verify_code: _this.form.verifyCode }).then(function (response) {
+                        //console.log(response.data);
+                        var res = response.data;
+                        if (res.code) {
+                            that.$Notice.error({
+                                title: '登录失败',
+                                desc: res.msg,
+                                duration: 3
+                            });
+                            that.loading = false; //修改为可提交状态
+                            that.handleRefreshVerifyCode(); //刷新验证码
+                        } else {
+                            that.$Notice.success({
+                                title: '登录成功',
+                                desc: res.msg,
+                                duration: 3
+                            });
+                            Object(__WEBPACK_IMPORTED_MODULE_2__js_libs_util_js__["e" /* setToken */])(res.data);
+                            //移除所有本地存储信息
+                            localStorage.clear();
+                            that.loading = false; //修改为可提交状态
+                            //跳转到后台首页
+                            /* that.$router.push({
+                                name: 'admin'
+                            }); */
+                            that.$router.push({
+                                path: '/admin/home'
+                            });
+                        }
+                    }).catch(function (e) {
+                        that.$Message.info('系统繁忙，请稍后再试!');
+                        that.loading = false; //修改为可提交状态
+                        that.handleRefreshVerifyCode(); //刷新验证码
+                    });
+                }
+            });
+        },
+
+        /**
+         * Submit reset password data.
+         */
+        handleResetSubmit: function handleResetSubmit() {
+            var that = this;
+            that.loading = true;
+            __WEBPACK_IMPORTED_MODULE_0__js_api_login_js__["a" /* default */].forgetPassword({
+                account: that.resetForm.account,
+                verify_code: that.resetForm.remoteVerifyCode,
+                password: that.resetForm.password
+            }).then(function (res) {
+                if (res.data.code) {
+                    that.$Notice.error({
+                        title: '系统提示',
+                        desc: res.data.msg,
+                        duration: 3
+                    });
+                    that.loading = false;
+                    that.handleRefreshVerifyCode();
+                } else {
+                    that.$Notice.success({
+                        title: '系统提示',
+                        desc: res.data.msg,
+                        duration: 3
+                    });
+                    that.loading = false;
+                }
+            }).catch(function (err) {
+                that.$Message.info('系统繁忙，请稍后再试!');
+                that.loading = false;
+                that.handleRefreshVerifyCode();
+            });
+        },
+
+        /**
+         * Refresh verify code.
+         */
+        handleRefreshVerifyCode: function handleRefreshVerifyCode() {
+            this.$store.dispatch('loadVerifyCode', { t: Date.now() });
+        }
+    },
+    created: function created() {
+        this.$store.dispatch('loadVerifyCode', { t: Date.now() });
+    }
+});
+
+/***/ }),
+
+/***/ 102:
+/***/ (function(module, exports, __webpack_require__) {
+
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
@@ -357,13 +660,13 @@ if (false) {
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(97)
+  __webpack_require__(99)
 }
 var normalizeComponent = __webpack_require__(4)
 /* script */
-var __vue_script__ = __webpack_require__(99)
+var __vue_script__ = __webpack_require__(101)
 /* template */
-var __vue_template__ = __webpack_require__(100)
+var __vue_template__ = __webpack_require__(102)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -403,13 +706,13 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 97:
+/***/ 99:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(98);
+var content = __webpack_require__(100);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -427,309 +730,6 @@ if(false) {
  // When the module is disposed, remove the <style> tags
  module.hot.dispose(function() { update(); });
 }
-
-/***/ }),
-
-/***/ 98:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(14)(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n.refresh-verify-code { \n    position: absolute; \n    width: 144px; \n    height: 32px;\n    top: 1px; \n    right: -3px; \n    background: transparent!important;\n}\n.verify-code {\n    width: 110px;\n    margin-right: 0!important;\n}\n.switch-login-reset {\n    /* position: absolute;\n    top: 32px;\n    right: 0px; */\n    -webkit-user-select: none;\n       -moz-user-select: none;\n        -ms-user-select: none;\n            user-select: none;\n    line-height: 24px;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ 99:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__js_api_login_js__ = __webpack_require__(36);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__js_api_system_js__ = __webpack_require__(37);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__js_libs_util_js__ = __webpack_require__(1);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            title: '欢迎登录LaravelAdmin',
-            loading: false,
-            loginReset: '忘记密码？',
-            isLoginOrReset: true,
-            t: 60,
-            isSend: false,
-            isCheck: false,
-            form: {
-                userName: '',
-                password: '',
-                verifyCode: ''
-            },
-            rules: {
-                userName: [{ required: true, whitespace: true, message: '请输入用户名或手机号或邮箱', trigger: 'blur' }],
-                password: [{ required: true, whitespace: true, message: '请输入登录密码', trigger: 'blur' }],
-                verifyCode: [{ required: true, whitespace: true, message: '请输入验证码', trigger: 'blur' }]
-            },
-            resetForm: {
-                account: '',
-                password: '',
-                verifyCode: '',
-                remoteVerifyCode: ''
-            },
-            resetRules: {
-                account: [{ required: true, whitespace: true, message: '请输入手机号或邮箱', trigger: 'blur' }, { type: 'string', validator: function validator(rule, value, callback) {
-                        if (!/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(value) && !/^1\d{10}$/.test(value)) {
-                            callback('无效的手机号或邮箱');
-                        } else {
-                            callback();
-                        }
-                    }, trigger: 'blur' }],
-                password: [{ required: true, whitespace: true, message: '请输入登录密码', trigger: 'blur' }],
-                verifyCode: [{ required: true, whitespace: true, message: '请输入验证码', trigger: 'blur' }],
-                remoteVerifyCode: [{ required: true, whitespace: true, message: '请输入短信验证码或邮箱验证码', trigger: 'blur' }]
-            }
-        };
-    },
-
-    computed: {
-        verifyCodeImage: function verifyCodeImage() {
-            return this.$store.getters.getVerifyCode;
-        }
-    },
-    watch: {
-        'resetForm.account': function resetFormAccount(curVal) {
-            this.isCheck = true;
-        }
-    },
-    methods: {
-        /**
-         * Switch login or reset password.
-         */
-        switchLoginReset: function switchLoginReset() {
-            this.isLoginOrReset = !this.isLoginOrReset;
-            this.loginReset = this.isLoginOrReset ? '忘记密码？' : '立即登录';
-            this.title = this.isLoginOrReset ? '欢迎登录LaravelAdmin' : '重置密码';
-            this.handleRefreshVerifyCode();
-        },
-
-        /**
-         * Send verification code countdown timer.
-         */
-        countDown: function countDown() {
-            var that = this;
-            setTimeout(function () {
-                if (that.t) {
-                    that.countDown();
-                    that.t = that.t - 1;
-                } else {
-                    that.isSend = false;
-                    that.t = 60;
-                }
-            }, 1000);
-        },
-
-        /**
-         * Send SMS or email verification code.
-         */
-        sendVerifyCode: function sendVerifyCode() {
-            var that = this;
-            that.$refs.resetForm.validateField('account', function (valid) {
-                if (!valid) {
-                    that.$refs.resetForm.validateField('verifyCode', function (error) {
-                        if (!error) {
-                            __WEBPACK_IMPORTED_MODULE_1__js_api_system_js__["a" /* default */].sendVerifyCode({ account: that.resetForm.account, verify_code: that.resetForm.verifyCode }).then(function (res) {
-                                if (res.data.code) {
-                                    that.$Notice.error({
-                                        title: '系统提示',
-                                        desc: res.data.msg,
-                                        duration: 3
-                                    });
-                                    that.handleRefreshVerifyCode(); //刷新验证码
-                                } else {
-                                    that.$Notice.success({
-                                        title: '系统提示',
-                                        desc: res.data.msg,
-                                        duration: 3
-                                    });
-                                    that.isSend = true;
-                                    that.countDown();
-                                }
-                            }).catch(function (err) {
-                                that.$Message.info('系统繁忙，请稍后再试!');
-                                that.handleRefreshVerifyCode(); //刷新验证码
-                            });
-                        }
-                    });
-                }
-            });
-        },
-
-        /**
-         * Submit login data.
-         */
-        handleLoginSubmit: function handleLoginSubmit() {
-            var _this = this;
-
-            this.$refs.loginForm.validate(function (valid) {
-                if (valid) {
-                    var that = _this;
-                    that.loading = true; //设置登录按钮提交状态
-                    __WEBPACK_IMPORTED_MODULE_0__js_api_login_js__["a" /* default */].postAccessToken({ username: _this.form.userName, password: _this.form.password, verify_code: _this.form.verifyCode }).then(function (response) {
-                        //console.log(response.data);
-                        var res = response.data;
-                        if (res.code) {
-                            that.$Notice.error({
-                                title: '登录失败',
-                                desc: res.msg,
-                                duration: 3
-                            });
-                            that.loading = false; //修改为可提交状态
-                            that.handleRefreshVerifyCode(); //刷新验证码
-                        } else {
-                            that.$Notice.success({
-                                title: '登录成功',
-                                desc: res.msg,
-                                duration: 3
-                            });
-                            Object(__WEBPACK_IMPORTED_MODULE_2__js_libs_util_js__["e" /* setToken */])(res.data);
-                            //移除所有本地存储信息
-                            localStorage.clear();
-                            that.loading = false; //修改为可提交状态
-                            //跳转到后台首页
-                            /* that.$router.push({
-                                name: 'admin'
-                            }); */
-                            that.$router.push({
-                                path: '/admin/home'
-                            });
-                        }
-                    }).catch(function (e) {
-                        that.$Message.info('系统繁忙，请稍后再试!');
-                        that.loading = false; //修改为可提交状态
-                        that.handleRefreshVerifyCode(); //刷新验证码
-                    });
-                }
-            });
-        },
-
-        /**
-         * Submit reset password data.
-         */
-        handleResetSubmit: function handleResetSubmit() {
-            var that = this;
-            that.loading = true;
-            __WEBPACK_IMPORTED_MODULE_0__js_api_login_js__["a" /* default */].forgetPassword({
-                account: that.resetForm.account,
-                verify_code: that.resetForm.remoteVerifyCode,
-                password: that.resetForm.password
-            }).then(function (res) {
-                if (res.data.code) {
-                    that.$Notice.error({
-                        title: '系统提示',
-                        desc: res.data.msg,
-                        duration: 3
-                    });
-                    that.loading = false;
-                    that.handleRefreshVerifyCode();
-                } else {
-                    that.$Notice.success({
-                        title: '系统提示',
-                        desc: res.data.msg,
-                        duration: 3
-                    });
-                    that.loading = false;
-                }
-            }).catch(function (err) {
-                that.$Message.info('系统繁忙，请稍后再试!');
-                that.loading = false;
-                that.handleRefreshVerifyCode();
-            });
-        },
-
-        /**
-         * Refresh verify code.
-         */
-        handleRefreshVerifyCode: function handleRefreshVerifyCode() {
-            this.$store.dispatch('loadVerifyCode', { t: Date.now() });
-        }
-    },
-    created: function created() {
-        this.$store.dispatch('loadVerifyCode', { t: Date.now() });
-    }
-});
 
 /***/ })
 
